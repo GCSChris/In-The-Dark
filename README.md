@@ -22,14 +22,14 @@ Requirements will be pushed to your repository once you form teams. I'll make an
 
 ## Team
 
-Team Name: (Something cool here)
+Team Name:  Bjarne Stroustroup Appreciation Alliance
 
 *TODO*:
 Update your Team member Names here (Up to 4) You will work with this same team through parts 1, 2, and 3.
 
--
--
--
+- Christopher DiNome
+- Caroline Pasyanos
+- Tyler Gier
 -
 
 
