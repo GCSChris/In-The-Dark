@@ -4,7 +4,6 @@
 
 #include "../include/SpriteEditor.h"
 
-
 int main() {
 
 	// Load an image
@@ -14,9 +13,7 @@ int main() {
 	//This is considered an acceptable version of a tile editor for this assignment.
 	
 	SpriteEditor* spriteEditor = new SpriteEditor();
-	spriteEditor->init();
-
-	printf("hello\n");
+	spriteEditor->play();
 	
 	return 0;
 }
