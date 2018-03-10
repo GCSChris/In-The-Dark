@@ -13,18 +13,19 @@
 #include <fstream>
 #include <stdlib.h>
 
-#define FRAME_WIDTH 20
-#define FRAME_HEIGHT 30
+//#define FRAME_WIDTH 20
+//#define FRAME_HEIGHT 30 TODO
 
 // smooth 60fps
-#define FRAMERATE 3 //TODO change back to 60
+#define FRAMERATE 60 //TODO change back to 60
 
 /** Represent a sprite editor. */
 class SpriteEditor {
 public:
 	/** Constructor for a BreakoutGame. */
-	SpriteEditor(/** The width to use for the frame. */ int w = FRAME_WIDTH,
-		/** The height to use for the frame. */ int h = FRAME_HEIGHT);
+	SpriteEditor(/** The width to use for the frame. */ int w,
+		/** The height to use for the frame. */ int h,
+		/** TODO */ int frames);
 
 	/** Default destructor for a BreakoutGame. */
 	~SpriteEditor();
@@ -51,10 +52,12 @@ private:
 	/** Handle keyboard input from the user. */
 	bool handleKeyboard(/** The keyboard event to handle. */ SDL_Event e);
 
-	/** The height of the screen for the game. */
-	int screenHeight;
 	/** The width of the screen for the game. */
-	int screenWidth;
+	int frameWidth;
+	/** The height of the screen for the game. */
+	int frameHeight;
+	/** TODO*/
+	int numFrames;
 
 	/** The window we'll be rendering to. */
 	SDL_Window* gWindow;

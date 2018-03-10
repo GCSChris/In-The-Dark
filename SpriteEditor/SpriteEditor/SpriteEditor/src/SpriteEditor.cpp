@@ -8,7 +8,7 @@
 // Initialization function
 // Returns a true or false value based on successful completion of setup.
 // Takes in dimensions of window.
-SpriteEditor::SpriteEditor(int w, int h) :screenWidth(w), screenHeight(h) {
+SpriteEditor::SpriteEditor(int w, int h, int frames) :frameWidth(w), frameHeight(h), numFrames(frames) {
 	// Initialization flag
 	bool success = true;
 	// String to hold any errors that occur.
@@ -33,10 +33,10 @@ SpriteEditor::SpriteEditor(int w, int h) :screenWidth(w), screenHeight(h) {
 
 		//Create window
 		gWindow = SDL_CreateWindow("Sprite Editor",
-			(width / 2)- (screenWidth / 2), // wut?
-			(height / 2) - (screenHeight / 2), // wut??
-			screenWidth,
-			screenHeight,
+			(width / 2)- (frameWidth / 2), // wut?
+			(height / 2) - (frameHeight / 2), // wut??
+			frameWidth,
+			frameHeight,
 			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
 
 		// Check if Window did not create.
@@ -107,7 +107,7 @@ SpriteEditor::~SpriteEditor() {
 void SpriteEditor::update() {
 	static int frame = 0;
 	frame++;
-	if (frame > 2) { //TODO 3 NUM OF FRAMES
+	if (frame > (numFrames - 1)) { //TODO 3 NUM OF FRAMES
 		frame = 0;
 	}
 
@@ -140,10 +140,10 @@ void SpriteEditor::render() {
 	//SDL_Rect dest_rect = { 0, 0, 20, 30 };
 
 	//BLUE
-	int frameRect = currentFrame * FRAME_WIDTH;
+	int frameRect = currentFrame * frameWidth;
 	printf("%i\n", frameRect);
-	SDL_Rect src_rect = { frameRect, 0, FRAME_WIDTH, FRAME_HEIGHT};
-	SDL_Rect dest_rect = { 0, 0, FRAME_WIDTH, FRAME_HEIGHT};
+	SDL_Rect src_rect = { frameRect, 0, frameWidth, frameHeight };
+	SDL_Rect dest_rect = { 0, 0, frameWidth, frameHeight };
 
 	//printf("w: %i, h: %i\n", image->w, image->h);
 	SDL_RenderCopy(gRenderer, texture, &src_rect, &dest_rect);
@@ -188,7 +188,7 @@ void SpriteEditor::play() {
 		
 		// Delay to force 60 FPS
 		int diff = SDL_GetTicks() - start;
-		float delay = 1000.0f / FRAMERATE - diff;
+		float delay = 1000.0f / (FRAMERATE / numFrames) - diff;
 		if (delay > 0) {
 			SDL_Delay(delay);
 		}
