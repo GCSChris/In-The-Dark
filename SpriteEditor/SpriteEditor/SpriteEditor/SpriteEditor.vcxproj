@@ -128,9 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\SpriteEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\SpriteEditor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -12,6 +12,10 @@ int main() {
 	// asks you the dimensions of a sprite, and then which frames to play. 
 	//This is considered an acceptable version of a tile editor for this assignment.
 	
+	std::cout << "What is the name of the sprite sheet PNG file you wish to preview?" << std::endl;
+	std::string file;
+	std::cin >> file;
+
 	std::cout << "What is the width of your sprite?" << std::endl;
 	int w;
 	std::cin >> w;
@@ -20,11 +24,19 @@ int main() {
 	int h;
 	std::cin >> h;
 
+	std::cout << "What is the number of columns in your sprite sheet?" << std::endl;
+	int columns;
+	std::cin >> columns;
+	
 	std::cout << "What is the number of frames in your sprite's animation cycle?" << std::endl;
-	int f;
-	std::cin >> f;
+	int frames;
+	std::cin >> frames;
 
-	SpriteEditor* spriteEditor = new SpriteEditor(w, h, f);
+	std::cout << "Desired framerate (30 or 60 reccomended)" << std::endl;
+	int frameRate;
+	std::cin >> frameRate;
+
+	SpriteEditor* spriteEditor = new SpriteEditor(file, w, h, frames, columns, frameRate);
 	spriteEditor->play();
 
 	//SpriteEditor* spriteEditor = new SpriteEditor(20, 30, 3);

@@ -5,10 +5,13 @@
 
 #include "../include/SpriteEditor.h"
 
+#include "../include/ResourceManager.h"
+
 // Initialization function
 // Returns a true or false value based on successful completion of setup.
 // Takes in dimensions of window.
-SpriteEditor::SpriteEditor(int w, int h, int frames) :frameWidth(w), frameHeight(h), numFrames(frames) {
+
+SpriteEditor::SpriteEditor(std::string file, int w, int h, int frames, int columns, int fRate) : fileName(file), frameWidth(w), frameHeight(h), numFrames(frames), numColumns(columns), frameRate(fRate) {
 	// Initialization flag
 	bool success = true;
 	// String to hold any errors that occur.
@@ -37,7 +40,9 @@ SpriteEditor::SpriteEditor(int w, int h, int frames) :frameWidth(w), frameHeight
 			(height / 2) - (frameHeight / 2), // wut??
 			frameWidth,
 			frameHeight,
-			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
+			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL 
+			//| SDL_WINDOW_BORDERLESS
+		);
 
 		// Check if Window did not create.
 		if (gWindow == NULL) {
@@ -107,7 +112,7 @@ SpriteEditor::~SpriteEditor() {
 void SpriteEditor::update() {
 	static int frame = 0;
 	frame++;
-	if (frame > (numFrames - 1)) { //TODO 3 NUM OF FRAMES
+	if (frame > (numFrames - 1)) {
 		frame = 0;
 	}
 
@@ -122,27 +127,20 @@ void SpriteEditor::update() {
 void SpriteEditor::render() {
 	//level->render(getSDLRenderer());
 
-	SDL_Rect fillRect;
-	fillRect.x = 0;
-	fillRect.y = 500;
-	fillRect.w = 100;
-	fillRect.h = 200;
+	std::string tempStr = fileName + ".png";
+	const char* fileCString = tempStr.c_str();
+	
+	//SDL_Surface* image = IMG_Load(fileCString);
+	//SDL_Texture* texture = SDL_CreateTextureFromSurface(gRenderer, image);
 
-	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-	SDL_RenderFillRect(gRenderer, &fillRect);
+	SDL_Texture* texture = ResourceManager::instance().getTextureFromImage(fileCString, gRenderer);
 
 
-	SDL_Surface* image = IMG_Load("test.png");
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(gRenderer, image);
+	int frameRectWidth = (currentFrame % numColumns) * frameWidth;
+	int frameRectHeight = (currentFrame / numColumns) * frameHeight;
+	//printf("%i\n", frameRectHeight);
 
-	//RED
-	//SDL_Rect src_rect = { 0, 0, 20, 30 };
-	//SDL_Rect dest_rect = { 0, 0, 20, 30 };
-
-	//BLUE
-	int frameRect = currentFrame * frameWidth;
-	printf("%i\n", frameRect);
-	SDL_Rect src_rect = { frameRect, 0, frameWidth, frameHeight };
+	SDL_Rect src_rect = { frameRectWidth, frameRectHeight, frameWidth, frameHeight };
 	SDL_Rect dest_rect = { 0, 0, frameWidth, frameHeight };
 
 	//printf("w: %i, h: %i\n", image->w, image->h);
@@ -188,7 +186,8 @@ void SpriteEditor::play() {
 		
 		// Delay to force 60 FPS
 		int diff = SDL_GetTicks() - start;
-		float delay = 1000.0f / (FRAMERATE / numFrames) - diff;
+		//float delay = 1000.0f / (FRAMERATE / numFrames) - diff;
+		float delay = 1000.0f / (frameRate - diff);
 		if (delay > 0) {
 			SDL_Delay(delay);
 		}

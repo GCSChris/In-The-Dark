@@ -17,15 +17,13 @@
 //#define FRAME_HEIGHT 30 TODO
 
 // smooth 60fps
-#define FRAMERATE 60 //TODO change back to 60
+//#define FRAMERATE 60 //TODO
 
 /** Represent a sprite editor. */
 class SpriteEditor {
 public:
 	/** Constructor for a BreakoutGame. */
-	SpriteEditor(/** The width to use for the frame. */ int w,
-		/** The height to use for the frame. */ int h,
-		/** TODO */ int frames);
+	SpriteEditor(std::string file, int w, int h, int frames, int columns, int fRate);
 
 	/** Default destructor for a BreakoutGame. */
 	~SpriteEditor();
@@ -52,12 +50,18 @@ private:
 	/** Handle keyboard input from the user. */
 	bool handleKeyboard(/** The keyboard event to handle. */ SDL_Event e);
 
+	std::string fileName;
 	/** The width of the screen for the game. */
 	int frameWidth;
 	/** The height of the screen for the game. */
 	int frameHeight;
 	/** TODO*/
 	int numFrames;
+	/** TODO */
+	int numColumns;
+
+	/** TODO */
+	int frameRate;
 
 	/** The window we'll be rendering to. */
 	SDL_Window* gWindow;
