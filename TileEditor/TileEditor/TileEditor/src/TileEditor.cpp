@@ -61,6 +61,9 @@ void TileEditor::init() {
 	buttonOne = new Button(SIDE_BUFFER, y, 100, 20, "Tiles", TILES);
 	buttonTwo = new Button(xTotal / 2 - (100/2), y, 100, 20, "Props", PROPS);
 	buttonThree = new Button(xTotal - SIDE_BUFFER - (100 / 2), y, 100, 20, "Flags", FLAGS);
+
+	level = new Level();
+	level->init();
 }
 
 //Loops forever!
@@ -86,6 +89,24 @@ void TileEditor::play() {
 			currentEditMode = buttonOne->handleEvent(e, currentEditMode);
 			currentEditMode = buttonTwo->handleEvent(e, currentEditMode);
 			currentEditMode = buttonThree->handleEvent(e, currentEditMode);
+
+			// listen for clicks
+			if (e.button.button == SDL_BUTTON_LEFT || e.button.button == SDL_BUTTON_RIGHT)
+			{
+				int x, y, tileRow, tileColumn;
+				
+				//Get the mouse offsets
+				x = e.button.x;
+				y = e.button.y;
+
+				tileRow = (y - SIDE_BUFFER) / TILE_SIZE;
+				tileColumn = (x - SIDE_BUFFER) / TILE_SIZE;
+
+				if (tileRow < NUM_ROWS && tileRow >= 0 
+					&& tileColumn < NUM_COLUMNS && tileColumn >= 0) {
+					editTile(currentEditMode, tileRow, tileColumn, e.button.button == SDL_BUTTON_LEFT);
+				}
+			}
 
 			if (e.type == SDL_QUIT) {
 				quit = true;
@@ -159,5 +180,40 @@ void TileEditor::drawGrid() {
 		tempY = SIDE_BUFFER + i * TILE_SIZE;
 		SDL_RenderDrawLine(gRenderer, SIDE_BUFFER, tempY,
 			SIDE_BUFFER + TILE_SIZE * NUM_COLUMNS, tempY);
+	}
+}
+
+void TileEditor::editTile(EditMode mode, int tileRow, int tileColumn, bool leftClick) {
+	int i;
+	
+	switch (mode) {
+		case TILES:
+			i = editTileVal(level->getTileAt(tileRow, tileColumn), leftClick);
+
+			level->setTileAt(tileRow, tileColumn, i);
+
+			break;
+		case PROPS:
+			i = editTileVal(level->getPropAt(tileRow, tileColumn), leftClick);
+
+			level->setPropAt(tileRow, tileColumn, i);
+			break;
+		case FLAGS:
+			i = editTileVal(level->getFlagAt(tileRow, tileColumn), leftClick);
+
+			level->setFlagAt(tileRow, tileColumn, i);
+			break;
+		default:
+			// this should never happen
+			break;
+	}
+}
+
+int TileEditor::editTileVal(int tileVal, bool leftClick) {
+	if (leftClick) {
+		return tileVal + 1;
+	}
+	else {
+		return tileVal - 1;
 	}
 }

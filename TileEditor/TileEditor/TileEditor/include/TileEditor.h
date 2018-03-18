@@ -7,7 +7,7 @@
 #include <SDL_ttf.h>
 #include "Constants.h"
 #include "Button.h"
-
+#include "Level.h"
 
 class TileEditor {
 public:
@@ -24,12 +24,19 @@ public:
 	void render();
 
 private:
+	// SDL_Point getMouseClick
+	void editTile(EditMode mode, int tileRow, int tileColumn, bool leftClick);
+
+	int editTileVal(int tileVal, bool leftClick);
+
 	void drawGrid();
 
 	bool handleKeyboard(SDL_Event e);
 
 	int screenWidth = TILE_SIZE*NUM_COLUMNS + 2*SIDE_BUFFER;
 	int screenHeight = TILE_SIZE*NUM_ROWS + 2*SIDE_BUFFER + BOTTOM_BUFFER;
+
+	Level* level;
 
 	SDL_Window* gWindow;
 
