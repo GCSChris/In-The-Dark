@@ -30,7 +30,7 @@ void GameObject::render(SDL_Renderer* gRenderer) {
 	fillRect.w = w;
 	fillRect.h = h;
 
-	SDL_SetRenderDrawColor(gRenderer, 165, 42, 42, 255);
+	SDL_SetRenderDrawColor(gRenderer, 120, 80, 0, 255);
 	SDL_RenderFillRect(gRenderer, &fillRect);
 }
 

@@ -23,7 +23,13 @@ public:
 	bool handlePlayerCollisions(Player* player);
 
 private:
+	/** Renders the background of the Level */
+	void renderBackground(SDL_Renderer* r);
+
+	/** The Tiles for this Level */
 	Tile* levelMap[MAX_ROWS][MAX_COLUMNS];
+	/** the background texture */
+	SDL_Texture* background;
 };
 
 #endif
