@@ -38,24 +38,31 @@ bool GameObject::isCollidingWithObject(GameObject* other) {
 	if (!(this->collideable && other->collideable)) {
 		return false;
 	}
-	return (this->isRightEdgeInBounds(other) || this->isLeftEdgeInBounds(other)) 
-			&& (this->isTopEdgeInBounds(other) || this->isBottomEdgeInBounds(other));
-}
+	
+	float thisLeft = this->x;
+	float thisRight = this->x + this->w;
+	float thisTop = this->y;
+	float thisBottom = this->y + this->h;
+	float otherLeft = other->x;
+	float otherRight = other->x + other->w;
+	float otherTop = other->y;
+	float otherBottom = other->y + other->h;
 
-bool GameObject::isRightEdgeInBounds(GameObject* other) {
-	return ((x + w )< (other->x + other->w) && ((x + w) > other->x));
-}
-
-bool GameObject::isLeftEdgeInBounds(GameObject* other) {
-	return (x < (other->x + other->w) && (x > other->x));
-}
-
-bool GameObject::isTopEdgeInBounds(GameObject* other) {
-	return (y < (other->y + other->h) && (y > other->y));
-}
-
-bool GameObject::isBottomEdgeInBounds(GameObject* other) {
-	return ((y + h)< (other->y + other->h) && ((y + h) > other->y));
+	// Separating Axis test learned from LazyFoo: http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
+	if (thisBottom <= otherTop) {
+		return false;
+	}
+	else if (thisTop >= otherBottom) {
+		return false;
+	}
+	else if (thisRight <= otherLeft) {
+		return false;
+	}
+	else if (thisLeft >= otherRight) {
+		return false;
+	}
+	
+	return true;
 }
 
 int GameObject::getX() {

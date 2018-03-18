@@ -135,7 +135,6 @@ PlatformerGame::~PlatformerGame() {
 }
 
 void PlatformerGame::update() {
-	player->applyForce(Vector3D(0, GRAVITY, 0));
 	player->update();
 	this->handleCollisions();
 
@@ -246,10 +245,8 @@ bool PlatformerGame::handleKeyboard(SDL_Event e) {
 			
 		}
 
-		if (keyPressed == SDLK_SPACE) {
-			if (player->getVelocity().y == 0) {
-				player->applyForce(Vector3D(0, -PLAYER_JUMP_FORCE, 0));
-			}
+		if (keyPressed == SDLK_SPACE && !player->isAirborne()) {
+			player->jump();
 		}
 		
 		if (keyPressed == SDLK_a) {

@@ -2,6 +2,10 @@
 #include "../include/ResourceManager.h"
 
 void Player::update() {
+	if (is_airborne) {
+		this->applyForce(Vector3D(0, GRAVITY, 0));
+	}
+
 	this->capSpeed();
 	this->x += this->velocity.x;
 	if (this->x < 0) {
@@ -18,9 +22,6 @@ void Player::update() {
 
 void Player::applyForce(Vector3D force) {
 	GameObject::applyForce(force);
-	if (force.y > 0) {
-		this->is_airborne = true;
-	}
 }
 
 void Player::render(SDL_Renderer* r) {
@@ -35,18 +36,32 @@ void Player::render(SDL_Renderer* r) {
 
 void Player::preventCollision(Tile* tile) {
 	Vector3D backup = -Normalize(velocity);
+	if (backup.x != 0 && backup.y != 0) {
+		float smallest = backup.x < backup.y ? backup.x : backup.y;
+		backup *= (1.0 / abs(smallest));
+	}
 	
 	while (this->isCollidingWithObject(tile)) {
 		this->x += backup.x;
 		this->y += backup.y;
 	}
-
+	//this->x -= this->velocity.x;
+	//this->y -= this->velocity.y;
 	this->is_airborne = false;
-	this->setVelocity(Vector3D(this->velocity.x, 0, 0));
+	this->velocity.y = 0;
 }
 
 void Player::capSpeed() {
 	if (this->velocity.y > PLAYER_FALLING_SPEED_CAP) {
 		this->velocity.y = PLAYER_FALLING_SPEED_CAP;
 	}
+}
+
+void Player::jump() {
+	this->is_airborne = true;
+	applyForce(Vector3D(0, -PLAYER_JUMP_FORCE, 0));
+}
+
+bool Player::isAirborne() {
+	return is_airborne;
 }

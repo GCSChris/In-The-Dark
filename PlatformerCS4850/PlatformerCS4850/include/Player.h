@@ -10,6 +10,8 @@ public:
 	void applyForce(Vector3D force);
 	void render(SDL_Renderer* ren);
 	void preventCollision(Tile* tile);
+	void jump();
+	bool isAirborne();
 
 private:
 	void capSpeed();
