@@ -83,9 +83,9 @@ void TileEditor::play() {
 			quit = handleKeyboard(e);
 
 			// TODO
-			buttonOne->handleEvent(e);
-			buttonTwo->handleEvent(e);
-			buttonThree->handleEvent(e);
+			currentEditMode = buttonOne->handleEvent(e, currentEditMode);
+			currentEditMode = buttonTwo->handleEvent(e, currentEditMode);
+			currentEditMode = buttonThree->handleEvent(e, currentEditMode);
 
 			if (e.type == SDL_QUIT) {
 				quit = true;

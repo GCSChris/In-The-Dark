@@ -21,7 +21,7 @@ Button::Button(int x, int y, int w, int h, std::string message, EditMode mode) {
 	mode_ = mode;
 }
 
-void Button::handleEvent(SDL_Event event) {
+EditMode Button::handleEvent(SDL_Event event, EditMode currentEditMode) {
 	//If a mouse button was pressed
 	int x;
 	int y;
@@ -41,7 +41,7 @@ void Button::handleEvent(SDL_Event event) {
 			if ((x > buttonRect_->x) && (x < buttonRect_->x + buttonRect_->w) &&
 				(y > buttonRect_->y) && (y < buttonRect_->y + buttonRect_->h)) {
 
-				switch (mode_) {
+				switch (mode_) { //TODO
 					case TILES:
 						std::cout << "tiles button" << std::endl;
 						break;
@@ -55,10 +55,13 @@ void Button::handleEvent(SDL_Event event) {
 						std::cout << "ERROR" << std::endl;
 				}
 
+				return mode_;
+
 				//TODO do something
 				//std::cout << "button " + message_ + " clicked" << std::endl;
 			}
 		}
+		return currentEditMode;
 	}
 }
 

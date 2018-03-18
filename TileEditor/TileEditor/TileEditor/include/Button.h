@@ -15,7 +15,7 @@ public:
 
 	void render(SDL_Renderer* gRenderer);
 
-	void handleEvent(SDL_Event event);
+	EditMode handleEvent(SDL_Event event, EditMode currentEditMode);
 
 	void renderTextHelp(SDL_Renderer* gRenderer, std::string text, TTF_Font* font, SDL_Color color, int x, int y);
 
