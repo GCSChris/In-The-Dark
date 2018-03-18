@@ -55,6 +55,8 @@ protected:
 	int h;
 	/** The color of the Rectangle */
 	SDL_Color color;
+	/** Whether or not this Rectangle can be collided with */
+	bool collideable = true;
 };
 
 #endif

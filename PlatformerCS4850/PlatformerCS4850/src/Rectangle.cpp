@@ -28,6 +28,10 @@ void Rectangle::render(SDL_Renderer* gRenderer) {
 }
 
 bool Rectangle::isCollidingWithRect(Rectangle* other) {
+	if (!(this->collideable && other->collideable)) {
+		return false;
+	}
+
 	return (this->isRightEdgeInBounds(other) || this->isLeftEdgeInBounds(other)) 
 			&& (this->isTopEdgeInBounds(other) || this->isBottomEdgeInBounds(other));
 }
