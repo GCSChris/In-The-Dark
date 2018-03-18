@@ -105,6 +105,8 @@ void TileEditor::play() {
 
 void TileEditor::render() {
 	drawGrid();
+
+	SDL_RenderPresent(gRenderer);
 }
 
 void TileEditor::update() {
@@ -130,14 +132,17 @@ void TileEditor::drawGrid() {
 
 	// draw vertical lines
 	int tempX;
-	for (int i = 0; i < NUM_COLUMNS; i++) {
+	for (int i = 0; i <= NUM_COLUMNS; i++) {
 		tempX = SIDE_BUFFER + i * TILE_SIZE;
 		SDL_RenderDrawLine(gRenderer, tempX, SIDE_BUFFER,
 			tempX, SIDE_BUFFER + TILE_SIZE*NUM_ROWS);
 	}
 
 	// draw horizontal lines
-	for (int i = 0; i < NUM_ROWS; i++) {
-
+	int tempY;
+	for (int i = 0; i <= NUM_ROWS; i++) {
+		tempY = SIDE_BUFFER + i * TILE_SIZE;
+		SDL_RenderDrawLine(gRenderer, SIDE_BUFFER, tempY,
+			SIDE_BUFFER + TILE_SIZE * NUM_COLUMNS, tempY);
 	}
 }
