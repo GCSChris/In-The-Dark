@@ -158,16 +158,17 @@
     <ClInclude Include="include\Level.h" />
     <ClInclude Include="include\LocalizationManager.h" />
     <ClInclude Include="include\PlayerStatus.h" />
-    <ClInclude Include="include\Rectangle.h" />
+    <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\SFXManager.h" />
+    <ClInclude Include="include\TinyMath.h" />
     <ClInclude Include="include\UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ConfigParser.cpp" />
     <ClCompile Include="src\LocalizationManager.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Rectangle.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\SFXManager.cpp" />
     <ClCompile Include="src\UIManager.cpp" />
