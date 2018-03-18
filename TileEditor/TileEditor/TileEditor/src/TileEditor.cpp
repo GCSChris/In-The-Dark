@@ -1,6 +1,7 @@
 #include <sstream>
 #include <iostream>
 #include "../include/TileEditor.h"
+#include "../include/Constants.h"
 
 TileEditor::TileEditor() { }
 
@@ -58,12 +59,16 @@ void TileEditor::init() {
 
 	int xTotal = TILE_SIZE * NUM_COLUMNS;
 
-	buttonOne = new Button(SIDE_BUFFER, y, 100, 20, "Tiles", TILES);
-	buttonTwo = new Button(xTotal / 2 - (100/2), y, 100, 20, "Props", PROPS);
-	buttonThree = new Button(xTotal - SIDE_BUFFER - (100 / 2), y, 100, 20, "Flags", FLAGS);
+	buttonOne = new Button(SIDE_BUFFER, y, 100, 20, "Tiles", EditMode::TILES);
+	buttonTwo = new Button(xTotal / 2 - (100/2), y, 100, 20, "Props", EditMode::PROPS);
+	buttonThree = new Button(xTotal - SIDE_BUFFER - (100 / 2), y, 100, 20, "Flags", EditMode::FLAGS);
 
 	level = new Level();
 	level->init();
+
+	currentEditMode = EditMode::TILES;
+
+	printf("STARTING AT MODE %i\n", currentEditMode);
 }
 
 //Loops forever!
@@ -86,25 +91,46 @@ void TileEditor::play() {
 			quit = handleKeyboard(e);
 
 			// TODO
-			currentEditMode = buttonOne->handleEvent(e, currentEditMode);
-			currentEditMode = buttonTwo->handleEvent(e, currentEditMode);
-			currentEditMode = buttonThree->handleEvent(e, currentEditMode);
+			EditMode buttonOneMode = buttonOne->handleEvent(e, currentEditMode);
+			EditMode buttonTwoMode = buttonTwo->handleEvent(e, currentEditMode);
+			EditMode buttonThreeMode = buttonThree->handleEvent(e, currentEditMode);
 
+			if (buttonOneMode != currentEditMode) {
+				//printf("switching to buttonOneMode, %i", buttonOneMode);
+				currentEditMode = buttonOneMode;
+				printf("current edit mode is now %i\n", currentEditMode);
+			}
+			else if (buttonTwoMode != currentEditMode) {
+				//printf("switching to buttonTwoMode, %i", buttonTwoMode);
+				currentEditMode = buttonTwoMode;
+				printf("current edit mode is now %i\n", currentEditMode);
+			}
+			else if (buttonThreeMode != currentEditMode) {
+				//printf("switching to buttonThreeMode, %i", buttonThreeMode);
+				currentEditMode = buttonThreeMode;
+				printf("current edit mode is now %i\n", currentEditMode);
+			}
+			
+			if (e.type == SDL_MOUSEBUTTONDOWN) {
 			// listen for clicks
-			if (e.button.button == SDL_BUTTON_LEFT || e.button.button == SDL_BUTTON_RIGHT)
-			{
-				int x, y, tileRow, tileColumn;
-				
-				//Get the mouse offsets
-				x = e.button.x;
-				y = e.button.y;
+				if (e.button.button == SDL_BUTTON_LEFT || e.button.button == SDL_BUTTON_RIGHT) {
+					printf("click\n");
+					int x, y, tileRow, tileColumn;
 
-				tileRow = (y - SIDE_BUFFER) / TILE_SIZE;
-				tileColumn = (x - SIDE_BUFFER) / TILE_SIZE;
+					//Get the mouse offsets
+					x = e.button.x;
+					y = e.button.y;
 
-				if (tileRow < NUM_ROWS && tileRow >= 0 
-					&& tileColumn < NUM_COLUMNS && tileColumn >= 0) {
-					editTile(currentEditMode, tileRow, tileColumn, e.button.button == SDL_BUTTON_LEFT);
+					tileRow = (y - SIDE_BUFFER) / TILE_SIZE;
+					tileColumn = (x - SIDE_BUFFER) / TILE_SIZE;
+
+					//std::cout << tileRow << ", " << tileColumn << std::endl;
+
+					if (tileRow < NUM_ROWS && tileRow >= 0
+						&& tileColumn < NUM_COLUMNS && tileColumn >= 0) {
+						
+						editTile(tileRow, tileColumn, e.button.button == SDL_BUTTON_LEFT);
+					}
 				}
 			}
 
@@ -183,33 +209,47 @@ void TileEditor::drawGrid() {
 	}
 }
 
-void TileEditor::editTile(EditMode mode, int tileRow, int tileColumn, bool leftClick) {
+void TileEditor::editTile(int tileRow, int tileColumn, bool leftClick) {
 	int i;
+
+	//int modeInt = EditMode::TILES;
+	//printf("modeInt %i", mode);
 	
-	switch (mode) {
-		case TILES:
+	//mode = EditMode::TILES;
+	
+	//TODO
+	int modeInt = (int) currentEditMode;
+	std::cout << "Edit MODEEEEE " << modeInt << std::endl;
+
+	switch (currentEditMode) {
+		case EditMode::TILES: //tiles
+			printf("tiles case\n");
 			i = editTileVal(level->getTileAt(tileRow, tileColumn), leftClick);
 
 			level->setTileAt(tileRow, tileColumn, i);
 
 			break;
-		case PROPS:
+		case EditMode::PROPS: //PROPS
+			printf("props case\n");
 			i = editTileVal(level->getPropAt(tileRow, tileColumn), leftClick);
 
 			level->setPropAt(tileRow, tileColumn, i);
 			break;
-		case FLAGS:
+		case EditMode::FLAGS: //FLAGS CASE
+			printf("flags case\n");
 			i = editTileVal(level->getFlagAt(tileRow, tileColumn), leftClick);
 
 			level->setFlagAt(tileRow, tileColumn, i);
 			break;
 		default:
 			// this should never happen
+			printf("default case\n");
 			break;
 	}
 }
 
 int TileEditor::editTileVal(int tileVal, bool leftClick) {
+	printf("tile val is %i", tileVal);
 	if (leftClick) {
 		return tileVal + 1;
 	}

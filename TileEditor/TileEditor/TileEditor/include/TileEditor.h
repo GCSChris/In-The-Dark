@@ -25,7 +25,7 @@ public:
 
 private:
 	// SDL_Point getMouseClick
-	void editTile(EditMode mode, int tileRow, int tileColumn, bool leftClick);
+	void editTile(int tileRow, int tileColumn, bool leftClick);
 
 	int editTileVal(int tileVal, bool leftClick);
 
