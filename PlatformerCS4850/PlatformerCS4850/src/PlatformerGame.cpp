@@ -104,6 +104,8 @@ void PlatformerGame::startGame() {
 	//levels = ConfigParser::instance().getLevels();
 	//curLevel = 0;
 	//level = ConfigParser::instance().getLevel(curLevel);
+	player = new Player();
+	player->init(64, 32, PLAYER_WIDTH, PLAYER_HEIGHT, true);
 	level = getTestingLevel();
 }
 
@@ -132,9 +134,11 @@ PlatformerGame::~PlatformerGame() {
 	Mix_Quit();
 }
 
-// Update OpenGL
 void PlatformerGame::update() {
-	
+	player->applyForce(Vector3D(0, GRAVITY, 0));
+	player->update();
+	this->handleCollisions();
+
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
 	SDL_RenderClear(gRenderer);
 	
@@ -154,7 +158,7 @@ void PlatformerGame::handleGameOver() {
 // The render function gets called once per loop
 void PlatformerGame::render() {
 	level->render(getSDLRenderer());
-	//player->render(getSDLRenderer());
+	player->render(getSDLRenderer());
 	
 	SDL_RenderPresent(gRenderer);
 }
@@ -218,11 +222,13 @@ bool PlatformerGame::handleKeyboard(SDL_Event e) {
 	if (e.type == SDL_KEYUP) {
 		SDL_Keycode keyPressed = e.key.keysym.sym;
 
-		if (keyPressed == SDLK_a) {
-			
+		if (keyPressed == SDLK_a && player->getVelocity().x < 0) {
+			Vector3D currentVel = player->getVelocity();
+			player->setVelocity(Vector3D(0, currentVel.y, 0));
 		}
-		if (keyPressed == SDLK_d) {
-			
+		if (keyPressed == SDLK_d && player->getVelocity().x > 0) {
+			Vector3D currentVel = player->getVelocity();
+			player->setVelocity(Vector3D(0, currentVel.y, 0));
 		}
 
 		if (keyPressed == SDLK_ESCAPE || keyPressed == SDLK_q) {
@@ -239,10 +245,20 @@ bool PlatformerGame::handleKeyboard(SDL_Event e) {
 			}
 			
 		}
+
+		if (keyPressed == SDLK_SPACE) {
+			if (player->getVelocity().y == 0) {
+				player->applyForce(Vector3D(0, -PLAYER_JUMP_FORCE, 0));
+			}
+		}
 		
 		if (keyPressed == SDLK_a) {
+			Vector3D currentVel = player->getVelocity();
+			player->setVelocity(Vector3D(-PLAYER_RUNNING_SPEED, currentVel.y, 0));
 		}
 		if (keyPressed == SDLK_d) {
+			Vector3D currentVel = player->getVelocity();
+			player->setVelocity(Vector3D(PLAYER_RUNNING_SPEED, currentVel.y, 0));
 		}
 		if (keyPressed == SDLK_p) {
 			togglePause();
@@ -266,7 +282,7 @@ void PlatformerGame::togglePause() {
 }
 
 void PlatformerGame::handleCollisions() {
-
+	level->handlePlayerCollisions(player);
 }
 
 bool PlatformerGame::getNextLevel() {

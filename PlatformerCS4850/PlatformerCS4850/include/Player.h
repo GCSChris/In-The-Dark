@@ -2,12 +2,20 @@
 #define PLAYER_H
 
 #include "GameObject.h"
+#include "Tile.h"
 
-class Player : protected GameObject {
+class Player : public GameObject{
 public:
+	void update();
+	void applyForce(Vector3D force);
 	void render(SDL_Renderer* ren);
-private:
+	void preventCollision(Tile* tile);
 
+private:
+	void capSpeed();
+
+	bool is_airborne = true;
+	SDL_Texture * current_sprite;
 };
 
 #endif

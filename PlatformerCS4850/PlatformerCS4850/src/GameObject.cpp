@@ -30,7 +30,7 @@ void GameObject::render(SDL_Renderer* gRenderer) {
 	fillRect.w = w;
 	fillRect.h = h;
 
-	SDL_SetRenderDrawColor(gRenderer, 120, 80, 0, 255);
+	SDL_SetRenderDrawColor(gRenderer, 0, 60, 0, 255);
 	SDL_RenderFillRect(gRenderer, &fillRect);
 }
 
@@ -72,4 +72,12 @@ int GameObject::getWidth() {
 
 int GameObject::getHeight() {
 	return h;
+}
+
+void GameObject::setVelocity(Vector3D vel) {
+	this->velocity = vel;
+}
+
+Vector3D GameObject::getVelocity() {
+	return velocity;
 }

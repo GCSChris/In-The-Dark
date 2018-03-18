@@ -41,6 +41,10 @@ public:
 	int getWidth();
 	/** Returns the height */
 	int getHeight();
+	/** Sets the velocity */
+	void setVelocity(Vector3D vel);
+	/** Returns the velocity */
+	Vector3D getVelocity();
 
 protected:
 	/** If the right edge of this GameObject is within the x-bound of the other GameObject*/
