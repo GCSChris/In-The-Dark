@@ -1,7 +1,7 @@
 #include "../include/Tile.h"
 
-void Tile::init(int x, int y, int w, int h, std::string sprSheet, int sprIndex, bool collideable) {
-	GameObject::init(x, y, w, h, collideable);
+void Tile::init(int x, int y, std::string sprSheet, int sprIndex, bool collideable) {
+	GameObject::init(x, y, TILE_SIZE, TILE_SIZE, collideable);
 	spriteSheet = sprSheet;
 	spriteIndex = sprIndex;
 }

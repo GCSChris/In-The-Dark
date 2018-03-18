@@ -30,11 +30,8 @@ void GameObject::render(SDL_Renderer* gRenderer) {
 	fillRect.w = w;
 	fillRect.h = h;
 
-	SDL_SetRenderDrawColor(gRenderer, 200, 100, 125, 255);
+	SDL_SetRenderDrawColor(gRenderer, 165, 42, 42, 255);
 	SDL_RenderFillRect(gRenderer, &fillRect);
-
-	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
-	SDL_RenderDrawRect(gRenderer, &fillRect);
 }
 
 bool GameObject::isCollidingWithObject(GameObject* other) {

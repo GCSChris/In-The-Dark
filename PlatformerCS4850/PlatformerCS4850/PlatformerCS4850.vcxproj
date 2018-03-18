@@ -157,20 +157,26 @@
     <ClInclude Include="include\GameStatus.h" />
     <ClInclude Include="include\Level.h" />
     <ClInclude Include="include\LocalizationManager.h" />
+    <ClInclude Include="include\PlatformerGame.h" />
+    <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\PlayerStatus.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\SFXManager.h" />
+    <ClInclude Include="include\Tile.h" />
     <ClInclude Include="include\TinyMath.h" />
     <ClInclude Include="include\UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ConfigParser.cpp" />
+    <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\LocalizationManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\PlatformerGame.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\SFXManager.cpp" />
+    <ClCompile Include="src\Tile.cpp" />
     <ClCompile Include="src\UIManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

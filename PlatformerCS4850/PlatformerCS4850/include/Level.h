@@ -11,10 +11,10 @@
 class Level {
 public:
 	/** The default constructor */
-	Level();
+	Level() {};
 
 	/** Initializes the Level with the given array of ints */
-	void init(/** The Tile[][] mapping for the level */ Tile tiles[MAX_ROWS][MAX_COLUMNS]);
+	void init(/** The Tile[][] mapping for the level */ Tile* tiles[MAX_ROWS][MAX_COLUMNS]);
 
 	/** Renders the level */
 	void render(/** The renderer to use */ SDL_Renderer* r);

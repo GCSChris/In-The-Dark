@@ -1,13 +1,13 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include "GameObject.h";
+#include "GameObject.h"
 #include <string.h>
 
 class Tile : public GameObject {
 public:
 	/** Initializes this Tile */
-	void init(int x, int y, int w, int h, std::string sprSheet, int sprIndex, bool collideable);
+	void init(int x, int y, std::string sprSheet, int sprIndex, bool collideable);
 	/** Renders this Tile */
 	void render(SDL_Renderer* ren);
 

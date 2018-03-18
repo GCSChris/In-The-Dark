@@ -1,6 +1,5 @@
 #include <ctime>
-#include "../include/BreakoutGame.h"
-#include "../include/Rectangle.h"
+#include "../include/PlatformerGame.h"
 #include "../include/Level.h"
 #include "../include/ConfigParser.h"
 #include "../include/GameStatus.h"
@@ -17,7 +16,7 @@
 // Initialization function
 // Returns a true or false value based on successful completion of setup.
 // Takes in dimensions of window.
-BreakoutGame::BreakoutGame(int w, int h) :screenWidth(w), screenHeight(h) {
+PlatformerGame::PlatformerGame(int w, int h) :screenWidth(w), screenHeight(h) {
 	// Initialization flag
 	bool success = true;
 	// String to hold any errors that occur.
@@ -69,42 +68,57 @@ BreakoutGame::BreakoutGame(int w, int h) :screenWidth(w), screenHeight(h) {
 	startGame();
 }
 
-void BreakoutGame::startGame() {
+Level* PlatformerGame::getTestingLevel() {
+	Level* lvl = new Level();
+
+	Tile* tiles[MAX_ROWS][MAX_COLUMNS];
+
+	for (int r = 0; r < MAX_ROWS; r++) {
+		for (int c = 0; c < MAX_COLUMNS; c++) {
+			tiles[r][c] = nullptr;
+			if (r > MAX_ROWS * 3 / 4) {
+				Tile* tile = new Tile();
+				tile->init(c * TILE_SIZE, r * TILE_SIZE, "tileset.bmp", 0, true);
+				tiles[r][c] = tile;
+			}
+		}
+	}
+	lvl->init(tiles);
+
+	return lvl;
+}
+
+void PlatformerGame::startGame() {
 	// Initialize game elements
 	gameStatus = new GameStatus;
 	int lives = std::stoi(ConfigParser::instance().getSetting("lives", "3"));
 	gameStatus->init(lives, 0);
-
-	paddle = new Paddle;
-	paddle->init();
-
-	ball = new Ball;
-	ball->init(gRenderer, gameStatus);
 
 	uiManager = new UIManager;
 	uiManager->init(gameStatus);
 
 	SFXManager::instance().playMusic("./resources/music.wav");
 	
-	ConfigParser::instance().parseLevel("lvlconfig.txt");
+	// TODO make config parse parse out the level
+	//ConfigParser::instance().parseLevel("lvlconfig.txt");
 	//levels = ConfigParser::instance().getLevels();
-	curLevel = 0;
-	level = ConfigParser::instance().getLevel(curLevel);
+	//curLevel = 0;
+	//level = ConfigParser::instance().getLevel(curLevel);
+	level = getTestingLevel();
 }
 
-void BreakoutGame::restartGame() {
-	ConfigParser::instance().clearLevels();
-	ConfigParser::instance().parseLevel("lvlconfig.txt");
+void PlatformerGame::restartGame() {
+	//ConfigParser::instance().clearLevels();
+	//ConfigParser::instance().parseLevel("lvlconfig.txt");
 
 	curLevel = 0;
-	level = ConfigParser::instance().getLevel(curLevel);
+	//level = ConfigParser::instance().getLevel(curLevel);
 	int lives = std::stoi(ConfigParser::instance().getSetting("lives", "3"));
 	gameStatus->init(lives, 0);
-	ball->resetBall();
 }
 
 // Proper shutdown and destroy initialized objects
-BreakoutGame::~BreakoutGame() {
+PlatformerGame::~PlatformerGame() {
 	// Destroy Renderer
 	SDL_DestroyRenderer(gRenderer);
 	//Destroy window
@@ -119,60 +133,34 @@ BreakoutGame::~BreakoutGame() {
 }
 
 // Update OpenGL
-void BreakoutGame::update() {
-	paddle->update();
-	
-	handleFrozenBall();
+void PlatformerGame::update() {
 	
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
 	SDL_RenderClear(gRenderer);
 	
 	handleGameOver();
 
-	if (level->isCleared()) {
-		//win level logic
-
-		if (!getNextLevel()) {
-			gameStatus->gameOver = true;
-			gameStatus->gameWon = true;
-		}
-	}
-	
+	// TODO handle winning a level
 }
 
-void BreakoutGame::handleGameOver() {
+void PlatformerGame::handleGameOver() {
 	if (gameStatus->lives <= 0) {
 		gameStatus->gameOver = true;
 		gameStatus->gameWon = false;
 	}
 }
 
-void BreakoutGame::handleFrozenBall() {
-	if (gameStatus->ballFrozenCount == 0) {
-		ball->update();
-		handleCollisions();
-	}
-	else {
-		gameStatus->ballFrozenCount++;
-	}
-	if (gameStatus->ballFrozenCount > (BALL_FREEZE_SECONDS * FRAMERATE)) {
-		gameStatus->ballFrozenCount = 0;
-	}
-}
-
 // Render
 // The render function gets called once per loop
-void BreakoutGame::render() {
+void PlatformerGame::render() {
 	level->render(getSDLRenderer());
-	paddle->render(getSDLRenderer());
-	ball->render(getSDLRenderer());
-	uiManager->render(getSDLRenderer());
+	//player->render(getSDLRenderer());
 	
 	SDL_RenderPresent(gRenderer);
 }
 
 //Loops forever!
-void BreakoutGame::play() {
+void PlatformerGame::play() {
 	// Main loop flag
 	// If this is quit = 'true' then the program terminates.
 	bool quit = false;
@@ -217,28 +205,24 @@ void BreakoutGame::play() {
 }
 
 // Get Pointer to Window
-SDL_Window* BreakoutGame::getSDLWindow() {
+SDL_Window* PlatformerGame::getSDLWindow() {
 	return gWindow;
 }
 
 // Get Pointer to Renderer
-SDL_Renderer* BreakoutGame::getSDLRenderer() {
+SDL_Renderer* PlatformerGame::getSDLRenderer() {
 	return gRenderer;
 }
 
-bool BreakoutGame::handleKeyboard(SDL_Event e) {
+bool PlatformerGame::handleKeyboard(SDL_Event e) {
 	if (e.type == SDL_KEYUP) {
 		SDL_Keycode keyPressed = e.key.keysym.sym;
 
-		if (keyPressed == SDLK_a && paddle->getSpeedX() < 0) {
-			paddle->setSpeedX(0);
+		if (keyPressed == SDLK_a) {
+			
 		}
-		if (keyPressed == SDLK_d && paddle->getSpeedX() > 0) {
-			paddle->setSpeedX(0);
-		}
-		
-		if (keyPressed == SDLK_RETURN) {
-			gameStatus->ballFrozenCount = 0;
+		if (keyPressed == SDLK_d) {
+			
 		}
 
 		if (keyPressed == SDLK_ESCAPE || keyPressed == SDLK_q) {
@@ -257,10 +241,8 @@ bool BreakoutGame::handleKeyboard(SDL_Event e) {
 		}
 		
 		if (keyPressed == SDLK_a) {
-			paddle->setSpeedX(-PADDLE_SPEED);
 		}
 		if (keyPressed == SDLK_d) {
-			paddle->setSpeedX(PADDLE_SPEED);
 		}
 		if (keyPressed == SDLK_p) {
 			togglePause();
@@ -278,32 +260,20 @@ bool BreakoutGame::handleKeyboard(SDL_Event e) {
 	return false;
 }
 
-void BreakoutGame::togglePause() {
+void PlatformerGame::togglePause() {
 	gameStatus->isPaused = !gameStatus->isPaused;
 	SFXManager::instance().toggleMusic();
 }
 
-void BreakoutGame::handleCollisions() {
-	if (ball->isCollidingWithPaddle(paddle)) {
-		ball->bounceOffPaddle(paddle);
-		SFXManager::instance().playSFX("./resources/bounce.wav");
-	}
+void PlatformerGame::handleCollisions() {
 
-	int bricksDestroyed = level->handleBallCollisions(ball);
-	if (bricksDestroyed > 0) {
-		//play sfx
-		SFXManager::instance().playSFX("./resources/break.wav");
-		//add to score
-		gameStatus->score += bricksDestroyed;
-	}
 }
 
-bool BreakoutGame::getNextLevel() {
+bool PlatformerGame::getNextLevel() {
 	++curLevel;
 
 	if (cp.hasNextLevel(curLevel)) {
 		level = cp.getLevel(curLevel);
-		ball->resetBall();
 		gameStatus->ballFrozenCount = 1;
 		return true;
 	}

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TINYMATH_H
 #define TINYMATH_H
 
@@ -196,7 +197,7 @@ public:
 
 // Matrix Multiplication
 
-Matrix3D operator *(const Matrix3D& A, const Matrix3D& B){
+inline Matrix3D operator *(const Matrix3D& A, const Matrix3D& B){
   float p00 = Dot(Vector3D(A[0][0], A[0][1], A[0][2]), Vector3D(B[0][0], B[1][0], B[2][0]));
   float p01 = Dot(Vector3D(A[0][0], A[0][1], A[0][2]), Vector3D(B[0][1], B[1][1], B[2][1]));
   float p02 = Dot(Vector3D(A[0][0], A[0][1], A[0][2]), Vector3D(B[0][2], B[1][2], B[2][2]));
@@ -214,7 +215,7 @@ Matrix3D operator *(const Matrix3D& A, const Matrix3D& B){
 
 // Matrix multiply by a vector
 
-Vector3D operator *(const Matrix3D& M, const Vector3D& v){
+inline Vector3D operator *(const Matrix3D& M, const Vector3D& v){
   float x = Dot(Vector3D(M[0][0], M[0][1], M[0][2]), v);
   float y = Dot(Vector3D(M[1][0], M[1][1], M[1][2]), v);
   float z = Dot(Vector3D(M[2][0], M[2][1], M[2][2]), v);
