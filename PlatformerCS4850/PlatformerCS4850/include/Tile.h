@@ -1,16 +1,21 @@
-#include "Rectangle.h";
+#ifndef TILE_H
+#define TILE_H
+
+#include "GameObject.h";
 #include <string.h>
 
-class Tile : public Rectangle {
+class Tile : public GameObject {
 public:
 	/** Initializes this Tile */
-	void init(int x, int y, int w, int h, std::string spriteSheet, int tileIdx, bool collideable);
+	void init(int x, int y, int w, int h, std::string sprSheet, int sprIndex, bool collideable);
 	/** Renders this Tile */
-	void render();
+	void render(SDL_Renderer* ren);
 
 protected:
 	/** The SpriteSheet to use for rendering */
 	std::string spriteSheet;
 	/** The index of the tile to render in the sprite sheet */
-	int tileIdx;
+	int spriteIndex;
 };
+
+#endif

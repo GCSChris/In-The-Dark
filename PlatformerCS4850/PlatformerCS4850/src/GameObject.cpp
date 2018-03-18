@@ -5,12 +5,13 @@
 
 GameObject::GameObject() {}
 
-void GameObject::init(int _x, int _y, int _w, int _h) {
+void GameObject::init(int _x, int _y, int _w, int _h, bool _collide) {
 	x = _x;
 	y = _y;
 	w = _w;
 	h = _h;
 	velocity = Vector3D(0, 0, 0);
+	collideable = _collide;
 }
 
 void GameObject::update() {
@@ -37,6 +38,9 @@ void GameObject::render(SDL_Renderer* gRenderer) {
 }
 
 bool GameObject::isCollidingWithObject(GameObject* other) {
+	if (!(this->collideable && other->collideable)) {
+		return false;
+	}
 	return (this->isRightEdgeInBounds(other) || this->isLeftEdgeInBounds(other)) 
 			&& (this->isTopEdgeInBounds(other) || this->isBottomEdgeInBounds(other));
 }

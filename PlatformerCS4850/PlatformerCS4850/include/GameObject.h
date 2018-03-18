@@ -18,7 +18,8 @@ public:
 	void init(/** The upper left corner x coordinate */ int _x,
 		/** The upper left corner y coordinate */ int _y,
 		/** The width */ int _w,
-		/** The height */ int _h);
+		/** The height */ int _h,
+		/** If this GameObject can be collided with*/ bool _collide = true);
 
 	/** Updates this game object. Called once per frame */
 	void update();
@@ -61,6 +62,8 @@ protected:
 	int h;
 	/** The current velocity of the GameObject */
 	Vector3D velocity;
+	/** whether this game object handles collisions */
+	bool collideable = true;
 };
 
 #endif

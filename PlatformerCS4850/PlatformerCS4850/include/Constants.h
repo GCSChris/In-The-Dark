@@ -5,9 +5,9 @@
 #include <SDL.h>
 
 /** The screen width of the game window. */
-const int SCREEN_WIDTH = 1280;
+const int SCREEN_WIDTH = 1600;
 /** The screen height of the game window. */
-const int SCREEN_HEIGHT = 720;
+const int SCREEN_HEIGHT = 960;
 
 /** Color constants. */
 const SDL_Color COLOR_RED = { 255, 0, 0, 255 }; 
@@ -17,9 +17,9 @@ const SDL_Color COLOR_GREEN = { 144, 168, 23, 255};
 const SDL_Color COLOR_MAGENTA = { 142, 4, 96, 255 };
 
 /** Max number of columns supported in level building script. */
-const int MAX_COLUMNS = 12;
+const int MAX_COLUMNS = 100;
 /** Max number of rows supported in level building script. */
-const int MAX_ROWS = 8;
+const int MAX_ROWS = 60;
 
 
 // UI CONSTANTS
