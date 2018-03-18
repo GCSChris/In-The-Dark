@@ -1,12 +1,12 @@
-#include <SDL.h>
-#undef main
 #include "../include/TileEditor.h"
 
 int main() {
 
-	TileEditor te;
+	TileEditor* te = new TileEditor();
 
-	te.init();
+	te->init();
+
+	te->play();
 
 	return 0;
 }
