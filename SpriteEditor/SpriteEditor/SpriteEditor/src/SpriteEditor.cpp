@@ -32,17 +32,14 @@ SpriteEditor::SpriteEditor(std::string file, int w, int h, int frames, int colum
 		SDL_GetCurrentDisplayMode(0, &DM);
 		int width = DM.w;
 		int height = DM.h;
-		//.
 
 		//Create window
 		gWindow = SDL_CreateWindow("Sprite Editor",
-			(width / 2)- (frameWidth / 2), // wut?
-			(height / 2) - (frameHeight / 2), // wut??
+			(width / 2)- (frameWidth / 2),
+			(height / 2) - (frameHeight / 2),
 			frameWidth,
 			frameHeight,
-			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL 
-			//| SDL_WINDOW_BORDERLESS
-		);
+			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
 		// Check if Window did not create.
 		if (gWindow == NULL) {
