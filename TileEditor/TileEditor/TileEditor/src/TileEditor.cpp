@@ -53,6 +53,14 @@ void TileEditor::init() {
 			std::cout << "No SDL or OpenGL errors Detected\n\n";
 		}
 	}
+
+	int y = SIDE_BUFFER + (BOTTOM_BUFFER / 2) + TILE_SIZE * NUM_ROWS;
+
+	int xTotal = TILE_SIZE * NUM_COLUMNS;
+
+	buttonOne = new Button(SIDE_BUFFER, y, 100, 20, "Tiles", TILES);
+	buttonTwo = new Button(xTotal / 2 - (100/2), y, 100, 20, "Props", PROPS);
+	buttonThree = new Button(xTotal - SIDE_BUFFER - (100 / 2), y, 100, 20, "Flags", FLAGS);
 }
 
 //Loops forever!
@@ -73,6 +81,11 @@ void TileEditor::play() {
 			// User posts an event to quit
 			// An example is hitting the "x" in the corner of the window.
 			quit = handleKeyboard(e);
+
+			// TODO
+			buttonOne->handleEvent(e);
+			buttonTwo->handleEvent(e);
+			buttonThree->handleEvent(e);
 
 			if (e.type == SDL_QUIT) {
 				quit = true;
@@ -105,7 +118,9 @@ void TileEditor::play() {
 
 void TileEditor::render() {
 	drawGrid();
-
+	buttonOne->render(gRenderer);
+	buttonTwo->render(gRenderer);
+	buttonThree->render(gRenderer);
 	SDL_RenderPresent(gRenderer);
 }
 

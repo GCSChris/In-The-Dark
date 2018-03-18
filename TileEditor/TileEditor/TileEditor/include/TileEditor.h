@@ -6,6 +6,7 @@
 #include <string>
 #include <SDL_ttf.h>
 #include "Constants.h"
+#include "Button.h"
 
 
 class TileEditor {
@@ -33,6 +34,12 @@ private:
 	SDL_Window* gWindow;
 
 	SDL_Renderer* gRenderer;
+
+	Button* buttonOne;
+	Button* buttonTwo;
+	Button* buttonThree;
+
+	EditMode currentEditMode;
 };
 
 #endif
