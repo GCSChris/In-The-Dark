@@ -18,7 +18,8 @@ public:
         return *inst_;
     }
 
-	/** Returns a SDL_Texture */
+	/** Returns a SDL_Texture. 
+		Any source with pure green (0, 255, 0) will have those pixels rendered transparently as if on a green screen. */
     SDL_Texture* getTexture(/** The string pointing to the resource */const char* resource,
 		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
         if (textures_.count(resource) > 0) {
@@ -30,10 +31,10 @@ public:
         if (spriteSheet==NULL){
             SDL_Log("Failed to allocate surface");
         } else {
-            SDL_Log("Allocated a bunch of memory to create identical game character");
+            SDL_Log("Allocating memory for texture");
 		    // Create a texture from our surface
             // Textures run faster and take advantage of hardware acceleration
-			SDL_SetColorKey(spriteSheet, SDL_TRUE, SDL_MapRGB(spriteSheet->format, 4, 255, 17));
+			SDL_SetColorKey(spriteSheet, SDL_TRUE, SDL_MapRGB(spriteSheet->format, 0, 255, 0));
             SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, spriteSheet);
             textures_.insert(std::pair<const char*, SDL_Texture*>(resource, texture));
             SDL_FreeSurface(spriteSheet);

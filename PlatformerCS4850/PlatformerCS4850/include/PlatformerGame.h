@@ -12,21 +12,20 @@
 
 #include "Level.h"
 #include "Constants.h"
-#include "Paddle.h"
-#include "Ball.h"
+#include "Player.h"
 #include "UIManager.h"
 #include "SFXManager.h"
 #include "ConfigParser.h"
 
 /** Represent a game of breakout. */
-class BreakoutGame {
+class PlatformerGame {
 public:
     /** Constructor for a BreakoutGame. */
-	BreakoutGame(/** The width to use for the game window. */int w = SCREEN_WIDTH, 
+	PlatformerGame(/** The width to use for the game window. */int w = SCREEN_WIDTH,
 		/** The height to use for the game window. */int h = SCREEN_HEIGHT);
 	
 	/** Default destructor for a BreakoutGame. */
-    ~BreakoutGame();
+    ~PlatformerGame();
     
 	
     
@@ -37,6 +36,8 @@ private:
 	/** Handles initilization of the game. */
 	void startGame();
 	void restartGame();
+
+	Level* getTestingLevel();
 
 	/** Updates the game state every frame. */
 	void update();
@@ -50,17 +51,15 @@ private:
 	/** Get Pointer to SDL Renderer */
 	SDL_Renderer* getSDLRenderer();
 
+	/** Handle collisions between the Player and the Level */
+	void handleCollisions();
+
 	/** Handle keyboard input from the user. */
 	bool handleKeyboard(/** The keyboard event to handle. */ SDL_Event e);
 
 	/** Transition to next level. Returns true if there is a
 	next level, false if there are no remaiing levels. */
 	bool getNextLevel();
-
-	/** Move the ball if it is not frozen. */
-	void handleFrozenBall();
-	/** Move the ball if it is not frozen. */
-	void handleCollisions();
 
 	/** Handles ending the game if it is flagged to be over. */
 	void handleGameOver();
@@ -73,10 +72,8 @@ private:
 	/** The width of the screen for the game. */
 	int screenWidth;
 	
-	/** The user's paddle */
-	Paddle* paddle;
-	/** The ball. */
-	Ball* ball;
+	/** The player character */
+	Player* player;
 	
 	/** UI Manager - used to render UI elements. */
 	UIManager* uiManager;

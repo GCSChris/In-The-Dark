@@ -17,10 +17,18 @@ const SDL_Color COLOR_GREEN = { 144, 168, 23, 255};
 const SDL_Color COLOR_MAGENTA = { 142, 4, 96, 255 };
 
 /** Max number of columns supported in level building script. */
-const int MAX_COLUMNS = 12;
+const int MAX_COLUMNS = 80;
 /** Max number of rows supported in level building script. */
-const int MAX_ROWS = 8;
+const int MAX_ROWS = 45;
+/** The size of a tile in pixels. Pixels are a square */
+const int TILE_SIZE = 16;
 
+const int PLAYER_WIDTH = 16;
+const int PLAYER_HEIGHT = 32;
+const int PLAYER_FALLING_SPEED_CAP = 8;
+const int PLAYER_JUMP_FORCE = 15;
+const int PLAYER_RUNNING_SPEED = 5;
+const int GRAVITY = 1;
 
 // UI CONSTANTS
 

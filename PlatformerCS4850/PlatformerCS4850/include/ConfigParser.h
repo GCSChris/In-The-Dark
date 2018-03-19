@@ -70,7 +70,7 @@ public:
 			}
 			else if (temp == LEVEL_END_TAG) {
 				Level* l = new Level();
-				l->init(lvl);
+				//l->init(lvl);
 
 				levels.push_back(l);
 			}

@@ -5,12 +5,13 @@
 
 GameObject::GameObject() {}
 
-void GameObject::init(int _x, int _y, int _w, int _h) {
+void GameObject::init(int _x, int _y, int _w, int _h, bool _collide) {
 	x = _x;
 	y = _y;
 	w = _w;
 	h = _h;
 	velocity = Vector3D(0, 0, 0);
+	collideable = _collide;
 }
 
 void GameObject::update() {
@@ -29,32 +30,39 @@ void GameObject::render(SDL_Renderer* gRenderer) {
 	fillRect.w = w;
 	fillRect.h = h;
 
-	SDL_SetRenderDrawColor(gRenderer, 200, 100, 125, 255);
+	SDL_SetRenderDrawColor(gRenderer, 0, 60, 0, 255);
 	SDL_RenderFillRect(gRenderer, &fillRect);
-
-	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
-	SDL_RenderDrawRect(gRenderer, &fillRect);
 }
 
 bool GameObject::isCollidingWithObject(GameObject* other) {
-	return (this->isRightEdgeInBounds(other) || this->isLeftEdgeInBounds(other)) 
-			&& (this->isTopEdgeInBounds(other) || this->isBottomEdgeInBounds(other));
-}
+	if (!(this->collideable && other->collideable)) {
+		return false;
+	}
+	
+	float thisLeft = this->x;
+	float thisRight = this->x + this->w;
+	float thisTop = this->y;
+	float thisBottom = this->y + this->h;
+	float otherLeft = other->x;
+	float otherRight = other->x + other->w;
+	float otherTop = other->y;
+	float otherBottom = other->y + other->h;
 
-bool GameObject::isRightEdgeInBounds(GameObject* other) {
-	return ((x + w )< (other->x + other->w) && ((x + w) > other->x));
-}
-
-bool GameObject::isLeftEdgeInBounds(GameObject* other) {
-	return (x < (other->x + other->w) && (x > other->x));
-}
-
-bool GameObject::isTopEdgeInBounds(GameObject* other) {
-	return (y < (other->y + other->h) && (y > other->y));
-}
-
-bool GameObject::isBottomEdgeInBounds(GameObject* other) {
-	return ((y + h)< (other->y + other->h) && ((y + h) > other->y));
+	// Separating Axis test learned from LazyFoo: http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
+	if (thisBottom <= otherTop) {
+		return false;
+	}
+	else if (thisTop >= otherBottom) {
+		return false;
+	}
+	else if (thisRight <= otherLeft) {
+		return false;
+	}
+	else if (thisLeft >= otherRight) {
+		return false;
+	}
+	
+	return true;
 }
 
 int GameObject::getX() {
@@ -71,4 +79,21 @@ int GameObject::getWidth() {
 
 int GameObject::getHeight() {
 	return h;
+}
+
+void GameObject::setVelocity(Vector3D vel) {
+	this->velocity = vel;
+}
+
+Vector3D GameObject::getVelocity() {
+	return velocity;
+}
+
+SDL_Rect* GameObject::getRect() {
+	SDL_Rect* rect = new SDL_Rect();
+	rect->x = x;
+	rect->y = y;
+	rect->w = w;
+	rect->h = h;
+	return rect;
 }

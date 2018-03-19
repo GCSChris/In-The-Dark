@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "GameStatus.h";
+#include "GameStatus.h"
 
 /** A manager for UI Rendering */
 class UIManager {
