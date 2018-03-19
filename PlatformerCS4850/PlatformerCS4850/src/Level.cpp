@@ -41,7 +41,7 @@ bool Level::handlePlayerCollisions(Player* player) {
 			if (tile != nullptr) {
 				if (player->isCollidingWithObject(tile)) {
 					player->preventCollision(tile);
-					return true;
+					collision = true;
 				}
 			}
 		}

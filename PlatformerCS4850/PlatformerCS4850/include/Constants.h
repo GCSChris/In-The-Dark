@@ -25,10 +25,10 @@ const int TILE_SIZE = 16;
 
 const int PLAYER_WIDTH = 16;
 const int PLAYER_HEIGHT = 32;
-const int PLAYER_FALLING_SPEED_CAP = 10;
+const int PLAYER_FALLING_SPEED_CAP = 8;
 const int PLAYER_JUMP_FORCE = 15;
 const int PLAYER_RUNNING_SPEED = 5;
-const float GRAVITY = 1;
+const int GRAVITY = 1;
 
 // UI CONSTANTS
 

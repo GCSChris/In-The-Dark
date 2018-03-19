@@ -1,22 +1,21 @@
 #include "../include/Player.h"
 #include "../include/ResourceManager.h"
+#include <iostream>
 
 void Player::update() {
 	if (is_airborne) {
-		this->applyForce(Vector3D(0, GRAVITY, 0));
+		this->velocity.y += GRAVITY;
 	}
 
 	this->capSpeed();
 	this->x += this->velocity.x;
+	this->y += this->velocity.y;
+
 	if (this->x < 0) {
 		this->x = 0;
 	}
 	else if (this->x + this->w > SCREEN_WIDTH) {
 		this->x = SCREEN_WIDTH - this->w;
-	}
-
-	if (is_airborne) {
-		this->y += this->velocity.y;
 	}
 }
 
@@ -35,11 +34,24 @@ void Player::render(SDL_Renderer* r) {
 }
 
 void Player::preventCollision(Tile* tile) {
+	SDL_Rect* intersect = new SDL_Rect();
+	SDL_IntersectRect(this->getRect(), tile->getRect(), intersect);
+
+	// remove in the y direction if moving in y direction
+	if (this->velocity.y != 0) {
+		this->velocity.y < 0 ? this->y += intersect->h : this->y -= intersect->h;
+	} else if (intersect->w < this->w && this->velocity.x != 0) {
+		this->velocity.x < 0 ? this->x += intersect->w : this->x -= intersect->w;
+	}
+	
+	/*
 	Vector3D backup = -Normalize(velocity);
 	if (backup.x != 0 && backup.y != 0) {
 		float smallest = backup.x < backup.y ? backup.x : backup.y;
 		backup *= (1.0 / abs(smallest));
 	}
+
+	std::cout << "x: " << this->x << "   y: " << this->y << std::endl;
 	
 	while (this->isCollidingWithObject(tile)) {
 		this->x += backup.x;
@@ -47,6 +59,7 @@ void Player::preventCollision(Tile* tile) {
 	}
 	//this->x -= this->velocity.x;
 	//this->y -= this->velocity.y;
+	*/
 	this->is_airborne = false;
 	this->velocity.y = 0;
 }
@@ -58,6 +71,7 @@ void Player::capSpeed() {
 }
 
 void Player::jump() {
+	this->velocity.y = 0;
 	this->is_airborne = true;
 	applyForce(Vector3D(0, -PLAYER_JUMP_FORCE, 0));
 }

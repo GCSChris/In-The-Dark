@@ -45,6 +45,8 @@ public:
 	void setVelocity(Vector3D vel);
 	/** Returns the velocity */
 	Vector3D getVelocity();
+	/** Returns an SDL_Rect for the bounds of this Rectangle */
+	SDL_Rect* getRect();
 
 protected:
 	/** If the right edge of this GameObject is within the x-bound of the other GameObject*/
