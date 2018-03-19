@@ -20,4 +20,6 @@ const int SIDE_BUFFER = 16;
 
 enum EditMode { TILES, PROPS, FLAGS };
 
+const char LAYER_TAG = 'X';
+
 #endif
