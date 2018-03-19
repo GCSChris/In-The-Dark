@@ -42,13 +42,13 @@ EditMode Button::handleEvent(SDL_Event event, EditMode currentEditMode) {
 				(y > buttonRect_->y) && (y < buttonRect_->y + buttonRect_->h)) {
 
 				switch (mode_) { //TODO
-					case TILES:
+					case EditMode::TILES:
 						std::cout << "tiles button" << std::endl;
 						break;
-					case PROPS:
+					case EditMode::PROPS:
 						std::cout << "props button" << std::endl;
 						break;
-					case FLAGS:
+					case EditMode::FLAGS:
 						std::cout << "flags button" << std::endl;
 						break;
 					default:
@@ -61,8 +61,8 @@ EditMode Button::handleEvent(SDL_Event event, EditMode currentEditMode) {
 				//std::cout << "button " + message_ + " clicked" << std::endl;
 			}
 		}
-		return currentEditMode;
 	}
+	return currentEditMode;
 }
 
 void Button::render(SDL_Renderer* gRenderer) {

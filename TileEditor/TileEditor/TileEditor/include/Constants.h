@@ -18,7 +18,9 @@ const int BOTTOM_BUFFER = 32;
 
 const int SIDE_BUFFER = 16;
 
-enum EditMode { TILES, PROPS, FLAGS };
+enum class EditMode {
+	TILES, PROPS, FLAGS
+};
 
 const char LAYER_TAG = 'X';
 
