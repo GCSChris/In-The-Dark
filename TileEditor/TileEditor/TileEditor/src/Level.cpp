@@ -58,10 +58,14 @@ void Level::setTileAt(int row, int col, int data) {
 
 		std::cout << "set tile at " << row << ", " << col << " to " << data << std::endl;
 		tiles[row][col] = data;
+		renderTile(row, col);
 	}
 	else {
 		std::cerr << "Invalid indices" << std::endl;
 	}
+}
+
+void Level::renderTile(int row, int col) {
 }
 
 void Level::setPropAt(int row, int col, int data) {

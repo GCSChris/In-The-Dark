@@ -33,6 +33,10 @@ private:
 
 	bool handleKeyboard(SDL_Event e);
 
+	void renderTiles();
+	void renderTile(int r, int c);
+	void renderRectangle(SDL_Rect* rect, SDL_Color color);
+
 	int screenWidth = TILE_SIZE*NUM_COLUMNS + 2*SIDE_BUFFER;
 	int screenHeight = TILE_SIZE*NUM_ROWS + 2*SIDE_BUFFER + BOTTOM_BUFFER;
 
@@ -47,6 +51,8 @@ private:
 	Button* buttonThree;
 
 	EditMode currentEditMode;
+
+	bool tilesUpdated = false;
 };
 
 #endif

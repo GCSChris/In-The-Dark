@@ -25,6 +25,8 @@ public:
 private:
 	bool isValidCoords(int row, int col);
 
+	void renderTile(int row, int col);
+
 	int tiles[NUM_ROWS][NUM_COLUMNS];
 
 	int props[NUM_ROWS][NUM_COLUMNS];

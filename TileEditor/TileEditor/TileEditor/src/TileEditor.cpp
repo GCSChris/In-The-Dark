@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../include/TileEditor.h"
 #include "../include/Constants.h"
+#include "../include/ResourceManager.h"
 
 TileEditor::TileEditor() { }
 
@@ -164,10 +165,14 @@ void TileEditor::play() {
 }
 
 void TileEditor::render() {
+	renderTiles();
+	
 	drawGrid();
+	
 	buttonOne->render(gRenderer);
 	buttonTwo->render(gRenderer);
 	buttonThree->render(gRenderer);
+
 	SDL_RenderPresent(gRenderer);
 }
 
@@ -246,6 +251,8 @@ void TileEditor::editTile(int tileRow, int tileColumn, bool leftClick) {
 			printf("default case\n");
 			break;
 	}
+
+	tilesUpdated = true;
 }
 
 int TileEditor::editTileVal(int tileVal, bool leftClick) {
@@ -256,4 +263,64 @@ int TileEditor::editTileVal(int tileVal, bool leftClick) {
 	else {
 		return tileVal - 1;
 	}
+}
+
+void TileEditor::renderTiles() {
+	switch (currentEditMode) {
+	case EditMode::TILES: //tiles
+		printf("render tiles\n");
+		for (int r = 0; r < NUM_ROWS; r++) {
+			for (int c = 0; c < NUM_COLUMNS; c++) {
+				renderTile(r, c);
+			}
+		}
+		break;
+	case EditMode::PROPS: //PROPS
+		printf("render props\n");
+
+		break;
+	case EditMode::FLAGS: //FLAGS CASE
+		printf("render flags\n");
+		
+		break;
+	default:
+		// this should never happen
+		printf("render default\n");
+		break;
+	}
+}
+
+void TileEditor::renderTile(int r, int c) {
+	//TODO get image
+
+	//for now just do rectangle
+	int x = SIDE_BUFFER + (c * TILE_SIZE);
+	int y = SIDE_BUFFER + (r * TILE_SIZE);;
+
+	SDL_Rect* tileRect = new SDL_Rect{x, y, TILE_SIZE, TILE_SIZE};
+	
+	SDL_Color color = { 0, 0, 0, 0 };
+	
+	if (level->getTileAt(r, c) == 0) {
+		color = { 0, 0, 0, 0};
+	}
+	if (level->getTileAt(r, c) == 1) {
+		color = { 255, 255, 0, 255 };
+	}
+	else if (level->getTileAt(r, c) == 2) {
+		color = { 0, 255, 0, 255 };
+	}
+	else if (level->getTileAt(r, c) == 3) {
+		color = { 0, 0, 255, 255 };
+	}
+
+	
+	renderRectangle(tileRect, color);
+}
+
+//TODO pull out logic to helper!
+void TileEditor::renderRectangle(SDL_Rect* rect, SDL_Color color) {
+	SDL_SetRenderDrawColor(gRenderer, color.r, color.g, color.b, color.a);
+	//printf("%i, %i, %i, %i\n", buttonRect_->x, buttonRect_->y, buttonRect_->w, buttonRect_->h);
+	SDL_RenderFillRect(gRenderer, rect);
 }
