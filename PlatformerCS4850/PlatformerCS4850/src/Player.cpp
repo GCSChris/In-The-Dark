@@ -55,6 +55,7 @@ void Player::preventCollision(Tile* tile) {
 	} else if (intersect->w < PLAYER_WIDTH && this->velocity.x != 0) {
 		//std::cout << "Moving out horizontally" << std::endl;
 		this->velocity.x < 0 ? this->x += intersect->w : this->x -= intersect->w;
+		this->velocity.x = 0;
 	}
 }
 
