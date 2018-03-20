@@ -18,6 +18,25 @@ public:
         return *inst_;
     }
 
+	SDL_Surface* getSurface(/** The string pointing to the surface */ const char* resource) {
+		if (surfaces_.count(resource) > 0) {
+			return surfaces_[resource];
+		}
+
+		SDL_Surface* sprite = SDL_LoadBMP(resource);
+		
+
+		if (sprite == NULL) {
+			SDL_Log("Failed to allocate surface");
+		}
+		else {
+			SDL_Log("Allocated surface successfully");
+			surfaces_.insert(std::pair<const char*, SDL_Surface*>(resource, sprite));
+			return sprite;
+		}
+		return NULL;
+	}
+
 	/** Returns a SDL_Texture. 
 		Any source with pure green (0, 255, 0) will have those pixels rendered transparently as if on a green screen. */
     SDL_Texture* getTexture(/** The string pointing to the resource */const char* resource,
@@ -140,6 +159,8 @@ private:
 	/** The singleton instance */
 	static ResourceManager* inst_;
 
+	/** Mapping of cached SDL__Surfaces */
+	std::map<const char*, SDL_Surface*> surfaces_;
 	/** Mapping of cached SDL_Textures */
     std::map<const char*, SDL_Texture*> textures_;
 	/** Mapping of cached Mix_Music */

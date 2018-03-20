@@ -106,6 +106,10 @@ void PlatformerGame::startGame() {
 	//level = ConfigParser::instance().getLevel(curLevel);
 	player = new Player();
 	player->init(64, 32, PLAYER_WIDTH, PLAYER_HEIGHT, true);
+
+	visibilityCircle = new VisibleCircle();
+	visibilityCircle->init(player);
+
 	level = getTestingLevel();
 }
 
@@ -158,6 +162,7 @@ void PlatformerGame::handleGameOver() {
 void PlatformerGame::render() {
 	level->render(getSDLRenderer());
 	player->render(getSDLRenderer());
+	visibilityCircle->render(getSDLRenderer());
 	
 	SDL_RenderPresent(gRenderer);
 }
