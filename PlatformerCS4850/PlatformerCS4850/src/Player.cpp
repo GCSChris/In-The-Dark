@@ -42,12 +42,12 @@ void Player::preventCollision(Tile* tile) {
 	*/
 
 	SDL_IntersectRect(this->getRect(), tile->getRect(), intersect);
-	/*if (intersect->w < 0 || intersect->h < 0) {
+	if (intersect->w < 0 || intersect->h < 0) {
 		return;
-	}*/
+	}
 
 	// remove in the y direction if moving in y direction
-	if (this->velocity.y != 0) {
+	if (this->velocity.y != 0 && intersect->h < TILE_SIZE) {
 		this->velocity.y < 0 ? this->y += intersect->h : this->y -= intersect->h;
 		this->is_airborne = this->y + this->h > tile->getY();
 		this->velocity.y = 0;
