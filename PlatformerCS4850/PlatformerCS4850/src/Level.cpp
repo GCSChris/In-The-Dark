@@ -35,7 +35,7 @@ void Level::render(SDL_Renderer* ren) {
 bool Level::handlePlayerCollisions(Player* player) {
 	bool collision = false;
 
-	for (int r = 0; r < MAX_ROWS; r++) {
+	for (int r = MAX_ROWS - 1; r >= 0; r--) {
 		for (int c = 0; c < MAX_COLUMNS; c++) {
 			Tile* tile = levelMap[r][c];
 			if (tile != nullptr) {
