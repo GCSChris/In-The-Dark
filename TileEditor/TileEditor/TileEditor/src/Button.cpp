@@ -65,11 +65,18 @@ EditMode Button::handleEvent(SDL_Event event, EditMode currentEditMode) {
 	return currentEditMode;
 }
 
-void Button::render(SDL_Renderer* gRenderer) {
-	SDL_Color rectColor = { 0, 0, 255, 255 };
+void Button::render(SDL_Renderer* gRenderer, EditMode currentEditMode) {
+	SDL_Color rectColor;
+
+	// Selected button
+	if (currentEditMode == mode_) {
+		rectColor = { 255, 0, 0, 255 };
+	}
+	else {
+		rectColor = { 0, 0, 255, 255 };
+	}
 
 	SDL_SetRenderDrawColor(gRenderer, rectColor.r, rectColor.g, rectColor.b, rectColor.a);
-	//printf("%i, %i, %i, %i\n", buttonRect_->x, buttonRect_->y, buttonRect_->w, buttonRect_->h);
 	SDL_RenderFillRect(gRenderer, buttonRect_);
 
 	ResourceManager& resourceManager = ResourceManager::instance();

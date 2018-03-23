@@ -174,9 +174,9 @@ void TileEditor::render() {
 	
 	drawGrid();
 	
-	buttonOne->render(gRenderer);
-	buttonTwo->render(gRenderer);
-	buttonThree->render(gRenderer);
+	buttonOne->render(gRenderer, currentEditMode);
+	buttonTwo->render(gRenderer, currentEditMode);
+	buttonThree->render(gRenderer, currentEditMode);
 
 	SDL_RenderPresent(gRenderer);
 }

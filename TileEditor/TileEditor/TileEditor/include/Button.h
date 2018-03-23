@@ -12,7 +12,7 @@ public:
 
 	Button(int x, int y, int w, int h, std::string message, EditMode mode);
 
-	void render(SDL_Renderer* gRenderer);
+	void render(SDL_Renderer* gRenderer, EditMode currentEditMode);
 
 	EditMode handleEvent(SDL_Event event, EditMode currentEditMode);
 
