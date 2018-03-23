@@ -16,6 +16,7 @@
 #include "UIManager.h"
 #include "SFXManager.h"
 #include "ConfigParser.h"
+#include "VisibleCircle.h"
 
 /** Represent a game of breakout. */
 class PlatformerGame {
@@ -74,7 +75,9 @@ private:
 	
 	/** The player character */
 	Player* player;
-	
+	/** The visibility Circle */
+	VisibleCircle* visibilityCircle;
+
 	/** UI Manager - used to render UI elements. */
 	UIManager* uiManager;
 	/** SFX Manager - used to manage playing of sound effects. */

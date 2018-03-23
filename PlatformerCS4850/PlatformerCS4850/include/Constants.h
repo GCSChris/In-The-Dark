@@ -15,6 +15,7 @@ const SDL_Color COLOR_ORANGE = { 255, 165, 0, 255 };
 const SDL_Color COLOR_BLUE = { 2, 157, 224, 255 };
 const SDL_Color COLOR_GREEN = { 144, 168, 23, 255};
 const SDL_Color COLOR_MAGENTA = { 142, 4, 96, 255 };
+const SDL_Color COLOR_ALPHA = { 0, 255, 0, 255 };
 
 /** Max number of columns supported in level building script. */
 const int MAX_COLUMNS = 80;
@@ -29,6 +30,7 @@ const int PLAYER_FALLING_SPEED_CAP = 8;
 const int PLAYER_JUMP_FORCE = 15;
 const int PLAYER_RUNNING_SPEED = 5;
 const int GRAVITY = 1;
+const int VISIBLE_CIRCLE_MIN_SIZE = 128;
 
 // UI CONSTANTS
 
