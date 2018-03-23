@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\VS_dev_lib\SDL2_ttf-2.0.14\include;C:\VS_dev_lib\SDL2-2.0.8\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VS_dev_lib\SDL2_ttf-2.0.14\lib\x86;C:\VS_dev_lib\SDL2-2.0.8\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.3\include;C:\VS_dev_lib\SDL2_ttf-2.0.14\include;C:\VS_dev_lib\SDL2-2.0.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vs_dev_lib\SDL2_image-2.0.3\lib\x86;C:\VS_dev_lib\SDL2_ttf-2.0.14\lib\x86;C:\VS_dev_lib\SDL2-2.0.8\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\VS_dev_lib\SDL2_ttf-2.0.14\include;C:\VS_dev_lib\SDL2-2.0.7\include;$(IncludePath)</IncludePath>
@@ -85,7 +85,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

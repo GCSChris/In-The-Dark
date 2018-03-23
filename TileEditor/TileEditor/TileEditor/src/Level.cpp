@@ -3,9 +3,9 @@
 
 Level::Level() {}
 
-const int TILES_MAX = 3;
-const int PROPS_MAX = 4;
-const int FLAGS_MAX = 5;
+const int NUM_TILES = 3;
+const int NUM_PROPS= 3;
+const int NUM_FLAGS = 2;
 
 void Level::init() {
 	for (int i = 0; i < NUM_ROWS; i++) {
@@ -19,7 +19,7 @@ void Level::init() {
 
 int Level::getTileAt(int row, int col) {
 	if(isValidCoords(row, col)) {
-		printf("returning %i\n", tiles[row][col]);
+		//printf("returning %i\n", tiles[row][col]);
 		return tiles[row][col];
 	}
 	else {
@@ -49,11 +49,11 @@ int Level::getFlagAt(int row, int col) {
 
 void Level::setTileAt(int row, int col, int data) {
 	if (isValidCoords(row, col)) {
-		if (data > TILES_MAX) {
+		if (data > NUM_TILES - 1) {
 			data = 0;
 		}
 		else if (data < 0) {
-			data = TILES_MAX;
+			data = NUM_TILES - 1;
 		}
 
 		std::cout << "set tile at " << row << ", " << col << " to " << data << std::endl;
@@ -70,11 +70,11 @@ void Level::renderTile(int row, int col) {
 
 void Level::setPropAt(int row, int col, int data) {
 	if (isValidCoords(row, col)) {
-		if (data > PROPS_MAX) {
+		if (data > NUM_PROPS - 1) {
 			data = 0;
 		}
 		else if (data < 0) {
-			data = PROPS_MAX;
+			data = NUM_PROPS - 1;
 		}
 
 		std::cout << "set prop at " << row << ", " << col << " to " << data << std::endl;
@@ -87,11 +87,11 @@ void Level::setPropAt(int row, int col, int data) {
 
 void Level::setFlagAt(int row, int col, int data) {
 	if (isValidCoords(row, col)) {
-		if (data > FLAGS_MAX) {
+		if (data > NUM_FLAGS - 1) {
 			data = 0;
 		}
 		else if (data < 0) {
-			data = FLAGS_MAX;
+			data = NUM_FLAGS - 1;
 		}
 
 		std::cout << "set flag at " << row << ", " << col << " to " << data << std::endl;

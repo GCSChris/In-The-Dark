@@ -35,7 +35,8 @@ private:
 
 	void renderTiles();
 	void renderTile(int r, int c);
-	void renderRectangle(SDL_Rect* rect, SDL_Color color);
+	//void renderTileHelp(int r, int c);
+	//void renderRectangle(SDL_Rect* rect, SDL_Color color);
 
 	int screenWidth = TILE_SIZE*NUM_COLUMNS + 2*SIDE_BUFFER;
 	int screenHeight = TILE_SIZE*NUM_ROWS + 2*SIDE_BUFFER + BOTTOM_BUFFER;
@@ -53,6 +54,10 @@ private:
 	EditMode currentEditMode;
 
 	bool tilesUpdated = false;
+
+	SDL_Texture* bigTexture;
+
+	void UpdateTexture(SDL_Texture* texture, int x, int y);
 };
 
 #endif

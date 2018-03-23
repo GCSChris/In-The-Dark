@@ -2,6 +2,7 @@
 #define RESOURCEMANGER_H
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <string>
 #include <map>
@@ -26,7 +27,7 @@ public:
         
         SDL_Surface* spriteSheet = SDL_LoadBMP(resource);
         
-        if (spriteSheet==NULL){
+        if (spriteSheet == NULL){
             SDL_Log("Failed to allocate surface");
         } else {
             SDL_Log("Allocated a bunch of memory to create identical game character");
@@ -41,6 +42,32 @@ public:
 
         return NULL;
     }
+
+	SDL_Texture* getTextureFromImage(/** The string pointing to the resource */const char* resource,
+		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
+		if (textures_.count(resource) > 0) {
+			return textures_[resource];
+		}
+
+		SDL_Surface* spriteSheet = IMG_Load(resource);
+
+		if (spriteSheet == NULL) {
+			SDL_Log("Failed to allocate surface");
+		}
+		else {
+			SDL_Log("Allocated a bunch of memory to create identical game character");
+			// Create a texture from our surface
+			// Textures run faster and take advantage of hardware acceleration
+			//SDL_SetColorKey(spriteSheet, SDL_TRUE, SDL_MapRGB(spriteSheet->format, 4, 255, 17));
+			
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, spriteSheet);
+			textures_.insert(std::pair<const char*, SDL_Texture*>(resource, texture));
+			SDL_FreeSurface(spriteSheet);
+			return texture;
+		}
+
+		return NULL;
+	}
 
 	/** Returns the true-type font at the given path */
 	TTF_Font* getFont(/** The resource path */ const char* resource,

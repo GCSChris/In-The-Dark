@@ -39,7 +39,7 @@ void TileEditor::init() {
 		}
 
 		//Create a Renderer to draw on
-		gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+		gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 		// Check if Renderer did not create.
 		if (gRenderer == NULL) {
 			errorStream << "Renderer could not be created! SDL Error: " << SDL_GetError() << "\n";
@@ -68,6 +68,11 @@ void TileEditor::init() {
 	level->init();
 
 	currentEditMode = EditMode::TILES;
+
+	bigTexture = SDL_CreateTexture(gRenderer,
+		SDL_PIXELFORMAT_ARGB8888,
+		SDL_TEXTUREACCESS_STREAMING,
+		screenWidth, screenHeight);
 
 	printf("STARTING AT MODE %i\n", currentEditMode);
 }
@@ -266,61 +271,33 @@ int TileEditor::editTileVal(int tileVal, bool leftClick) {
 }
 
 void TileEditor::renderTiles() {
-	switch (currentEditMode) {
-	case EditMode::TILES: //tiles
-		printf("render tiles\n");
-		for (int r = 0; r < NUM_ROWS; r++) {
-			for (int c = 0; c < NUM_COLUMNS; c++) {
-				renderTile(r, c);
-			}
+	for (int r = 0; r < NUM_ROWS; r++) {
+		for (int c = 0; c < NUM_COLUMNS; c++) {
+			renderTile(r, c);
 		}
-		break;
-	case EditMode::PROPS: //PROPS
-		printf("render props\n");
-
-		break;
-	case EditMode::FLAGS: //FLAGS CASE
-		printf("render flags\n");
-		
-		break;
-	default:
-		// this should never happen
-		printf("render default\n");
-		break;
 	}
 }
 
 void TileEditor::renderTile(int r, int c) {
-	//TODO get image
-
-	//for now just do rectangle
 	int x = SIDE_BUFFER + (c * TILE_SIZE);
-	int y = SIDE_BUFFER + (r * TILE_SIZE);;
+	int y = SIDE_BUFFER + (r * TILE_SIZE);
 
-	SDL_Rect* tileRect = new SDL_Rect{x, y, TILE_SIZE, TILE_SIZE};
-	
-	SDL_Color color = { 0, 0, 0, 0 };
-	
-	if (level->getTileAt(r, c) == 0) {
-		color = { 0, 0, 0, 0};
-	}
-	if (level->getTileAt(r, c) == 1) {
-		color = { 255, 255, 0, 255 };
-	}
-	else if (level->getTileAt(r, c) == 2) {
-		color = { 0, 255, 0, 255 };
-	}
-	else if (level->getTileAt(r, c) == 3) {
-		color = { 0, 0, 255, 255 };
-	}
+	SDL_Rect* tileRect = new SDL_Rect{ x, y, TILE_SIZE, TILE_SIZE };
 
-	
-	renderRectangle(tileRect, color);
-}
+	SDL_Texture* texture = ResourceManager::instance().getTextureFromImage("resources/tiles.png", gRenderer);
+	int tileX = level->getTileAt(r, c); // TODO
+	SDL_Rect src_rect_tile = { tileX * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE };
 
-//TODO pull out logic to helper!
-void TileEditor::renderRectangle(SDL_Rect* rect, SDL_Color color) {
-	SDL_SetRenderDrawColor(gRenderer, color.r, color.g, color.b, color.a);
-	//printf("%i, %i, %i, %i\n", buttonRect_->x, buttonRect_->y, buttonRect_->w, buttonRect_->h);
-	SDL_RenderFillRect(gRenderer, rect);
+	SDL_Texture* propTexture = ResourceManager::instance().getTextureFromImage("resources/props.png", gRenderer);
+	int propX = level->getPropAt(r, c); //TODO
+	SDL_Rect src_rect_prop = { propX * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE };
+
+	SDL_Texture* flagTexture = ResourceManager::instance().getTextureFromImage("resources/flags.png", gRenderer);
+	int flagX = level->getFlagAt(r, c); //TODO
+	SDL_Rect src_rect_flag = { flagX * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE };
+
+	SDL_Rect dest_rect = { x, y, TILE_SIZE, TILE_SIZE };
+	SDL_RenderCopy(gRenderer, texture, &src_rect_tile, &dest_rect);
+	SDL_RenderCopy(gRenderer, propTexture, &src_rect_prop, &dest_rect);
+	SDL_RenderCopy(gRenderer, flagTexture, &src_rect_flag, &dest_rect);
 }
