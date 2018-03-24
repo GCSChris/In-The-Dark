@@ -3,10 +3,7 @@
 
 #include "../include/Button.h"
 #include "../include/ResourceManager.h"
-
-const std::string DEFAULT_TEXT_FONT_STYLE = "./resources/arial.ttf";
-const int DEFAULT_TEXT_FONT_SIZE = 16;
-const SDL_Color DEFAULT_TEXT_FONT_COLOR = { 255, 255, 255, 255 };
+#include "../include/Constants.h"
 
 Button::Button(SDL_Rect* rect, std::string message, EditMode mode) {
 	buttonRect_ = rect;

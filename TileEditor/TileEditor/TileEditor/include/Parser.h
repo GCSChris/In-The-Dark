@@ -14,7 +14,7 @@ public:
 		return *instance;
 	}
 
-	Level& loadLevel(std::string levelFilePath) {
+	Level loadLevel() {
 		std::ifstream levelFile; // open a new ifstream
 		int tile; // temporary hold for date 
 		bool tilesInit = false;
@@ -26,7 +26,7 @@ public:
 		loaded->init();
 
 		// tile parsing
-		levelFile.open(levelFilePath);
+		levelFile.open(fileLocation);
 		if (!levelFile) {
 			std::cout << "Unable to open file." << std::endl;
 			exit(1);
@@ -77,16 +77,47 @@ public:
 			exit(1);
 		}
 
+		levelFile.close();
+
 		return *loaded;
 	}
 
-	void writeLevel() {
+	void writeLevel(Level* level) {
+		std::ofstream myFile;
 
+		myFile.open(fileLocation);
+
+		for (int r = 0; r < NUM_ROWS; r++) {
+			for (int c = 0; c < NUM_COLUMNS; c++) {
+				myFile << level->getTileAt(r, c) + " ";
+			}
+			myFile << "\n";
+		}
+		myFile << "X\n";
+
+		for (int r = 0; r < NUM_ROWS; r++) {
+			for (int c = 0; c < NUM_COLUMNS; c++) {
+				myFile << level->getPropAt(r, c) + " ";
+			}
+			myFile << "\n";
+		}
+		myFile << "X\n";
+
+		for (int r = 0; r < NUM_ROWS; r++) {
+			for (int c = 0; c < NUM_COLUMNS; c++) {
+				myFile << level->getFlagAt(r, c) + " ";
+			}
+			myFile << "\n";
+		}
+		myFile << "X\n";
+
+		myFile.close();
 	}
 
 private:
 	Parser() {};
 
+	std::string fileLocation = "resources/Level1.txt";
 };
 
 #endif

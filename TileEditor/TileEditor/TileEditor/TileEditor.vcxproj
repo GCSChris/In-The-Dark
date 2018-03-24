@@ -132,6 +132,7 @@
     <ClInclude Include="include\Level.h" />
     <ClInclude Include="include\Parser.h" />
     <ClInclude Include="include\ResourceManager.h" />
+    <ClInclude Include="include\SaveLoadButtons.h" />
     <ClInclude Include="include\TileEditor.h" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +140,7 @@
     <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\SaveLoadButtons.cpp" />
     <ClCompile Include="src\TileEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -63,8 +63,10 @@ void TileEditor::init() {
 	int buttonWidth = 100;
 	int buttonHeight = 20;
 	buttonOne = new Button(SIDE_BUFFER + (buttonWidth / 2), y, buttonWidth, buttonHeight, "Tiles", EditMode::TILES);
-	buttonTwo = new Button((xTotal / 2) - (buttonWidth /2), y, buttonWidth, buttonHeight, "Props", EditMode::PROPS);
-	buttonThree = new Button((xTotal - SIDE_BUFFER) - (buttonWidth * 1.5), y, buttonWidth, buttonHeight, "Flags", EditMode::FLAGS);
+	buttonTwo = new Button(SIDE_BUFFER + (buttonWidth / 2) + buttonWidth + 10, y, buttonWidth, buttonHeight, "Props", EditMode::PROPS);
+	buttonThree = new Button(SIDE_BUFFER + (buttonWidth / 2) + 2*buttonWidth + 20, y, buttonWidth, buttonHeight, "Flags", EditMode::FLAGS);
+	buttonFour = new SaveLoadButtons(SIDE_BUFFER + NUM_COLUMNS * TILE_SIZE - buttonWidth, y, buttonWidth, buttonHeight, "Load Level", true);
+	buttonFive = new SaveLoadButtons(SIDE_BUFFER + NUM_COLUMNS * TILE_SIZE - buttonWidth * 2 - 10, y, buttonWidth, buttonHeight, "Save Level", false);
 
 	level = new Level();
 	level->init();
@@ -102,6 +104,8 @@ void TileEditor::play() {
 			EditMode buttonOneMode = buttonOne->handleEvent(e, currentEditMode);
 			EditMode buttonTwoMode = buttonTwo->handleEvent(e, currentEditMode);
 			EditMode buttonThreeMode = buttonThree->handleEvent(e, currentEditMode);
+			buttonFour->handleEvent(e, level);
+			buttonFive->handleEvent(e, level);
 
 			if (buttonOneMode != currentEditMode) {
 				//printf("switching to buttonOneMode, %i", buttonOneMode);
@@ -179,6 +183,8 @@ void TileEditor::render() {
 	buttonOne->render(gRenderer, currentEditMode);
 	buttonTwo->render(gRenderer, currentEditMode);
 	buttonThree->render(gRenderer, currentEditMode);
+	buttonFour->render(gRenderer);
+	buttonFive->render(gRenderer);
 
 	SDL_RenderPresent(gRenderer);
 }

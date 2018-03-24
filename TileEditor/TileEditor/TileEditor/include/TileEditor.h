@@ -7,6 +7,7 @@
 #include <SDL_ttf.h>
 #include "Constants.h"
 #include "Button.h"
+#include "SaveLoadButtons.h"
 #include "Level.h"
 
 class TileEditor {
@@ -50,6 +51,8 @@ private:
 	Button* buttonOne;
 	Button* buttonTwo;
 	Button* buttonThree;
+	SaveLoadButtons* buttonFour;
+	SaveLoadButtons* buttonFive;
 
 	EditMode currentEditMode;
 
