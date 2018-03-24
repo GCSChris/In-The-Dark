@@ -39,16 +39,6 @@ void Enemy::update() {
 }
 
 void Enemy::render(SDL_Renderer* r) {
-	/*
-	if (this->current_sprite == nullptr) {
-		this->current_sprite = ResourceManager::instance().getTexture(this->sprite_sheet, r);
-	}
-	SDL_Rect src = { 0, 0, ENEMY_WIDTH, ENEMY_HEIGHT };
-	SDL_Rect dest = { this->x, this->y, ENEMY_WIDTH, ENEMY_HEIGHT };
-
-	SDL_RenderCopy(r, current_sprite, &src, &dest);
-	*/
-
 	spriteSheet->render(r, this->x, this->y, ENEMY_WIDTH, ENEMY_HEIGHT);
 }
 
