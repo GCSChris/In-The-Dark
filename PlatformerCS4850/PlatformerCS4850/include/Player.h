@@ -17,7 +17,7 @@ public:
 		Direction dir = Direction::RIGHT);
 	void update();
 	void render(SDL_Renderer* ren);
-	void preventCollision(Tile* tile);
+	void preventCollision(GameObject* obj);
 	void jump();
 	bool isAirborne();
 

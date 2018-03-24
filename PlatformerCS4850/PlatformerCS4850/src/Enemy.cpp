@@ -4,6 +4,7 @@
 void Enemy::init(int x, int y, int w, int h, const char* sprite_sheet) {
 	GameObject::init(x, y, w, h, true);
 	this->sprite_sheet = sprite_sheet;
+	this->velocity = Vector3D(ENEMY_RUNNING_SPEED, 0, 0);
 }
 
 void Enemy::update() {
@@ -18,9 +19,11 @@ void Enemy::update() {
 
 	if (this->x < 0) {
 		this->x = 0;
+		this->velocity.x = -1 * this->velocity.x;
 	}
 	else if (this->x + this->w > SCREEN_WIDTH) {
 		this->x = SCREEN_WIDTH - this->w;
+		this->velocity.x = -1 * this->velocity.x;
 	}
 }
 
@@ -34,10 +37,10 @@ void Enemy::render(SDL_Renderer* r) {
 	SDL_RenderCopy(r, current_sprite, &src, &dest);
 }
 
-void Enemy::preventCollision(Tile* tile) {
+void Enemy::preventCollision(GameObject* obj) {
 	SDL_Rect* intersect = new SDL_Rect();
 
-	SDL_IntersectRect(this->getRect(), tile->getRect(), intersect);
+	SDL_IntersectRect(this->getRect(), obj->getRect(), intersect);
 	if (intersect->w < 0 || intersect->h < 0) {
 		return;
 	}
@@ -49,6 +52,6 @@ void Enemy::preventCollision(Tile* tile) {
 	}
 	else if (intersect->w < PLAYER_WIDTH && this->velocity.x != 0) {
 		this->velocity.x < 0 ? this->x += intersect->w : this->x -= intersect->w;
-		this->velocity.x = 0;
+		this->velocity.x = -1 * this->velocity.x;
 	}
 }
