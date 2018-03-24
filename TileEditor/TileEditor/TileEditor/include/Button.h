@@ -16,7 +16,7 @@ public:
 
 	EditMode handleEvent(SDL_Event event, EditMode currentEditMode);
 
-	void renderTextHelp(SDL_Renderer* gRenderer, std::string text, TTF_Font* font, SDL_Color color, int x, int y);
+	void renderTextHelp(SDL_Renderer* gRenderer, std::string text, TTF_Font* font, SDL_Color color);
 
 private:
 	SDL_Rect* buttonRect_;

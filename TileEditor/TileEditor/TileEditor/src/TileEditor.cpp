@@ -58,11 +58,13 @@ void TileEditor::init() {
 
 	int y = SIDE_BUFFER + (BOTTOM_BUFFER / 2) + TILE_SIZE * NUM_ROWS;
 
-	int xTotal = TILE_SIZE * NUM_COLUMNS;
+	int xTotal = TILE_SIZE * NUM_COLUMNS + (SIDE_BUFFER * 2);
 
-	buttonOne = new Button(SIDE_BUFFER, y, 100, 20, "Tiles", EditMode::TILES);
-	buttonTwo = new Button(xTotal / 2 - (100/2), y, 100, 20, "Props", EditMode::PROPS);
-	buttonThree = new Button(xTotal - SIDE_BUFFER - (100 / 2), y, 100, 20, "Flags", EditMode::FLAGS);
+	int buttonWidth = 100;
+	int buttonHeight = 20;
+	buttonOne = new Button(SIDE_BUFFER + (buttonWidth / 2), y, buttonWidth, buttonHeight, "Tiles", EditMode::TILES);
+	buttonTwo = new Button((xTotal / 2) - (buttonWidth /2), y, buttonWidth, buttonHeight, "Props", EditMode::PROPS);
+	buttonThree = new Button((xTotal - SIDE_BUFFER) - (buttonWidth * 1.5), y, buttonWidth, buttonHeight, "Flags", EditMode::FLAGS);
 
 	level = new Level();
 	level->init();

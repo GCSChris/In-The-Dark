@@ -83,18 +83,23 @@ void Button::render(SDL_Renderer* gRenderer, EditMode currentEditMode) {
 	TTF_Font* font = resourceManager.getFont(DEFAULT_TEXT_FONT_STYLE.c_str(), DEFAULT_TEXT_FONT_SIZE);
 	SDL_Color textColor = DEFAULT_TEXT_FONT_COLOR;
 
-	renderTextHelp(gRenderer, message_, font, textColor, buttonRect_->x, buttonRect_->y);
+	renderTextHelp(gRenderer, message_, font, textColor);
 }
 
-void Button::renderTextHelp(SDL_Renderer* gRenderer, std::string text, TTF_Font* font, SDL_Color color, int x, int y) {
+void Button::renderTextHelp(SDL_Renderer* gRenderer, std::string text, TTF_Font* font, SDL_Color color) {
 	SDL_Surface* text_surface = TTF_RenderText_Solid(font, text.c_str(), color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(gRenderer, text_surface);
 
-	int texW = 0;
-	int texH = 0;
-	
-	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	SDL_Rect rect = { x, y, texW, texH };
+	int textW = 0;
+	int textH = 0;
+
+	SDL_QueryTexture(texture, NULL, NULL, &textW, &textH);
+
+	// center text on the buttons
+	int textX = buttonRect_->x + ((buttonRect_->w - textW) / 2);
+	int textY = buttonRect_->y + ((buttonRect_->h - textH) / 2);
+
+	SDL_Rect rect = { textX, textY, textW, textH };
 
 	SDL_RenderCopy(gRenderer, texture, NULL, &rect);
 
