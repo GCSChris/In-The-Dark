@@ -15,7 +15,6 @@ public:
 	/** Renders the UI */
 	void render(/** The renderer to use */ SDL_Renderer* gRenderer);
 
-
 private:
 	/** Render the paused screen text */
 	void renderPauseText(/** The renderer to use */ SDL_Renderer* gRenderer);

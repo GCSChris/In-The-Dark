@@ -11,9 +11,6 @@
 #include <thread>
 #include <chrono>
 
-// smooth 60fps
-#define FRAMERATE 60
-
 // Initialization function
 // Returns a true or false value based on successful completion of setup.
 // Takes in dimensions of window.
@@ -91,7 +88,7 @@ Level* PlatformerGame::getTestingLevel() {
 
 	std::vector<GameObject*> objects;
 	Enemy* testEnemy = new Enemy();
-	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, "./resources/Angry_Wolf.png");
+	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, 4, "./resources/Angry_Wolf.png");
 	objects.push_back(testEnemy);
 
 	lvl->init(tiles, objects);
@@ -114,7 +111,7 @@ void PlatformerGame::startGame() {
 	//curLevel = 0;
 	//level = ConfigParser::instance().getLevel(curLevel);
 	player = new Player();
-	player->init(64, 32, PLAYER_WIDTH, PLAYER_HEIGHT, true);
+	player->init(64, 32, 4, "./resources/PixelTiger_walk.bmp");
 
 	visibilityCircle = new VisibleCircle();
 	visibilityCircle->init(player);
