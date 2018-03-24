@@ -77,11 +77,11 @@ Level* PlatformerGame::getTestingLevel() {
 			tiles[r][c] = nullptr;
 			if (r == MAX_ROWS - 5 && c == 8) {
 				Tile* tile = new Tile();
-				tile->init(c * TILE_SIZE, r * TILE_SIZE, "tileset.bmp", 0, true);
+				tile->init(c * TILE_SIZE, r * TILE_SIZE, "./resources/tileset.png", 1, true);
 				tiles[r][c] = tile;
 			} else if (r > MAX_ROWS - 5 || r + c > MAX_COLUMNS || (r > MAX_ROWS * .5 && c > MAX_COLUMNS * .5)) {
 				Tile* tile = new Tile();
-				tile->init(c * TILE_SIZE, r * TILE_SIZE, "tileset.bmp", 0, true);
+				tile->init(c * TILE_SIZE, r * TILE_SIZE, "./resources/tileset.png", 2, true);
 				tiles[r][c] = tile;
 			}
 		}

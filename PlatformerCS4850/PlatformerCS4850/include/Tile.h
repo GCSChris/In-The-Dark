@@ -16,6 +16,8 @@ protected:
 	std::string spriteSheet;
 	/** The index of the tile to render in the sprite sheet */
 	int spriteIndex;
+	/** The SDL_Texture to use for rendering */
+	SDL_Texture* texture;
 };
 
 #endif
