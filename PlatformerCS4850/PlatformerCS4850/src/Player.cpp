@@ -27,10 +27,10 @@ void Player::render(SDL_Renderer* r) {
 	SDL_RenderCopy(r, current_sprite, &src, &dest);
 }
 
-void Player::preventCollision(Tile* tile) {
+void Player::preventCollision(GameObject* obj) {
 	SDL_Rect* intersect = new SDL_Rect();
 
-	SDL_IntersectRect(this->getRect(), tile->getRect(), intersect);
+	SDL_IntersectRect(this->getRect(), obj->getRect(), intersect);
 	if (intersect->w < 0 || intersect->h < 0) {
 		return;
 	}
@@ -38,11 +38,9 @@ void Player::preventCollision(Tile* tile) {
 	// remove in the y direction if moving in y direction
 	if (this->velocity.y != 0 && intersect->h < TILE_SIZE) {
 		this->velocity.y < 0 ? this->y += intersect->h : this->y -= intersect->h;
-		this->is_airborne = this->y + this->h > tile->getY();
+		this->is_airborne = this->y + this->h > obj->getY();
 		this->velocity.y = 0;
-		//std::cout << "Moving out vertically" << std::endl;
 	} else if (intersect->w < PLAYER_WIDTH && this->velocity.x != 0) {
-		//std::cout << "Moving out horizontally" << std::endl;
 		this->velocity.x < 0 ? this->x += intersect->w : this->x -= intersect->w;
 		this->velocity.x = 0;
 	}

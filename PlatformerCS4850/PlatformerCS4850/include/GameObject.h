@@ -22,13 +22,15 @@ public:
 		/** If this GameObject can be collided with*/ bool _collide = true);
 
 	/** Updates this game object. Called once per frame */
-	void update();
+	virtual void update();
 
 	/** Apply a force to this GameObject */
 	void applyForce(Vector3D force);
 
 	/** Renders a GameObject */ 
-	void render(/** The renderer to use */ SDL_Renderer* gRenderer);
+	virtual void render(/** The renderer to use */ SDL_Renderer* gRenderer);
+
+	virtual void preventCollision(GameObject* other);
 
 	/** Returns if this GameObject is overlapping with the other GameObject */
 	bool isCollidingWithObject(/** The other GameObject */ GameObject* other);
@@ -43,21 +45,14 @@ public:
 	int getHeight();
 	/** Sets the velocity */
 	void setVelocity(Vector3D vel);
+	/** Whether or not this GameObject is collideable */
+	bool isCollideable();
 	/** Returns the velocity */
 	Vector3D getVelocity();
 	/** Returns an SDL_Rect for the bounds of this Rectangle */
 	SDL_Rect* getRect();
 
 protected:
-	/** If the right edge of this GameObject is within the x-bound of the other GameObject*/
-	bool isRightEdgeInBounds(/** The other GameObject */ GameObject* other);
-	/** If the left edge of this GameObject is within the x-bound of the other GameObject*/
-	bool isLeftEdgeInBounds(/** The other GameObject */ GameObject* other);
-	/** If the top edge of this GameObject is within the x-bound of the other GameObject*/
-	bool isTopEdgeInBounds(/** The other GameObject */ GameObject* other);
-	/** If the bottom edge of this GameObject is within the x-bound of the other GameObject*/
-	bool isBottomEdgeInBounds(/** The other GameObject */ GameObject* other);
-
 	/** The upper left x coordinate */
 	float x;
 	/** The upper left y coordinate */

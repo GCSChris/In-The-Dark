@@ -31,7 +31,7 @@ const int ENEMY_HEIGHT = 32;
 const int TERMINAL_Y_VELOCITY = 8;
 const int PLAYER_JUMP_FORCE = 15;
 const int PLAYER_RUNNING_SPEED = 5;
-const int ENEMY_RUNNING_SPEED = 7;
+const int ENEMY_RUNNING_SPEED = 3;
 const int GRAVITY = 1;
 const int VISIBLE_CIRCLE_MIN_SIZE = 128;
 

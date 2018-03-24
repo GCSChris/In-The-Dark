@@ -151,6 +151,7 @@ PlatformerGame::~PlatformerGame() {
 
 void PlatformerGame::update() {
 	player->update();
+	level->update();
 	this->handleCollisions();
 
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);

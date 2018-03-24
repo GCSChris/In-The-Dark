@@ -33,9 +33,13 @@ void GameObject::render(SDL_Renderer* gRenderer) {
 	SDL_SetRenderDrawColor(gRenderer, 0, 60, 0, 255);
 	SDL_RenderFillRect(gRenderer, &fillRect);
 }
+ 
+void GameObject::preventCollision(GameObject* obj) {
+	// Do nothing
+}
 
 bool GameObject::isCollidingWithObject(GameObject* other) {
-	if (!(this->collideable && other->collideable)) {
+	if (!(this->collideable && other->isCollideable())) {
 		return false;
 	}
 	
@@ -79,6 +83,10 @@ int GameObject::getWidth() {
 
 int GameObject::getHeight() {
 	return h;
+}
+
+bool GameObject::isCollideable() {
+	return this->collideable;
 }
 
 void GameObject::setVelocity(Vector3D vel) {

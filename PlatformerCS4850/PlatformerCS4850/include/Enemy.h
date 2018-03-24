@@ -6,7 +6,7 @@ public:
 	void init(int x, int y, int w, int h, const char* sprite_sheet);
 	void update();
 	void render(SDL_Renderer* ren);
-	void preventCollision(Tile* tile);
+	void preventCollision(GameObject* obj);
 private:
 	const char* sprite_sheet;
 	SDL_Texture* current_sprite;
