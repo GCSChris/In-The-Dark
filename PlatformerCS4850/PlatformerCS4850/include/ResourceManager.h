@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <SDL_image.h>
 #include <string>
 #include <map>
 
@@ -45,7 +46,7 @@ public:
             return textures_[resource];
         }
         
-        SDL_Surface* spriteSheet = SDL_LoadBMP(resource);
+        SDL_Surface* spriteSheet = IMG_Load(resource);
         
         if (spriteSheet==NULL){
             SDL_Log("Failed to allocate surface");

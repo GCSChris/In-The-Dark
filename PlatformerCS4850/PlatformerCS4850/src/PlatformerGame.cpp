@@ -1,6 +1,7 @@
 #include <ctime>
 #include "../include/PlatformerGame.h"
 #include "../include/Level.h"
+#include "../include/Enemy.h"
 #include "../include/ConfigParser.h"
 #include "../include/GameStatus.h"
 
@@ -88,7 +89,12 @@ Level* PlatformerGame::getTestingLevel() {
 		}
 	}
 
-	lvl->init(tiles, std::vector<GameObject*>());
+	std::vector<GameObject*> objects;
+	Enemy* testEnemy = new Enemy();
+	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, "./resources/Angry_Wolf.png");
+	objects.push_back(testEnemy);
+
+	lvl->init(tiles, objects);
 
 	return lvl;
 }
