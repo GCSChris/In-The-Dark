@@ -147,14 +147,13 @@ PlatformerGame::~PlatformerGame() {
 void PlatformerGame::update() {
 	player->update();
 	level->update();
+	visibilityCircle->update();
 	this->handleCollisions();
 
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
 	SDL_RenderClear(gRenderer);
 	
 	handleGameOver();
-
-	// TODO handle winning a level
 }
 
 void PlatformerGame::handleGameOver() {
@@ -168,7 +167,7 @@ void PlatformerGame::handleGameOver() {
 void PlatformerGame::render() {
 	level->render(getSDLRenderer());
 	player->render(getSDLRenderer());
-	//visibilityCircle->render(getSDLRenderer());
+	visibilityCircle->render(getSDLRenderer());
 	uiManager->render(getSDLRenderer());
 	
 	SDL_RenderPresent(gRenderer);

@@ -1,5 +1,7 @@
 #include "../include/Enemy.h"
 #include "../include/ResourceManager.h"
+#include "../include/GameStatus.h"
+#include <iostream>
 
 void Enemy::init(int x, int y, int w, int h, int numFrames, std::string spriteSheetFileName, Direction dir) {
 	spriteSheet = new SpriteSheet();
@@ -58,5 +60,15 @@ void Enemy::preventCollision(GameObject* obj) {
 	else if (intersect->w < PLAYER_WIDTH && this->velocity.x != 0) {
 		this->velocity.x < 0 ? this->x += intersect->w : this->x -= intersect->w;
 		this->velocity.x = -1 * this->velocity.x;
+	}
+}
+
+void Enemy::handlePlayerCollision() {
+	GameStatus* gameStatus = &GameStatus::instance();
+	if (gameStatus->playerInvulnCount < 0) {
+		// Player is vulnerable
+		gameStatus->playerInvulnCount = 0;
+		gameStatus->health -= 1;
+		// TODO maybe play a sound?
 	}
 }

@@ -12,6 +12,14 @@ void Player::init(int x, int y, int numFrames, std::string spriteSheetFileName, 
 }
 
 void Player::update() {
+	GameStatus* gameStatus = &GameStatus::instance();
+	if (gameStatus->playerInvulnCount >= 0) {
+		gameStatus->playerInvulnCount += 1;
+		if (gameStatus->playerInvulnCount >= PLAYER_INVULN_FRAME_COUNT) {
+			gameStatus->playerInvulnCount = -1;
+		}
+	}
+
 	this->velocity.y += GRAVITY;
 
 	this->capSpeed();
@@ -35,6 +43,10 @@ void Player::update() {
 }
 
 void Player::render(SDL_Renderer* r) {
+	int invulnFrameCount = GameStatus::instance().playerInvulnCount;
+	if (invulnFrameCount >= 0 && (invulnFrameCount / PLAYER_INVULN_FRAME_FLASH_RATE) % 2 == 0) {
+		return;
+	}
 	spriteSheet->render(r, this->x, this->y, PLAYER_WIDTH, PLAYER_HEIGHT);
 }
 

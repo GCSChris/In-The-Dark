@@ -16,13 +16,12 @@ struct GameStatus {
 
 	void init(int _health) {
 		health = _health;
-		playerInvulnCount = 0;
 		state = PLAYING;
 	}
 
 	static GameStatus* inst_;
 	int health;
-	int playerInvulnCount;
+	int playerInvulnCount = -1;
 	GameState state;
 
 };
