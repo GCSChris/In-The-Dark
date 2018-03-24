@@ -101,12 +101,10 @@ Level* PlatformerGame::getTestingLevel() {
 
 void PlatformerGame::startGame() {
 	// Initialize game elements
-	gameStatus = new GameStatus;
 	int lives = std::stoi(ConfigParser::instance().getSetting("lives", "3"));
-	gameStatus->init(lives, 0);
+	GameStatus::instance().init(lives);
 
 	uiManager = new UIManager;
-	uiManager->init(gameStatus);
 
 	SFXManager::instance().playMusic("./resources/music.wav");
 	
@@ -131,7 +129,7 @@ void PlatformerGame::restartGame() {
 	curLevel = 0;
 	//level = ConfigParser::instance().getLevel(curLevel);
 	int lives = std::stoi(ConfigParser::instance().getSetting("lives", "3"));
-	gameStatus->init(lives, 0);
+	GameStatus::instance().init(lives);
 }
 
 // Proper shutdown and destroy initialized objects
@@ -163,9 +161,8 @@ void PlatformerGame::update() {
 }
 
 void PlatformerGame::handleGameOver() {
-	if (gameStatus->lives <= 0) {
-		gameStatus->gameOver = true;
-		gameStatus->gameWon = false;
+	if (GameStatus::instance().health <= 0) {
+		GameStatus::instance().state = LOST;
 	}
 }
 
@@ -175,6 +172,7 @@ void PlatformerGame::render() {
 	level->render(getSDLRenderer());
 	player->render(getSDLRenderer());
 	//visibilityCircle->render(getSDLRenderer());
+	uiManager->render(getSDLRenderer());
 	
 	SDL_RenderPresent(gRenderer);
 }
@@ -203,7 +201,8 @@ void PlatformerGame::play() {
 			}
 		}
 		
-		if (!gameStatus->isPaused && !gameStatus->gameOver) {
+		GameState state = GameStatus::instance().state;
+		if (state == PLAYING) {
 			update();
 		}
 
@@ -256,7 +255,7 @@ bool PlatformerGame::handleKeyboard(SDL_Event e) {
 		SDL_Keycode keyPressed = e.key.keysym.sym;
 
 		if (keyPressed == SDLK_r) {
-			if (gameStatus->gameOver) {
+			if (GameStatus::instance().state == LOST) {
 				restartGame();
 			}
 			
@@ -291,7 +290,10 @@ bool PlatformerGame::handleKeyboard(SDL_Event e) {
 }
 
 void PlatformerGame::togglePause() {
-	gameStatus->isPaused = !gameStatus->isPaused;
+	GameState state = GameStatus::instance().state;
+	if (state != LOST && state != WON) {
+		state == PAUSED ? GameStatus::instance().state = PLAYING : GameStatus::instance().state = PAUSED;
+	}
 	SFXManager::instance().toggleMusic();
 }
 
@@ -304,7 +306,6 @@ bool PlatformerGame::getNextLevel() {
 
 	if (cp.hasNextLevel(curLevel)) {
 		level = cp.getLevel(curLevel);
-		gameStatus->ballFrozenCount = 1;
 		return true;
 	}
 	else {
