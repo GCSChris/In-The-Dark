@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Battery.h" />
     <ClInclude Include="include\ConfigParser.h" />
     <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Enemy.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="include\Rocket.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Battery.cpp" />
     <ClCompile Include="src\ConfigParser.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\GameStatus.cpp" />

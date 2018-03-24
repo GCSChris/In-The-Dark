@@ -1,5 +1,5 @@
-#ifndef ROCKET_H
-#define ROCKET_H
+#ifndef BATTERY_H
+#define BATTERY_H
 
 #include <string>
 
@@ -8,7 +8,7 @@
 #include "SpriteSheet.h"
 #include "Enums.h"
 
-class Rocket : public GameObject {
+class Battery : public GameObject {
 public:
 	void init(int _x, int _y, int _w, int _h, std::string fileName);
 	void render(SDL_Renderer* ren);
@@ -17,6 +17,7 @@ public:
 private:
 	std::string name;
 	SDL_Texture* texture;
+	bool used = false;
 };
 
 #endif

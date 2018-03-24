@@ -5,6 +5,7 @@
 #include "../include/ConfigParser.h"
 #include "../include/GameStatus.h"
 #include "../include/Rocket.h"
+#include "../include/Battery.h"
 
 #include <SDL_ttf.h>
 #include <string>
@@ -88,6 +89,7 @@ Level* PlatformerGame::getTestingLevel() {
 	}
 
 	std::vector<GameObject*> objects;
+	
 	Enemy* testEnemy = new Enemy();
 	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, 4, "./resources/Angry_Wolf.png");
 	objects.push_back(testEnemy);
@@ -95,6 +97,10 @@ Level* PlatformerGame::getTestingLevel() {
 	Rocket* rocket = new Rocket();
 	rocket->init(156, 612, TILE_SIZE, TILE_SIZE, "./resources/rocket.bmp");
 	objects.push_back(rocket);
+
+	Battery* battery = new Battery();
+	battery->init(56, 612, TILE_SIZE, TILE_SIZE, "./resources/battery.bmp");
+	objects.push_back(battery);
 
 	lvl->init(tiles, objects);
 
