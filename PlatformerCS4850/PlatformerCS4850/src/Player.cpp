@@ -17,10 +17,6 @@ void Player::update() {
 	}
 }
 
-void Player::applyForce(Vector3D force) {
-	GameObject::applyForce(force);
-}
-
 void Player::render(SDL_Renderer* r) {
 	if (this->current_sprite == nullptr) {
 		this->current_sprite = ResourceManager::instance().getTexture("./resources/PixelTigerBase_16x32.bmp", r);
@@ -31,17 +27,10 @@ void Player::render(SDL_Renderer* r) {
 	SDL_RenderCopy(r, current_sprite, &src, &dest);
 }
 
-void Player::preventCollision(Tile* tile) {
+void Player::preventCollision(GameObject* obj) {
 	SDL_Rect* intersect = new SDL_Rect();
-	/*
-	SDL_Rect* groundingRect = new SDL_Rect();
-	groundingRect->x = this->x;
-	groundingRect->y = this->y + this->h + -1;
-	groundingRect->w = this->w;
-	groundingRect->h = 1;
-	*/
 
-	SDL_IntersectRect(this->getRect(), tile->getRect(), intersect);
+	SDL_IntersectRect(this->getRect(), obj->getRect(), intersect);
 	if (intersect->w < 0 || intersect->h < 0) {
 		return;
 	}
@@ -49,19 +38,17 @@ void Player::preventCollision(Tile* tile) {
 	// remove in the y direction if moving in y direction
 	if (this->velocity.y != 0 && intersect->h < TILE_SIZE) {
 		this->velocity.y < 0 ? this->y += intersect->h : this->y -= intersect->h;
-		this->is_airborne = this->y + this->h > tile->getY();
+		this->is_airborne = this->y + this->h > obj->getY();
 		this->velocity.y = 0;
-		//std::cout << "Moving out vertically" << std::endl;
 	} else if (intersect->w < PLAYER_WIDTH && this->velocity.x != 0) {
-		//std::cout << "Moving out horizontally" << std::endl;
 		this->velocity.x < 0 ? this->x += intersect->w : this->x -= intersect->w;
 		this->velocity.x = 0;
 	}
 }
 
 void Player::capSpeed() {
-	if (this->velocity.y > PLAYER_FALLING_SPEED_CAP) {
-		this->velocity.y = PLAYER_FALLING_SPEED_CAP;
+	if (this->velocity.y > TERMINAL_Y_VELOCITY) {
+		this->velocity.y = TERMINAL_Y_VELOCITY;
 	}
 }
 

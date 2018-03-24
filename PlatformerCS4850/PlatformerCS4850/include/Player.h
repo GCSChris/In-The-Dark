@@ -7,9 +7,8 @@
 class Player : public GameObject{
 public:
 	void update();
-	void applyForce(Vector3D force);
 	void render(SDL_Renderer* ren);
-	void preventCollision(Tile* tile);
+	void preventCollision(GameObject* obj);
 	void jump();
 	bool isAirborne();
 
