@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="include\ConfigParser.h" />
     <ClInclude Include="include\Constants.h" />
+    <ClInclude Include="include\Enemy.h" />
     <ClInclude Include="include\Enums.h" />
     <ClInclude Include="include\GameStatus.h" />
     <ClInclude Include="include\Level.h" />
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ConfigParser.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\LocalizationManager.cpp" />
     <ClCompile Include="src\main.cpp" />

@@ -17,10 +17,6 @@ void Player::update() {
 	}
 }
 
-void Player::applyForce(Vector3D force) {
-	GameObject::applyForce(force);
-}
-
 void Player::render(SDL_Renderer* r) {
 	if (this->current_sprite == nullptr) {
 		this->current_sprite = ResourceManager::instance().getTexture("./resources/PixelTigerBase_16x32.bmp", r);
@@ -33,13 +29,6 @@ void Player::render(SDL_Renderer* r) {
 
 void Player::preventCollision(Tile* tile) {
 	SDL_Rect* intersect = new SDL_Rect();
-	/*
-	SDL_Rect* groundingRect = new SDL_Rect();
-	groundingRect->x = this->x;
-	groundingRect->y = this->y + this->h + -1;
-	groundingRect->w = this->w;
-	groundingRect->h = 1;
-	*/
 
 	SDL_IntersectRect(this->getRect(), tile->getRect(), intersect);
 	if (intersect->w < 0 || intersect->h < 0) {
@@ -60,8 +49,8 @@ void Player::preventCollision(Tile* tile) {
 }
 
 void Player::capSpeed() {
-	if (this->velocity.y > PLAYER_FALLING_SPEED_CAP) {
-		this->velocity.y = PLAYER_FALLING_SPEED_CAP;
+	if (this->velocity.y > TERMINAL_Y_VELOCITY) {
+		this->velocity.y = TERMINAL_Y_VELOCITY;
 	}
 }
 

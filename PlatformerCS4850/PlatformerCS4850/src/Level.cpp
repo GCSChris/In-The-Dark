@@ -1,12 +1,13 @@
 #include "../include/Level.h"
 #include "../include/ResourceManager.h"
 
-void Level::init(Tile* tiles[MAX_ROWS][MAX_COLUMNS]) {
+void Level::init(Tile* tiles[MAX_ROWS][MAX_COLUMNS], std::vector<GameObject*> gameObjects) {
 	for (int r = 0; r < MAX_ROWS; r++) {
 		for (int c = 0; c < MAX_COLUMNS; c++) {
 			levelMap[r][c] = tiles[r][c];
 		}
 	}
+	this->objects = gameObjects;
 }
 
 void Level::renderBackground(SDL_Renderer* ren) {
@@ -35,6 +36,7 @@ void Level::render(SDL_Renderer* ren) {
 bool Level::handlePlayerCollisions(Player* player) {
 	bool collision = false;
 
+	// Handle collision with the level map
 	for (int r = MAX_ROWS - 1; r >= 0; r--) {
 		for (int c = 0; c < MAX_COLUMNS; c++) {
 			Tile* tile = levelMap[r][c];
@@ -46,6 +48,9 @@ bool Level::handlePlayerCollisions(Player* player) {
 			}
 		}
 	}
+
+	// Handle collision with game objects in the level
+
 
 	return collision;
 }

@@ -76,14 +76,19 @@ Level* PlatformerGame::getTestingLevel() {
 	for (int r = 0; r < MAX_ROWS; r++) {
 		for (int c = 0; c < MAX_COLUMNS; c++) {
 			tiles[r][c] = nullptr;
-			if (r > MAX_ROWS * 3 / 4 || r + c > MAX_COLUMNS || (r > MAX_ROWS * .5 && c > MAX_COLUMNS * .5)) {
+			if (r == MAX_ROWS - 5 && c == 8) {
+				Tile* tile = new Tile();
+				tile->init(c * TILE_SIZE, r * TILE_SIZE, "tileset.bmp", 0, true);
+				tiles[r][c] = tile;
+			} else if (r > MAX_ROWS - 5 || r + c > MAX_COLUMNS || (r > MAX_ROWS * .5 && c > MAX_COLUMNS * .5)) {
 				Tile* tile = new Tile();
 				tile->init(c * TILE_SIZE, r * TILE_SIZE, "tileset.bmp", 0, true);
 				tiles[r][c] = tile;
 			}
 		}
 	}
-	lvl->init(tiles);
+
+	lvl->init(tiles, std::vector<GameObject*>());
 
 	return lvl;
 }
@@ -162,7 +167,7 @@ void PlatformerGame::handleGameOver() {
 void PlatformerGame::render() {
 	level->render(getSDLRenderer());
 	player->render(getSDLRenderer());
-	visibilityCircle->render(getSDLRenderer());
+	//visibilityCircle->render(getSDLRenderer());
 	
 	SDL_RenderPresent(gRenderer);
 }
