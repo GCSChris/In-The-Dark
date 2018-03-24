@@ -89,7 +89,7 @@ public:
 
 		for (int r = 0; r < NUM_ROWS; r++) {
 			for (int c = 0; c < NUM_COLUMNS; c++) {
-				myFile << level->getTileAt(r, c) + " ";
+				myFile << level->getTileAt(r, c) << " ";
 			}
 			myFile << "\n";
 		}
@@ -97,7 +97,7 @@ public:
 
 		for (int r = 0; r < NUM_ROWS; r++) {
 			for (int c = 0; c < NUM_COLUMNS; c++) {
-				myFile << level->getPropAt(r, c) + " ";
+				myFile << level->getPropAt(r, c) << " ";
 			}
 			myFile << "\n";
 		}
@@ -105,7 +105,7 @@ public:
 
 		for (int r = 0; r < NUM_ROWS; r++) {
 			for (int c = 0; c < NUM_COLUMNS; c++) {
-				myFile << level->getFlagAt(r, c) + " ";
+				myFile << level->getFlagAt(r, c) << " ";
 			}
 			myFile << "\n";
 		}
