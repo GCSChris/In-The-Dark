@@ -35,7 +35,7 @@ void Player::update() {
 }
 
 void Player::render(SDL_Renderer* r) {
-	spriteSheet->render(r, this->x, this->y);
+	spriteSheet->render(r, this->x, this->y, PLAYER_WIDTH, PLAYER_HEIGHT);
 }
 
 void Player::preventCollision(GameObject* obj) {

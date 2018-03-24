@@ -29,16 +29,16 @@ void SpriteSheet::update(Direction dir) {
 	direction = dir;
 }
 
-void SpriteSheet::render(SDL_Renderer* ren, int x, int y) {
+void SpriteSheet::render(SDL_Renderer* ren, int x, int y, int w, int h) {
 	if (this->spriteTexture == nullptr) {
-		this->spriteTexture = ResourceManager::instance().getTexture("./resources/PixelTiger_walk.bmp", ren);
+		this->spriteTexture = ResourceManager::instance().getTexture(name.c_str(), ren);
 	}
 
-	int srcRectWidth = (curAnimationFrame % numAnimationFrames) * PLAYER_WIDTH;
-	int srcRectHeight = (curAnimationFrame / numAnimationFrames) * PLAYER_HEIGHT;
+	int srcRectWidth = (curAnimationFrame % numAnimationFrames) * w;
+	int srcRectHeight = (curAnimationFrame / numAnimationFrames) * h;
 
-	SDL_Rect src = { srcRectWidth, srcRectHeight, PLAYER_WIDTH, PLAYER_HEIGHT };
-	SDL_Rect dest = { x, y, PLAYER_WIDTH, PLAYER_HEIGHT };
+	SDL_Rect src = { srcRectWidth, srcRectHeight, w, h };
+	SDL_Rect dest = { x, y, w, h };
 
 	SDL_RendererFlip flip = (direction == Direction::LEFT) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 	SDL_RenderCopyEx(ren, spriteTexture, &src, &dest, 0, NULL, flip);

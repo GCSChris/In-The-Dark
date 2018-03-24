@@ -1,9 +1,12 @@
 #include "../include/Enemy.h"
 #include "../include/ResourceManager.h"
 
-void Enemy::init(int x, int y, int w, int h, const char* sprite_sheet) {
-	GameObject::init(x, y, w, h, true);
-	this->sprite_sheet = sprite_sheet;
+void Enemy::init(int x, int y, int w, int h, int numFrames, std::string spriteSheetFileName, Direction dir) {
+	spriteSheet = new SpriteSheet();
+	GameObject::init(x, y, w, h, true); 
+	direction = dir;
+	spriteSheet->init(numFrames, spriteSheetFileName);
+
 	this->velocity = Vector3D(ENEMY_RUNNING_SPEED, 0, 0);
 }
 
@@ -25,9 +28,18 @@ void Enemy::update() {
 		this->x = SCREEN_WIDTH - this->w;
 		this->velocity.x = -1 * this->velocity.x;
 	}
+
+	if (this->velocity.x > 0) {
+		this->direction = Direction::LEFT;
+	}
+	else if (this->velocity.x < 0) {
+		this->direction = Direction::RIGHT;
+	}
+	spriteSheet->update(this->direction);
 }
 
 void Enemy::render(SDL_Renderer* r) {
+	/*
 	if (this->current_sprite == nullptr) {
 		this->current_sprite = ResourceManager::instance().getTexture(this->sprite_sheet, r);
 	}
@@ -35,6 +47,9 @@ void Enemy::render(SDL_Renderer* r) {
 	SDL_Rect dest = { this->x, this->y, ENEMY_WIDTH, ENEMY_HEIGHT };
 
 	SDL_RenderCopy(r, current_sprite, &src, &dest);
+	*/
+
+	spriteSheet->render(r, this->x, this->y, ENEMY_WIDTH, ENEMY_HEIGHT);
 }
 
 void Enemy::preventCollision(GameObject* obj) {

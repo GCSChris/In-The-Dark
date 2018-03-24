@@ -88,7 +88,7 @@ Level* PlatformerGame::getTestingLevel() {
 
 	std::vector<GameObject*> objects;
 	Enemy* testEnemy = new Enemy();
-	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, "./resources/Angry_Wolf.png");
+	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, 4, "./resources/Angry_Wolf.png");
 	objects.push_back(testEnemy);
 
 	lvl->init(tiles, objects);
