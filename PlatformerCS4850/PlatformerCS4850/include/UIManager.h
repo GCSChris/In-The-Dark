@@ -12,18 +12,11 @@ public:
 	/** Default Constructor */
 	UIManager();
 
-	/** Initializes the UIManager */
-	void init(/** The GameStatus to use to render */ GameStatus* playerStatus);
-
 	/** Renders the UI */
 	void render(/** The renderer to use */ SDL_Renderer* gRenderer);
 
 
 private:
-	/** Render the text for the number of lives */
-	void renderLivesText(/** The renderer to use */ SDL_Renderer* gRenderer);
-	/** Render the text for the score */
-	void renderScoreText(/** The renderer to use */ SDL_Renderer* gRenderer);
 	/** Render the paused screen text */
 	void renderPauseText(/** The renderer to use */ SDL_Renderer* gRenderer);
 	/** Render the game won text */

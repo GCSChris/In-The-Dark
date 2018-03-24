@@ -6,53 +6,25 @@
 #include "../include/ResourceManager.h"
 #include "../include/Constants.h"
 #include "../include/LocalizationManager.h"
+#include "../include/GameStatus.h"
 
 UIManager::UIManager() {}
 
-void UIManager::init(GameStatus* playerStatus) {
-	//printf("lives is %i", lives);
-	uiPlayerStatus = playerStatus;
-}
-
 void UIManager::render(SDL_Renderer* gRenderer) {
-	renderLivesText(gRenderer);
-	renderScoreText(gRenderer);
-	if (uiPlayerStatus->isPaused) {
+	GameState state = GameStatus::instance().state;
+
+	if (state == PAUSED) {
 		renderPauseText(gRenderer);
 	}
-	if (uiPlayerStatus->gameOver) {
-		if (uiPlayerStatus->gameWon) {
-			//you win
-			renderWinText(gRenderer);
-		}
-		else {
-			//you lose
-			renderLossText(gRenderer);
-		}
-	}
-}
-
-void UIManager::renderLivesText(SDL_Renderer* gRenderer) {
-	ResourceManager& resourceManager = ResourceManager::instance();
-	TTF_Font* font = resourceManager.getFont(LIVES_TEXT_FONT_STYLE.c_str(), LIVES_TEXT_FONT_SIZE);
-	SDL_Color color = LIVES_TEXT_COLOR;
-	std::string text = LocalizationManager::instance().localize(LIVES_TEXT_STRING) + ": " + std::to_string(uiPlayerStatus->lives);
 	
-	int x = 10;
-	int y = 0;
-	renderTextHelp(gRenderer, text, font, color, x, y);
-}
-
-
-void UIManager::renderScoreText(SDL_Renderer* gRenderer) {
-	ResourceManager& resourceManager = ResourceManager::instance();
-	TTF_Font* font = resourceManager.getFont(SCORE_TEXT_FONT_STYLE.c_str(), SCORE_TEXT_FONT_SIZE);
-	SDL_Color color = SCORE_TEXT_COLOR;
-	std::string text = LocalizationManager::instance().localize(SCORE_TEXT_STRING) + ": " + std::to_string(uiPlayerStatus->score);
-	 
-	int x = SCREEN_WIDTH;
-	int y = 0;
-	renderTextHelp(gRenderer, text, font, color, x, y);
+	if (state == WON) {
+		//you win
+		renderWinText(gRenderer);
+	}
+	if (state == LOST) {
+		//you lose
+		renderLossText(gRenderer);
+	}
 }
 
 void UIManager::renderPauseText(SDL_Renderer* gRenderer) {

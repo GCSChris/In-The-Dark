@@ -32,6 +32,8 @@ public:
 
 	virtual void preventCollision(GameObject* other);
 
+	virtual void handlePlayerCollision();
+
 	/** Returns if this GameObject is overlapping with the other GameObject */
 	bool isCollidingWithObject(/** The other GameObject */ GameObject* other);
 
