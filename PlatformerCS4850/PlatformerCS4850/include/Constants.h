@@ -4,6 +4,8 @@
 #include <string>
 #include <SDL.h>
 
+#define FRAMERATE 60
+
 /** The screen width of the game window. */
 const int SCREEN_WIDTH = 1280;
 /** The screen height of the game window. */
@@ -30,7 +32,7 @@ const int ENEMY_WIDTH = 48;
 const int ENEMY_HEIGHT = 32;
 const int TERMINAL_Y_VELOCITY = 8;
 const int PLAYER_JUMP_FORCE = 15;
-const int PLAYER_RUNNING_SPEED = 5;
+const int PLAYER_RUNNING_SPEED = 3;
 const int ENEMY_RUNNING_SPEED = 7;
 const int GRAVITY = 1;
 const int VISIBLE_CIRCLE_MIN_SIZE = 128;

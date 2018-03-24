@@ -18,6 +18,9 @@
 #include "ConfigParser.h"
 #include "VisibleCircle.h"
 
+// smooth 60fps
+#define FRAMERATE 60
+
 /** Represent a game of breakout. */
 class PlatformerGame {
 public:
@@ -27,8 +30,6 @@ public:
 	
 	/** Default destructor for a BreakoutGame. */
     ~PlatformerGame();
-    
-	
     
 	/** Function that starts a game of breakout! */
     void play();

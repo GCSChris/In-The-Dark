@@ -1,6 +1,15 @@
 #include "../include/Player.h"
 #include "../include/ResourceManager.h"
+
+#include "../include/PlatformerGame.h"
 #include <iostream>
+
+void Player::init(int x, int y, int numFrames, std::string spriteSheetFileName, Direction dir) {
+	spriteSheet = new SpriteSheet();
+	GameObject::init(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, true);
+	direction = dir;
+	spriteSheet->init(numFrames, spriteSheetFileName);
+}
 
 void Player::update() {
 	this->velocity.y += GRAVITY;
@@ -15,16 +24,18 @@ void Player::update() {
 	else if (this->x + this->w > SCREEN_WIDTH) {
 		this->x = SCREEN_WIDTH - this->w;
 	}
+
+	if (this->velocity.x > 0) {
+		this->direction = Direction::RIGHT;
+	}
+	else if (this->velocity.x < 0) {
+		this->direction = Direction::LEFT;
+	}
+	spriteSheet->update(this->direction);
 }
 
 void Player::render(SDL_Renderer* r) {
-	if (this->current_sprite == nullptr) {
-		this->current_sprite = ResourceManager::instance().getTexture("./resources/PixelTigerBase_16x32.bmp", r);
-	}
-	SDL_Rect src = { 0, 0, PLAYER_WIDTH, PLAYER_HEIGHT };
-	SDL_Rect dest = { this->x, this->y, PLAYER_WIDTH, PLAYER_HEIGHT };
-
-	SDL_RenderCopy(r, current_sprite, &src, &dest);
+	spriteSheet->render(r, this->x, this->y);
 }
 
 void Player::preventCollision(Tile* tile) {
