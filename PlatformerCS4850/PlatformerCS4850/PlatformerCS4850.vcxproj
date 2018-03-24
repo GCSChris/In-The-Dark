@@ -168,6 +168,7 @@
     <ClInclude Include="include\TinyMath.h" />
     <ClInclude Include="include\UIManager.h" />
     <ClInclude Include="include\VisibleCircle.h" />
+    <ClInclude Include="include\Rocket.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ConfigParser.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="src\Tile.cpp" />
     <ClCompile Include="src\UIManager.cpp" />
     <ClCompile Include="src\VisibleCircle.cpp" />
+    <ClCompile Include="src\Rocket.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
