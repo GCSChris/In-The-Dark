@@ -93,7 +93,7 @@ Level* PlatformerGame::getTestingLevel() {
 	objects.push_back(testEnemy);
 
 	Rocket* rocket = new Rocket();
-	rocket->init(156, 612, TILE_SIZE, TILE_SIZE, false);
+	rocket->init(156, 612, TILE_SIZE, TILE_SIZE, "./resources/rocket.bmp");
 	objects.push_back(rocket);
 
 	lvl->init(tiles, objects);
@@ -152,6 +152,7 @@ PlatformerGame::~PlatformerGame() {
 void PlatformerGame::update() {
 	player->update();
 	level->update();
+	visibilityCircle->update();
 	this->handleCollisions();
 
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
@@ -160,6 +161,7 @@ void PlatformerGame::update() {
 	this->checkGameLoss();
 	this->checkGameWon();
 	// TODO handle winning a level
+	handleGameOver();
 }
 
 void PlatformerGame::checkGameWon() {
@@ -191,7 +193,7 @@ void PlatformerGame::handleGameOver() {
 void PlatformerGame::render() {
 	level->render(getSDLRenderer());
 	player->render(getSDLRenderer());
-	//visibilityCircle->render(getSDLRenderer());
+	visibilityCircle->render(getSDLRenderer());
 	uiManager->render(getSDLRenderer());
 	
 	SDL_RenderPresent(gRenderer);

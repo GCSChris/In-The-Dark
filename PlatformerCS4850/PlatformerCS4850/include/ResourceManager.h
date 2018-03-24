@@ -38,6 +38,34 @@ public:
 		return NULL;
 	}
 
+	/** Returns a SDL_Surface that is scaled to the width and height from the given surface. */
+	SDL_Surface* getScaledSurface(const char* resource, Uint16 width, Uint16 height) {
+		const char* sized_resource = resource + width + height;
+		if (surfaces_.count(sized_resource) > 0) {
+			return surfaces_[sized_resource];
+		}
+
+		SDL_Surface* sprite = this->getSurface(resource);
+
+		if (sprite == NULL) {
+			SDL_Log("Failed to allocate surface");
+		}
+		else {
+			SDL_Log("Allocated scaled surface successfully");
+
+			SDL_Surface* scaled = SDL_CreateRGBSurface(sprite->flags, width, height, sprite->format->BitsPerPixel,
+				sprite->format->Rmask, sprite->format->Gmask, sprite->format->Bmask, sprite->format->Amask);
+
+			SDL_Rect src = { 0, 0, sprite->w, sprite->h };
+			SDL_Rect dst = { 0, 0, width, height };
+			SDL_BlitScaled(sprite, &src, scaled, &dst);
+
+			surfaces_.insert(std::pair<const char*, SDL_Surface*>(sized_resource, scaled));
+			return scaled;
+		}
+		return NULL;
+	}
+
 	/** Returns a SDL_Texture. 
 		Any source with pure green (0, 255, 0) will have those pixels rendered transparently as if on a green screen. */
     SDL_Texture* getTexture(/** The string pointing to the resource */const char* resource,

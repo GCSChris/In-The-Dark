@@ -1,19 +1,21 @@
 #include "../include/Rocket.h"
 #include "../include/GameStatus.h"
+#include "../include/ResourceManager.h"
+
+void Rocket::init(int _x,int _y, int _w, int _h, std::string fileName) {
+	GameObject::init(_x, _y, _w, _h);
+	name = fileName;
+}
 
 void Rocket::render(SDL_Renderer* ren) {
-	// TODO
-	SDL_Rect fillRect;
-	fillRect.x = x;
-	fillRect.y = y;
-	fillRect.w = w;
-	fillRect.h = h;
-
-	SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-	SDL_RenderFillRect(ren, &fillRect);
+	if (texture == nullptr) {
+		texture = ResourceManager::instance().getTexture(name.c_str(), ren);
+	}
+	
+	SDL_Rect dest = { x, y, w, h };
+	SDL_RenderCopy(ren, texture, NULL, &dest);
 }
 
 void Rocket::handlePlayerCollision() {
-	printf("rocket collide!\n");
 	GameStatus::instance().state = WON;
 }

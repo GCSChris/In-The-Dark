@@ -10,15 +10,13 @@
 
 class Rocket : public GameObject {
 public:
-	//void init(int x, int y, int w, int h);
-	//void update();
+	void init(int _x, int _y, int _w, int _h, std::string fileName);
 	void render(SDL_Renderer* ren);
-
 	void handlePlayerCollision();
 
 private:
-	//SpriteSheet * spriteSheet;
-	//Direction direction;
+	std::string name;
+	SDL_Texture* texture;
 };
 
 #endif
