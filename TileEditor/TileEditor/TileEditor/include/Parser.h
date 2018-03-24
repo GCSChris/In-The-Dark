@@ -14,10 +14,12 @@ public:
 		return *instance;
 	}
 
-	void loadLevel(std::string levelFilePath) {
+	Level& loadLevel(std::string levelFilePath) {
 		std::ifstream levelFile; // open a new ifstream
 		int tile; // temporary hold for date 
-		bool tilesInit, propsInit, flagsInit = false; // bool flags
+		bool tilesInit = false;
+		bool propsInit = false;
+		bool flagsInit = false; // bool flags
 
 		// initialize a new level
 		Level* loaded = new Level();
@@ -74,6 +76,8 @@ public:
 			std::cout << "Malformed file. Could not load" << std::endl;
 			exit(1);
 		}
+
+		return *loaded;
 	}
 
 	void writeLevel() {

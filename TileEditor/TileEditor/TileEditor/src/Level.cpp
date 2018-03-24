@@ -19,7 +19,7 @@ void Level::init() {
 
 int Level::getTileAt(int row, int col) {
 	if(isValidCoords(row, col)) {
-		printf("returning %i\n", tiles[row][col]);
+		// printf("returning %i\n", tiles[row][col]);
 		return tiles[row][col];
 	}
 	else {
@@ -56,7 +56,6 @@ void Level::setTileAt(int row, int col, int data) {
 			data = TILES_MAX;
 		}
 
-		std::cout << "set tile at " << row << ", " << col << " to " << data << std::endl;
 		tiles[row][col] = data;
 	}
 	else {
@@ -73,7 +72,6 @@ void Level::setPropAt(int row, int col, int data) {
 			data = PROPS_MAX;
 		}
 
-		std::cout << "set prop at " << row << ", " << col << " to " << data << std::endl;
 		props[row][col] = data;
 	}
 	else {
@@ -90,7 +88,6 @@ void Level::setFlagAt(int row, int col, int data) {
 			data = FLAGS_MAX;
 		}
 
-		std::cout << "set flag at " << row << ", " << col << " to " << data << std::endl;
 		flags[row][col] = data;
 	}
 	else {
