@@ -11,6 +11,7 @@ public:
 	void update();
 	void render(SDL_Renderer* ren);
 	void preventCollision(GameObject* obj);
+	void handlePlayerCollision();
 
 private:
 	SpriteSheet* spriteSheet;

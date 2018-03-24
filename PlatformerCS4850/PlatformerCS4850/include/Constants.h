@@ -26,16 +26,20 @@ const int MAX_ROWS = 45;
 /** The size of a tile in pixels. Pixels are a square */
 const int TILE_SIZE = 16;
 
-const int PLAYER_WIDTH = 16;
-const int PLAYER_HEIGHT = 32;
-const int ENEMY_WIDTH = 48;
-const int ENEMY_HEIGHT = 32;
 const int TERMINAL_Y_VELOCITY = 8;
-const int PLAYER_JUMP_FORCE = 15;
-const int PLAYER_RUNNING_SPEED = 5;
-const int ENEMY_RUNNING_SPEED = 2;
 const int GRAVITY = 1;
 const int VISIBLE_CIRCLE_MIN_SIZE = 128;
+
+const int PLAYER_WIDTH = 16;
+const int PLAYER_HEIGHT = 32;
+const int PLAYER_INVULN_FRAME_COUNT = 90;
+const int PLAYER_INVULN_FRAME_FLASH_RATE = 15;
+const int PLAYER_JUMP_FORCE = 15;
+const int PLAYER_RUNNING_SPEED = 3;
+
+const int ENEMY_WIDTH = 48;
+const int ENEMY_HEIGHT = 32;
+const int ENEMY_RUNNING_SPEED = 2;
 
 // UI CONSTANTS
 

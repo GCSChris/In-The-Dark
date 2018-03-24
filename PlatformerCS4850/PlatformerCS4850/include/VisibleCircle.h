@@ -6,6 +6,7 @@
 class VisibleCircle {
 public:
 	void init(Player* player);
+	void update();
 	void render(SDL_Renderer* r);
 
 private:
