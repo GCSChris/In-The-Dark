@@ -130,6 +130,7 @@
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Level.h" />
+    <ClInclude Include="include\Parser.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\TileEditor.h" />
   </ItemGroup>

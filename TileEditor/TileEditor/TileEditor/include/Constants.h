@@ -22,4 +22,6 @@ enum class EditMode {
 	TILES, PROPS, FLAGS
 };
 
+const char LAYER_TAG = 'X';
+
 #endif
