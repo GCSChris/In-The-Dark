@@ -38,6 +38,10 @@ void GameObject::preventCollision(GameObject* obj) {
 	// Do nothing
 }
 
+void GameObject::handlePlayerCollision() {
+	// Do nothing
+}
+
 bool GameObject::isCollidingWithObject(GameObject* other) {
 	if (!(this->collideable && other->isCollideable())) {
 		return false;

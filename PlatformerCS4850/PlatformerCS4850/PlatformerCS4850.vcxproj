@@ -160,7 +160,6 @@
     <ClInclude Include="include\LocalizationManager.h" />
     <ClInclude Include="include\PlatformerGame.h" />
     <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\PlayerStatus.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\SFXManager.h" />
@@ -173,6 +172,7 @@
   <ItemGroup>
     <ClCompile Include="src\ConfigParser.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\GameStatus.cpp" />
     <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\LocalizationManager.cpp" />
     <ClCompile Include="src\main.cpp" />

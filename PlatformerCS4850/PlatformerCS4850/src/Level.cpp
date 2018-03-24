@@ -81,10 +81,10 @@ bool Level::handlePlayerCollisions(Player* player) {
 		}
 	}
 
-	// Handle collision with game objects in the level
+	// Handle collision with enemies in the level
 	for (const auto& obj : this->objects) {
 		if (obj->isCollidingWithObject(player)) {
-			std::cout << "Player collided with object!" << std::endl;
+			obj->handlePlayerCollision();
 		}
 	}
 
