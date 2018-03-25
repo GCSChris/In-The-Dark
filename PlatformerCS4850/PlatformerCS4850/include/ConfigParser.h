@@ -106,7 +106,7 @@ public:
 						GameObject* go = this->createGameObject(value, x, y);
 						if (value == 1 && player == nullptr) {
 							player = new Player();
-							player->init(x, y, "./resources/PixelTiger_walk.png");
+							player->init(x, y, PLAYER_SPRITE);
 						}
 						else if (go != nullptr) {
 							gameObjects.push_back(go);
@@ -171,17 +171,17 @@ public:
 				return nullptr;
 			case 2:
 				enemy = new Enemy();
-				enemy->init(x, y, ENEMY_WIDTH, ENEMY_HEIGHT, "./resources/Angry_Wolf.png");
+				enemy->init(x, y, ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_SPRITE);
 				return enemy;
 				break;
 			case 3:
 				battery = new Battery();
-				battery->init(x, y, TILE_SIZE, TILE_SIZE, "./resources/battery.png");
+				battery->init(x, y, TILE_SIZE, TILE_SIZE, BATTERY_SPRITE);
 				return battery;
 				break;
 			case 4:
 				rocket = new Rocket();
-				rocket->init(x, y, TILE_SIZE, TILE_SIZE, "./resources/rocket.png");
+				rocket->init(x, y, TILE_SIZE, TILE_SIZE, ROCKET_SPRITE);
 				return rocket;
 			default:
 				return nullptr;
