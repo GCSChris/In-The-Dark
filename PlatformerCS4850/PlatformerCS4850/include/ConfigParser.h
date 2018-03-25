@@ -8,6 +8,11 @@
 #include <map>
 
 #include "Level.h"
+#include "Player.h"
+#include "Battery.h"
+#include "Rocket.h"
+#include "Enemy.h"
+#include "GameObject.h"
 
 /** A singleton class to handle the parsing of level building scripts and game settings. */
 class ConfigParser {
@@ -44,66 +49,145 @@ public:
 	}
 
 	/** Parse the level script to build the levels. */
-	void parseLevel(/** The file to parse for levels.*/std::string filePath) {
-		std::ifstream configFile;
-		std::string temp;
-		int brick, numLevels = 0;
+	Level* parseLevel(/** The file to parse for levels.*/std::string filePath) {
+		std::ifstream levelFile; // open a new ifstream
+		bool tilesInit = false;
+		bool propsInit = false;
+		bool flagsInit = false; // bool flags
 
-		int lvl[MAX_ROWS][MAX_COLUMNS];
+								// initialize a new level
+		Level* level = new Level();
 
-		configFile.open(filePath);
-		if (!configFile) {
-			std::cout << "Unable to open file";
+		// tile parsing
+		levelFile.open(filePath);
+		
+		int tileSprites[MAX_ROWS][MAX_COLUMNS];
+		int tileProps[MAX_ROWS][MAX_COLUMNS];
+		int flags[MAX_ROWS][MAX_COLUMNS];
+
+		Tile* tiles[MAX_ROWS][MAX_COLUMNS];
+		std::vector<GameObject*> gameObjects;
+		Player* player;
+
+		if (!levelFile) {
+			std::cout << "Unable to open file." << std::endl;
+			exit(1);
+		}
+		else {
+			// read char by char
+			char c;
+			int index = 0;
+			while (levelFile >> std::skipws >> c) {
+				if (c == 'X') {
+					if (!tilesInit) {
+						tilesInit = true;
+						index = 0;
+					}
+					else if (!propsInit) {
+						propsInit = true;
+						index = 0;
+					}
+					else if (!flagsInit) {
+						flagsInit = true;
+						index = 0;
+					}
+				}
+				else {
+					int value = c - '0';
+					if (!tilesInit) {
+						tileSprites[index / MAX_COLUMNS][index % MAX_COLUMNS] = value;
+					}
+					else if (!propsInit) {
+						tileProps[index / MAX_COLUMNS][index % MAX_COLUMNS] = value;
+					}
+					else if (!flagsInit) {
+						int x = index / MAX_COLUMNS;
+						int y = index / MAX_ROWS;
+						GameObject* go = this->createGameObject(value, x, y);
+						if (value == 1 && player == nullptr) {
+							Player* player = new Player();
+							player->init(x, y, 4, "./resources/PixelTiger_walk.bmp");
+						}
+						else if (go == nullptr) {
+							gameObjects.push_back(go);
+						}
+					}
+					else {
+						// everything has been initialized
+						break;
+					}
+
+					index++;
+				}
+			}
+		}
+
+		// check to make sure everything was initialized
+		if (!(tilesInit && propsInit && flagsInit)) {
+			std::cout << "Malformed file. Could not load" << std::endl;
 			exit(1);
 		}
 
-		while (std::getline(configFile, temp)) {
-			
-			if (temp == LEVEL_START_TAG) {
-				++numLevels;
-				for (int r = 0; r < MAX_ROWS; r++) {
-					for (int c = 0; c < MAX_COLUMNS; c++) {
-						configFile >> brick;
-						lvl[r][c] = brick;
-					}
+		levelFile.close();
+
+		// Arrays are parsed, time to create the tile mapping
+		for(int r = 0; r < MAX_ROWS; r++) {
+			for (int c = 0; c < MAX_COLUMNS; c++) {
+				if (tileSprites[r][c] == 0) {
+					tiles[r][c] = nullptr;
+				}
+				else {
+					Tile* tile = new Tile();
+					tile->init(c * TILE_SIZE, r * TILE_SIZE, "./resources/tileset.png", tileSprites[r][c], tileProps[r][c]);
+					tiles[r][c] = tile;
 				}
 			}
-			else if (temp == LEVEL_END_TAG) {
-				Level* l = new Level();
-				//l->init(lvl);
-
-				levels.push_back(l);
-			}
 		}
 
-		configFile.close();
+		level->init(tiles, gameObjects, player);
+
+		return level;
 	}
 
-	/** Get a particular level at the given index. */
-	Level* getLevel(/** The index of the level to get. */ int index) {
-		try {
-			return levels.at(index);
-		}
-		catch (std::out_of_range e) {
-			return nullptr;
-		}
-	}
-
-	/** Returns if a level exist at the given index. */
-	bool hasNextLevel(/** The index of the level check. */ int index) {
-		return index < levels.size();
-	}
-
-	/** */
-	std::string getSetting(std::string str, std::string defValue) {
+	/** Returns the setting from the parsed settings if possible, otherwise the default */
+	std::string getSetting(/** The setting to get */std::string str,
+		/** The fall back value */std::string defValue) {
 		if (settings.count(str) > 0) {
 			return settings[str];
 		}
 		return defValue;
 	}
 
-	void clearLevels() {
-		levels.clear();
+	/** Creates and returns a pointer to a game object */
+	GameObject* createGameObject(/** The parsed valueof the object from the level */int objectValue, 
+		/** The left x-coordinate */int x, 
+		/** The upper y-coordinate */int y) {
+
+		Enemy* enemy;
+		Battery* battery;
+		Rocket* rocket;
+
+		switch (objectValue) {
+			case 0:
+			case 1:
+				return nullptr;
+			case 2:
+				enemy = new Enemy();
+				enemy->init(x, y, ENEMY_WIDTH, ENEMY_HEIGHT, 4, "./resources/Angry_Wolf.png");
+				return enemy;
+				break;
+			case 3:
+				battery = new Battery();
+				battery->init(x, y, TILE_SIZE, TILE_SIZE, "./resources/battery.bmp");
+				return battery;
+				break;
+			case 4:
+				rocket = new Rocket();
+				rocket->init(x, y, TILE_SIZE, TILE_SIZE, "./resources/rocket.bmp");
+				return rocket;
+			default:
+				return nullptr;
+		}
 	}
 
 private:

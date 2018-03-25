@@ -102,7 +102,10 @@ Level* PlatformerGame::getTestingLevel() {
 	battery->init(56, 612, TILE_SIZE, TILE_SIZE, "./resources/battery.bmp");
 	objects.push_back(battery);
 
-	lvl->init(tiles, objects);
+	Player* player = new Player();
+	player->init(64, 32, 4, "./resources/PixelTiger_walk.bmp");
+
+	lvl->init(tiles, objects, player);
 
 	return lvl;
 }
@@ -121,13 +124,10 @@ void PlatformerGame::startGame() {
 	//levels = ConfigParser::instance().getLevels();
 	//curLevel = 0;
 	//level = ConfigParser::instance().getLevel(curLevel);
-	player = new Player();
-	player->init(64, 32, 4, "./resources/PixelTiger_walk.bmp");
+	level = getTestingLevel();
 
 	visibilityCircle = new VisibleCircle();
-	visibilityCircle->init(player);
-
-	level = getTestingLevel();
+	visibilityCircle->init(this->level->getPlayer());
 }
 
 void PlatformerGame::restartGame() {
@@ -156,10 +156,9 @@ PlatformerGame::~PlatformerGame() {
 }
 
 void PlatformerGame::update() {
-	player->update();
 	level->update();
+	level->handlePlayerCollisions();
 	visibilityCircle->update();
-	this->handleCollisions();
 
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
 	SDL_RenderClear(gRenderer);
@@ -198,7 +197,6 @@ void PlatformerGame::handleGameOver() {
 // The render function gets called once per loop
 void PlatformerGame::render() {
 	level->render(getSDLRenderer());
-	player->render(getSDLRenderer());
 	visibilityCircle->render(getSDLRenderer());
 	uiManager->render(getSDLRenderer());
 	
@@ -262,8 +260,11 @@ SDL_Renderer* PlatformerGame::getSDLRenderer() {
 }
 
 bool PlatformerGame::handleKeyboard(SDL_Event e) {
+	Player* player = this->level->getPlayer();
+
 	if (e.type == SDL_KEYUP) {
 		SDL_Keycode keyPressed = e.key.keysym.sym;
+
 
 		if (keyPressed == SDLK_a && player->getVelocity().x < 0) {
 			Vector3D currentVel = player->getVelocity();
@@ -323,21 +324,4 @@ void PlatformerGame::togglePause() {
 		state == PAUSED ? GameStatus::instance().state = PLAYING : GameStatus::instance().state = PAUSED;
 	}
 	SFXManager::instance().toggleMusic();
-}
-
-void PlatformerGame::handleCollisions() {
-	level->handlePlayerCollisions(player);
-}
-
-//TODO
-bool PlatformerGame::getNextLevel() {
-	++curLevel;
-
-	if (cp.hasNextLevel(curLevel)) {
-		level = cp.getLevel(curLevel);
-		return true;
-	}
-	else {
-		return false;
-	}
 }
