@@ -13,6 +13,9 @@ public:
 	/** The default constructor */
 	Level() {};
 
+	/** The destructor */
+	~Level();
+
 	/** Initializes the Level with the given array of ints */
 	void init(/** The Tile[][] mapping for the level */ Tile* tiles[MAX_ROWS][MAX_COLUMNS],
 			  /** The list of GameObjects in this level */ std::vector<GameObject*> objects,

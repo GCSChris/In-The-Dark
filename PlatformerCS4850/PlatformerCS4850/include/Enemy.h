@@ -16,12 +16,19 @@ public:
 		/** The width of the Enemy */ int w,
 		/** The height of the Enemy */ int h,
 		/** The name of the sprite sheet */std::string spriteSheetFileName,
-		/** The facing direction. Default right */Direction dir = Direction::RIGHT);	
+		/** The facing direction. Default right */Direction dir = Direction::RIGHT);
+
+	/** Destructor for a Player */
+	~Enemy();
+
 	/** Updates this Enemy. Called once a frame */
+	
 	void update();
 	/** Renders this enemy */
+	
 	void render(/** The renderer to use */SDL_Renderer* ren);
 	/** Prevents collision with the given Game Object*/
+	
 	void preventCollision(/** The game object to prevent collision with */ GameObject* obj);
 	/** What to do when colliding with a player */
 	void handlePlayerCollision();

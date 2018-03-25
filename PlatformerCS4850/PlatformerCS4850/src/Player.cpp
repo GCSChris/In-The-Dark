@@ -11,6 +11,10 @@ void Player::init(int x, int y, std::string spriteSheetFileName, Direction dir) 
 	spriteSheet->init(spriteSheetFileName, PLAYER_WIDTH, PLAYER_HEIGHT);
 }
 
+Player::~Player() {
+	delete spriteSheet;
+}
+
 void Player::update() {
 	GameStatus* gameStatus = &GameStatus::instance();
 	if (gameStatus->playerInvulnCount >= 0) {

@@ -20,9 +20,9 @@ private:
 	/** The player to center the circle on */
 	Player* player;
 	/** The surface to draw with */
-	SDL_Surface* surface;
+	SDL_Texture* texture;
 	/** The scale of the surface used*/
-	float scale = 1;
+	int scale = 1;
 };
 
 #endif
