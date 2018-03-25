@@ -126,7 +126,6 @@ public:
 			std::cout << "Malformed file. Could not load" << std::endl;
 			exit(1);
 		}
-
 		levelFile.close();
 
 		// Arrays are parsed, time to create the tile mapping

@@ -158,6 +158,7 @@ PlatformerGame::~PlatformerGame() {
 
 void PlatformerGame::update() {
 	level->update();
+	level->handlePlayerCollisions();
 	visibilityCircle->update();
 
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
@@ -263,6 +264,7 @@ bool PlatformerGame::handleKeyboard(SDL_Event e) {
 	Player* player = this->level->getPlayer();
 	if (e.type == SDL_KEYUP) {
 		SDL_Keycode keyPressed = e.key.keysym.sym;
+
 
 		if (keyPressed == SDLK_a && player->getVelocity().x < 0) {
 			Vector3D currentVel = player->getVelocity();
