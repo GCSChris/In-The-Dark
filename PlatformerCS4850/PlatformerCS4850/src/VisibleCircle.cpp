@@ -8,11 +8,12 @@ void VisibleCircle::init(Player* player) {
 }
 
 void VisibleCircle::update() {
-	// TODO fancy interpolation
-	float curScale = this->scale;
+	int prevScale = this->scale;
 	this->scale = GameStatus::instance().health;
-	int size = curScale * VISIBLE_CIRCLE_MIN_SIZE;
-	this->surface = ResourceManager::instance().getScaledSurface(VISIBLE_CIRCLE_SPRITE, size, size);
+	int size = this->scale * VISIBLE_CIRCLE_MIN_SIZE;
+	if (prevScale != this->scale) {
+		this->texture = nullptr;
+	}
 }
 
 void VisibleCircle::render(SDL_Renderer* r) {
@@ -24,16 +25,15 @@ void VisibleCircle::render(SDL_Renderer* r) {
 	int x = centerX - (size / 2);
 	int y = centerY - (size / 2);
 
-	if (this->surface == nullptr) {
-		this->surface = ResourceManager::instance().getScaledSurface(VISIBLE_CIRCLE_SPRITE, size, size);
+	if (this->texture == nullptr) {
+		this->texture = ResourceManager::instance().getScaledTexture(r, VISIBLE_CIRCLE_SPRITE, size, size);
 	}
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(r, this->surface);
 
 	SDL_Rect src = { 0, 0, size, size };
 	SDL_Rect dest = { x, y, size, size };
 
 	this->renderBlackout(r, &dest);
-	SDL_RenderCopy(r, texture, &src, &dest);
+	SDL_RenderCopy(r, this->texture, &src, &dest);
 }
 
 void VisibleCircle::renderBlackout(SDL_Renderer* r, SDL_Rect* circleRect) {
