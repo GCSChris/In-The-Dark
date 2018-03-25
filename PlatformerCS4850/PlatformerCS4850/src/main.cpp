@@ -6,16 +6,13 @@
 #undef main
 
 int main() {
-	// Load subsytems for Localization and Config
-	//ConfigParser::instance().parseGameConfig();
-	//LocalizationManager::instance().loadLocalization();
-
 	// Create an instance of an object for a SDLGraphicsProgram
 	PlatformerGame* game = new PlatformerGame(SCREEN_WIDTH, SCREEN_HEIGHT);
 	// Run our program forever
 	game->play();
-	// When our program ends, it will exit scope, the
-	// destructor will then be called and clean up the program.
+	
+	// call destructor and clean up the program.
 	delete game;
+	
 	return 0;
 }
