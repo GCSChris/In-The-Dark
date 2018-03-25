@@ -74,6 +74,7 @@ void SpriteEditor::init() {
 		errorStream << "Failed to initialize!\n";
 		std::string errors = errorStream.str();
 		std::cout << errors << "\n";
+		exit(1);
 	}
 }
 
