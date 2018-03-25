@@ -14,6 +14,9 @@ public:
 	/** Default constructor for a GameObject */
 	GameObject();
 
+	/** Default destructor for a GameObject */
+	virtual ~GameObject() {};
+
 	/** Initializes a GameObject. */
 	void init(/** The upper left corner x coordinate */ int _x,
 		/** The upper left corner y coordinate */ int _y,

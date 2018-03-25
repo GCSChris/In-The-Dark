@@ -11,10 +11,11 @@ int main() {
 	//LocalizationManager::instance().loadLocalization();
 
 	// Create an instance of an object for a SDLGraphicsProgram
-	PlatformerGame game(SCREEN_WIDTH, SCREEN_HEIGHT);
+	PlatformerGame* game = new PlatformerGame(SCREEN_WIDTH, SCREEN_HEIGHT);
 	// Run our program forever
-	game.play();
+	game->play();
 	// When our program ends, it will exit scope, the
 	// destructor will then be called and clean up the program.
+	delete game;
 	return 0;
 }

@@ -55,7 +55,7 @@ public:
 		bool propsInit = false;
 		bool flagsInit = false; // bool flags
 
-								// initialize a new level
+		// initialize a new level
 		Level* level = new Level();
 
 		// tile parsing
