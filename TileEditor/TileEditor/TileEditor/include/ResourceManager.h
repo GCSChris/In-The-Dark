@@ -10,7 +10,9 @@
 /** A ResourceManager singleton class */
 class ResourceManager {
 public:
-	/** Returns the instance of the ResourceManager */
+	/**
+	* Returns the instance of the ResourceManager.
+	*/
     static ResourceManager& instance() {
         if (inst_ == NULL) {
 			inst_ = new ResourceManager();
@@ -18,7 +20,9 @@ public:
         return *inst_;
     }
 
-	/** Returns a SDL_Texture */
+	/** 
+	*Returns a SDL_Texture. 
+	*/
     SDL_Texture* getTexture(/** The string pointing to the resource */const char* resource,
 		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
         if (textures_.count(resource) > 0) {
@@ -43,6 +47,9 @@ public:
         return NULL;
     }
 
+	/**
+	* Given a filepath to an image file, creates a SDL texture from the image.
+	*/
 	SDL_Texture* getTextureFromImage(/** The string pointing to the resource */const char* resource,
 		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
 		if (textures_.count(resource) > 0) {
@@ -69,7 +76,9 @@ public:
 		return NULL;
 	}
 
-	/** Returns the true-type font at the given path */
+	/** 
+	* Returns the true-type font at the given path.
+	*/
 	TTF_Font* getFont(/** The resource path */ const char* resource,
 		/** The size of the font */ int size) {
 		if (fonts_.count(resource) > 0) {
@@ -90,7 +99,9 @@ public:
 		return NULL;
 	}
 	
-
+	/**
+	* Resets the instance to completely clear the resource manager.
+	*/
     static void reset() {
         delete inst_;
         inst_ = NULL;

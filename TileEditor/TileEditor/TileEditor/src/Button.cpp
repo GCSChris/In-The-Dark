@@ -1,19 +1,7 @@
-#include <string>
-#include <iostream>
-
 #include "../include/Button.h"
-#include "../include/ResourceManager.h"
-#include "../include/Constants.h"
-
-Button::Button(SDL_Rect* rect, std::string message, EditMode mode) {
-	buttonRect_ = rect;
-	message_ = message;
-	mode_ = mode;
-}
 
 Button::Button(int x, int y, int w, int h, std::string message, EditMode mode) {
-	SDL_Rect* rect = new SDL_Rect{ x, y, w, h };
-	buttonRect_ = rect;
+	buttonRect_ = { x, y, w, h };
 	message_ = message;
 	mode_ = mode;
 }
@@ -35,8 +23,8 @@ EditMode Button::handleEvent(SDL_Event event, EditMode currentEditMode) {
 			//printf("mouse clicked, ");
 
 			//If the mouse is over the button
-			if ((x > buttonRect_->x) && (x < buttonRect_->x + buttonRect_->w) &&
-				(y > buttonRect_->y) && (y < buttonRect_->y + buttonRect_->h)) {
+			if ((x > buttonRect_.x) && (x < buttonRect_.x + buttonRect_.w) &&
+				(y > buttonRect_.y) && (y < buttonRect_.y + buttonRect_.h)) {
 
 				return mode_;
 			}
@@ -57,7 +45,7 @@ void Button::render(SDL_Renderer* gRenderer, EditMode currentEditMode) {
 	}
 
 	SDL_SetRenderDrawColor(gRenderer, rectColor.r, rectColor.g, rectColor.b, rectColor.a);
-	SDL_RenderFillRect(gRenderer, buttonRect_);
+	SDL_RenderFillRect(gRenderer, &buttonRect_);
 
 	ResourceManager& resourceManager = ResourceManager::instance();
 	TTF_Font* font = resourceManager.getFont(DEFAULT_TEXT_FONT_STYLE.c_str(), DEFAULT_TEXT_FONT_SIZE);
@@ -76,8 +64,8 @@ void Button::renderTextHelp(SDL_Renderer* gRenderer, std::string text, TTF_Font*
 	SDL_QueryTexture(texture, NULL, NULL, &textW, &textH);
 
 	// center text on the buttons
-	int textX = buttonRect_->x + ((buttonRect_->w - textW) / 2);
-	int textY = buttonRect_->y + ((buttonRect_->h - textH) / 2);
+	int textX = buttonRect_.x + ((buttonRect_.w - textW) / 2);
+	int textY = buttonRect_.y + ((buttonRect_.h - textH) / 2);
 
 	SDL_Rect rect = { textX, textY, textW, textH };
 

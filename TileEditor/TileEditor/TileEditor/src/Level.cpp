@@ -1,5 +1,4 @@
 #include "../include/Level.h"
-#include <iostream>
 
 Level::Level() {}
 
