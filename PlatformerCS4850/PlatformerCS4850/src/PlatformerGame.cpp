@@ -77,31 +77,27 @@ void PlatformerGame::startGame() {
 
 	SFXManager::instance().playMusic("./resources/music.wav");
 
-	// TODO make config parse parse out the level
-	//ConfigParser::instance().parseLevel("lvlconfig.txt");
-	//levels = ConfigParser::instance().getLevels();
-	//curLevel = 0;
 	level = ConfigParser::instance().parseLevel("./resources/level1.txt");
 	
 	visibilityCircle = new VisibleCircle();
 	visibilityCircle->init(this->level->getPlayer());
 }
 
-void PlatformerGame::restartGame() {
-	//ConfigParser::instance().clearLevels();
-	//ConfigParser::instance().parseLevel("lvlconfig.txt");
 
+void PlatformerGame::restartGame() {
 	curLevel = 0;
-	//level = ConfigParser::instance().getLevel(curLevel);
 	int lives = std::stoi(ConfigParser::instance().getSetting("lives", "3"));
 	GameStatus::instance().init(lives);
+	GameStatus::instance().playerInvulnCount = -1;
+	level = ConfigParser::instance().parseLevel("./resources/level1.txt");
+	visibilityCircle->init(this->level->getPlayer());
 }
 
 // Proper shutdown and destroy initialized objects
 PlatformerGame::~PlatformerGame() {
 	// Destroy Renderer
 	SDL_DestroyRenderer(gRenderer);
-	//Destroy window
+	// Destroy window
 	SDL_DestroyWindow(gWindow);
 	// Point gWindow to NULL to ensure it points to nothing.
 	gRenderer = NULL;
@@ -129,8 +125,7 @@ void PlatformerGame::checkGameLoss() {
 	}
 }
 
-// Render
-// The render function gets called once per loop
+// Render - The render function gets called once per loop
 void PlatformerGame::render() {
 	level->render(getSDLRenderer());
 	visibilityCircle->render(getSDLRenderer());
