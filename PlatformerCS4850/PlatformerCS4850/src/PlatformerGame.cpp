@@ -68,49 +68,6 @@ PlatformerGame::PlatformerGame(int w, int h) :screenWidth(w), screenHeight(h) {
 	startGame();
 }
 
-Level* PlatformerGame::getTestingLevel() {
-	Level* lvl = new Level();
-
-	Tile* tiles[MAX_ROWS][MAX_COLUMNS];
-
-	for (int r = 0; r < MAX_ROWS; r++) {
-		for (int c = 0; c < MAX_COLUMNS; c++) {
-			tiles[r][c] = nullptr;
-			if (r == MAX_ROWS - 5 && c == 8) {
-				Tile* tile = new Tile();
-				tile->init(c * TILE_SIZE, r * TILE_SIZE, "./resources/tileset.png", 1, true);
-				tiles[r][c] = tile;
-			}
-			else if (r > MAX_ROWS - 5 || r + c > MAX_COLUMNS || (r > MAX_ROWS * .5 && c > MAX_COLUMNS * .5)) {
-				Tile* tile = new Tile();
-				tile->init(c * TILE_SIZE, r * TILE_SIZE, "./resources/tileset.png", 2, true);
-				tiles[r][c] = tile;
-			}
-		}
-	}
-
-	std::vector<GameObject*> objects;
-
-	Enemy* testEnemy = new Enemy();
-	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, 4, "./resources/Angry_Wolf.png");
-	objects.push_back(testEnemy);
-
-	Rocket* rocket = new Rocket();
-	rocket->init(156, 612, TILE_SIZE, TILE_SIZE, "./resources/rocket.png");
-	objects.push_back(rocket);
-
-	Battery* battery = new Battery();
-	battery->init(56, 612, TILE_SIZE, TILE_SIZE, "./resources/battery.png");
-	objects.push_back(battery);
-
-	Player* player = new Player();
-	player->init(64, 32, 4, "./resources/PixelTiger_walk.png");
-
-	lvl->init(tiles, objects, player);
-
-	return lvl;
-}
-
 void PlatformerGame::startGame() {
 	// Initialize game elements
 	int lives = std::stoi(ConfigParser::instance().getSetting("lives", "3"));

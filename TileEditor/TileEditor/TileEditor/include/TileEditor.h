@@ -25,7 +25,7 @@ public:
 	void render();
 
 private:
-	// SDL_Point getMouseClick
+
 	void editTile(int tileRow, int tileColumn, bool leftClick);
 
 	int editTileVal(int tileVal, bool leftClick);
@@ -35,9 +35,10 @@ private:
 	bool handleKeyboard(SDL_Event e);
 
 	void renderTiles();
+
 	void renderTile(int r, int c);
-	//void renderTileHelp(int r, int c);
-	//void renderRectangle(SDL_Rect* rect, SDL_Color color);
+
+	void renderBg();
 
 	int screenWidth = TILE_SIZE*NUM_COLUMNS + 2*SIDE_BUFFER;
 	int screenHeight = TILE_SIZE*NUM_ROWS + 2*SIDE_BUFFER + BOTTOM_BUFFER;
@@ -60,7 +61,6 @@ private:
 
 	SDL_Texture* bigTexture;
 
-	void UpdateTexture(SDL_Texture* texture, int x, int y);
 };
 
 #endif

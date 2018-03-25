@@ -39,8 +39,6 @@ private:
 	void startGame();
 	void restartGame();
 
-	Level* getTestingLevel();
-
 	/** Updates the game state every frame. */
 	void update();
 

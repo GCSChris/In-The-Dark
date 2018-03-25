@@ -7,7 +7,7 @@
 
 class SpriteSheet {
 public:
-	void init(int numFrames, std::string fileName);
+	void init(std::string fileName, int tileWidth, int tileHeight);
 	void update(Direction dir);
 	void render(SDL_Renderer* ren, int x, int y, int w, int h);
 

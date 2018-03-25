@@ -38,24 +38,7 @@ EditMode Button::handleEvent(SDL_Event event, EditMode currentEditMode) {
 			if ((x > buttonRect_->x) && (x < buttonRect_->x + buttonRect_->w) &&
 				(y > buttonRect_->y) && (y < buttonRect_->y + buttonRect_->h)) {
 
-				switch (mode_) { //TODO
-					case EditMode::TILES:
-						std::cout << "tiles button" << std::endl;
-						break;
-					case EditMode::PROPS:
-						std::cout << "props button" << std::endl;
-						break;
-					case EditMode::FLAGS:
-						std::cout << "flags button" << std::endl;
-						break;
-					default:
-						std::cout << "ERROR" << std::endl;
-				}
-
 				return mode_;
-
-				//TODO do something
-				//std::cout << "button " + message_ + " clicked" << std::endl;
 			}
 		}
 	}
@@ -67,10 +50,10 @@ void Button::render(SDL_Renderer* gRenderer, EditMode currentEditMode) {
 
 	// Selected button
 	if (currentEditMode == mode_) {
-		rectColor = { 255, 0, 0, 255 };
+		rectColor = { 226, 50, 27, 255 };
 	}
 	else {
-		rectColor = { 0, 0, 255, 255 };
+		rectColor = { 30, 161, 170, 255 };
 	}
 
 	SDL_SetRenderDrawColor(gRenderer, rectColor.r, rectColor.g, rectColor.b, rectColor.a);

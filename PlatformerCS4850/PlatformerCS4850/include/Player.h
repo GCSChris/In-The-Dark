@@ -12,7 +12,6 @@ class Player : public GameObject{
 public:
 	void init(/** The upper left corner x coordinate */ int _x,
 		/** The upper left corner y coordinate */ int _y,
-		int numFrames,
 		std::string spriteSheetFileName, 
 		Direction dir = Direction::RIGHT);
 	void update();
