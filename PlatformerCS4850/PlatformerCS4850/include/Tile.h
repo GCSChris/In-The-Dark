@@ -7,9 +7,13 @@
 class Tile : public GameObject {
 public:
 	/** Initializes this Tile */
-	void init(int x, int y, std::string sprSheet, int sprIndex, bool collideable);
+	void init(/** The x coordinate */ int x, 
+		/** The y coordinate */ int y, 
+		/** The sprite sheet to use */ std::string sprSheet, 
+		/** The sprite index in the sheet to use */ int sprIndex, 
+		/** Whether or not the Tile is collideable */bool collideable);
 	/** Renders this Tile */
-	void render(SDL_Renderer* ren);
+	void render(/** The renderer to use */SDL_Renderer* ren);
 
 protected:
 	/** The SpriteSheet to use for rendering */

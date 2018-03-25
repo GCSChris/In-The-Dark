@@ -121,33 +121,12 @@ void PlatformerGame::update() {
 	SDL_RenderClear(gRenderer);
 
 	this->checkGameLoss();
-	this->checkGameWon();
-	// TODO handle winning a level
-	handleGameOver();
-}
-
-void PlatformerGame::checkGameWon() {
-	if (false) { //TODO DELETE ME
-		GameStatus::instance().state = WON;
-	}
 }
 
 void PlatformerGame::checkGameLoss() {
 	if (GameStatus::instance().health <= 0) {
 		GameStatus::instance().state = LOST;
 	}
-}
-
-void PlatformerGame::handleGameOver() {
-	GameState state = GameStatus::instance().state;
-	if (state == LOST) {
-
-	}
-	else if (state == WON) {
-
-	}
-
-	//do nothing
 }
 
 // Render

@@ -53,14 +53,8 @@ private:
 
 	/** Handle keyboard input from the user. */
 	bool handleKeyboard(/** The keyboard event to handle. */ SDL_Event e);
-
-	/** Handles ending the game if it is flagged to be over. */
-	void handleGameOver();
 	
-	//TODO
-	void checkGameWon();
-	
-	//TODO
+	/** Check if the game is lost. */
 	void checkGameLoss();
 
 	/** Pause/Unpause the game. */
