@@ -63,7 +63,7 @@ void Level::render(SDL_Renderer* ren) {
 	for (const auto& obj : this->objects) {
 		obj->render(ren);
 	}
-
+	
 	player->render(ren);
 }
 

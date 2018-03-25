@@ -9,9 +9,9 @@ void SpriteSheet::init(std::string fileName, int tileWidth, int tileHeight) {
 	curAnimationFrame = 0;
 	name = fileName;
 
-	SDL_Surface* surface = ResourceManager::instance().getSurface(name.c_str());
-	int width = surface->w;
-	int height = surface->h;
+	SDL_Point surface = ResourceManager::instance().getIMGDimensions(name);
+	int width = surface.x;
+	int height = surface.y;
 	numAnimationFrames = (width / tileWidth) * (height / tileHeight);
 }
 
