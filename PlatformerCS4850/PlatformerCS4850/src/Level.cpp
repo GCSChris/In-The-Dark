@@ -3,18 +3,19 @@
 #include <iostream>
 #include <algorithm>
 
-void Level::init(Tile* tiles[MAX_ROWS][MAX_COLUMNS], std::vector<GameObject*> gameObjects) {
+void Level::init(Tile* tiles[MAX_ROWS][MAX_COLUMNS], std::vector<GameObject*> gameObjects, Player* player) {
 	for (int r = 0; r < MAX_ROWS; r++) {
 		for (int c = 0; c < MAX_COLUMNS; c++) {
 			levelMap[r][c] = tiles[r][c];
 		}
 	}
+	this->player = player;
 	this->objects = gameObjects;
 }
 
 void Level::renderBackground(SDL_Renderer* ren) {
 	if (this->background == nullptr) {
-		this->background = ResourceManager::instance().getTexture("./resources/background.bmp", ren);
+		this->background = ResourceManager::instance().getTexture("./resources/background.png", ren);
 	}
 	SDL_Rect src = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	SDL_Rect dest = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
@@ -23,6 +24,8 @@ void Level::renderBackground(SDL_Renderer* ren) {
 }
 
 void Level::update() {
+	this->player->update();
+
 	for (const auto& obj : this->objects) {
 		obj->update();
 		int startingRow = std::max(0, (obj->getY() / TILE_SIZE) - 1);
@@ -41,6 +44,8 @@ void Level::update() {
 			}
 		}
 	}
+
+	this->handlePlayerCollisions();
 }
 
 void Level::render(SDL_Renderer* ren) {
@@ -58,9 +63,11 @@ void Level::render(SDL_Renderer* ren) {
 	for (const auto& obj : this->objects) {
 		obj->render(ren);
 	}
+
+	player->render(ren);
 }
 
-bool Level::handlePlayerCollisions(Player* player) {
+bool Level::handlePlayerCollisions() {
 	bool collision = false;
 
 	int startingRow = std::max(0, (player->getY() / TILE_SIZE) - 1);
@@ -89,4 +96,8 @@ bool Level::handlePlayerCollisions(Player* player) {
 	}
 
 	return collision;
+}
+
+Player* Level::getPlayer() {
+	return this->player;
 }

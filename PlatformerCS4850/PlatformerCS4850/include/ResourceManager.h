@@ -24,8 +24,7 @@ public:
 			return surfaces_[resource];
 		}
 
-		SDL_Surface* sprite = IMG_Load(resource.c_str());
-		
+		SDL_Surface* sprite = IMG_Load(resource.c_str());		
 
 		if (sprite == NULL) {
 			SDL_Log("Failed to allocate surface");

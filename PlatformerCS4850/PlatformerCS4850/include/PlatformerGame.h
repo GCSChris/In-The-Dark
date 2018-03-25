@@ -39,8 +39,6 @@ private:
 	void startGame();
 	void restartGame();
 
-	Level* getTestingLevel();
-
 	/** Updates the game state every frame. */
 	void update();
 
@@ -53,15 +51,8 @@ private:
 	/** Get Pointer to SDL Renderer */
 	SDL_Renderer* getSDLRenderer();
 
-	/** Handle collisions between the Player and the Level */
-	void handleCollisions();
-
 	/** Handle keyboard input from the user. */
 	bool handleKeyboard(/** The keyboard event to handle. */ SDL_Event e);
-
-	/** Transition to next level. Returns true if there is a
-	next level, false if there are no remaiing levels. */
-	bool getNextLevel();
 
 	/** Handles ending the game if it is flagged to be over. */
 	void handleGameOver();
@@ -80,8 +71,6 @@ private:
 	/** The width of the screen for the game. */
 	int screenWidth;
 	
-	/** The player character */
-	Player* player;
 	/** The visibility Circle */
 	VisibleCircle* visibilityCircle;
 
