@@ -1,3 +1,5 @@
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+
 #include "../include/ResourceManager.h"
 #include "../include/LocalizationManager.h"
 #include "../include/ConfigParser.h"

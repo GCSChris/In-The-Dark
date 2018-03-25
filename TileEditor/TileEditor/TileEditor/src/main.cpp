@@ -1,3 +1,5 @@
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+
 #include "../include/TileEditor.h"
 #include "../include/Parser.h"
 #include "../include/Level.h"
