@@ -91,7 +91,7 @@ Level* PlatformerGame::getTestingLevel() {
 	std::vector<GameObject*> objects;
 	
 	Enemy* testEnemy = new Enemy();
-	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, 4, "./resources/Angry_Wolf.png");
+	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, "./resources/Angry_Wolf.png"); // num frames = 4
 	objects.push_back(testEnemy);
 
 	Rocket* rocket = new Rocket();
@@ -122,7 +122,7 @@ void PlatformerGame::startGame() {
 	//curLevel = 0;
 	//level = ConfigParser::instance().getLevel(curLevel);
 	player = new Player();
-	player->init(64, 32, 4, "./resources/PixelTiger_walk.bmp");
+	player->init(64, 32, "./resources/PixelTiger_walk.bmp"); //num frames = 4
 
 	visibilityCircle = new VisibleCircle();
 	visibilityCircle->init(player);

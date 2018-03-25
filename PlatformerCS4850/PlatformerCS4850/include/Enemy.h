@@ -7,7 +7,7 @@
 
 class Enemy : public GameObject {
 public:
-	void init(int x, int y, int w, int h, int numFrames, std::string spriteSheetFileName, Direction dir = Direction::LEFT);
+	void init(int x, int y, int w, int h, std::string spriteSheetFileName, Direction dir = Direction::LEFT);
 	void update();
 	void render(SDL_Renderer* ren);
 	void preventCollision(GameObject* obj);
