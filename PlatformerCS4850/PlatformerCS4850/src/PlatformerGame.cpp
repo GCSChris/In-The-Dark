@@ -33,7 +33,7 @@ PlatformerGame::PlatformerGame(int w, int h) :screenWidth(w), screenHeight(h) {
 	}
 	else {
 		//Create window
-		gWindow = SDL_CreateWindow("Breakout",
+		gWindow = SDL_CreateWindow("In the Dark",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			screenWidth,
