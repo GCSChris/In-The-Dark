@@ -10,7 +10,7 @@ SaveLoadButtons::SaveLoadButtons(int x, int y, int w, int h, std::string message
 }
 
 void SaveLoadButtons::render(SDL_Renderer* gRenderer) {
-	SDL_Color rectColor = { 255, 0, 0, 255 };
+	SDL_Color rectColor = { 226, 50, 27, 255 };
 
 	SDL_SetRenderDrawColor(gRenderer, rectColor.r, rectColor.g, rectColor.b, rectColor.a);
 	SDL_RenderFillRect(gRenderer, buttonRect_);

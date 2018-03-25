@@ -13,7 +13,7 @@ const int NUM_ROWS = 45;
 
 const int FRAMERATE = 60;
 
-const SDL_Color GRID_COLOR = { 255, 0, 0, 255 };
+const SDL_Color GRID_COLOR = { 30, 161, 170, 255 };
 
 const int BOTTOM_BUFFER = 32;
 
