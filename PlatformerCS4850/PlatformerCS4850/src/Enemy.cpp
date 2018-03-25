@@ -3,11 +3,11 @@
 #include "../include/GameStatus.h"
 #include <iostream>
 
-void Enemy::init(int x, int y, int w, int h, int numFrames, std::string spriteSheetFileName, Direction dir) {
+void Enemy::init(int x, int y, int w, int h, std::string spriteSheetFileName, Direction dir) {
 	spriteSheet = new SpriteSheet();
 	GameObject::init(x, y, w, h, true); 
 	direction = dir;
-	spriteSheet->init(numFrames, spriteSheetFileName);
+	spriteSheet->init(spriteSheetFileName, ENEMY_WIDTH, ENEMY_HEIGHT);
 
 	this->velocity = Vector3D(ENEMY_RUNNING_SPEED, 0, 0);
 }

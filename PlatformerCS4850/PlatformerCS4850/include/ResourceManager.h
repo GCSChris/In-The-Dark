@@ -24,7 +24,7 @@ public:
 			return surfaces_[resource];
 		}
 
-		SDL_Surface* sprite = SDL_LoadBMP(resource);
+		SDL_Surface* sprite = IMG_Load(resource);
 		
 
 		if (sprite == NULL) {

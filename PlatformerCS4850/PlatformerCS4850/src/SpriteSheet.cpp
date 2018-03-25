@@ -4,11 +4,15 @@
 #include "../include/Constants.h"
 #include "../include/ResourceManager.h"
 
-void SpriteSheet::init(int numFrames, std::string fileName) {
+void SpriteSheet::init(std::string fileName, int tileWidth, int tileHeight) {
 	frameTick = 0;
 	curAnimationFrame = 0;
-	numAnimationFrames = numFrames;
 	name = fileName;
+
+	SDL_Surface* surface = ResourceManager::instance().getSurface(name.c_str());
+	int width = surface->w;
+	int height = surface->h;
+	numAnimationFrames = (width / tileWidth) * (height / tileHeight);
 }
 
 void SpriteSheet::update(Direction dir) {

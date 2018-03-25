@@ -4,11 +4,11 @@
 #include "../include/PlatformerGame.h"
 #include <iostream>
 
-void Player::init(int x, int y, int numFrames, std::string spriteSheetFileName, Direction dir) {
+void Player::init(int x, int y, std::string spriteSheetFileName, Direction dir) {
 	spriteSheet = new SpriteSheet();
 	GameObject::init(x, y, PLAYER_WIDTH, PLAYER_HEIGHT, true);
 	direction = dir;
-	spriteSheet->init(numFrames, spriteSheetFileName);
+	spriteSheet->init(spriteSheetFileName, PLAYER_WIDTH, PLAYER_HEIGHT);
 }
 
 void Player::update() {
