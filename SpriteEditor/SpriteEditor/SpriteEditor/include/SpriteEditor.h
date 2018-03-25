@@ -60,15 +60,15 @@ private:
 	/** The total number of frames in the spritesheet. */
 	int numFrames;
 	
-	void setNumColumns();
-	/** The number columns in the spritesheet. */
-	int numColumns;
+	/** Calculate the number columns in the spritesheet. */
+	int getNumColumns();
 
 	/** The desired frameRate to run the animation of the spritesheet. */
 	int frameRate;
 
 	/** The window we'll be rendering to. */
-	SDL_Window* gWindow;
+	SDL_Window* gWindow = NULL;
+	
 	/** SDL Renderer to use. */
 	SDL_Renderer* gRenderer = NULL;
 

@@ -16,7 +16,6 @@ const std::string RESOURCES_DIR = "./resources/";
 
 void SpriteEditor::init() {
 	configureFromUserInput();
-	setNumColumns();
 	
 	// Initialization flag
 	bool success = true;
@@ -110,10 +109,10 @@ void SpriteEditor::configureFromUserInput() {
 	std::cout << "Playing your spritesheet! Press the escape key on your keyboard to exit this application." << std::endl;
 }
 
-void SpriteEditor::setNumColumns() {
+int SpriteEditor::getNumColumns() {
 	SDL_Point dimensions = ResourceManager::instance().getIMGDimensions(fileName);
 	int width = dimensions.x;
-	numColumns = width / frameWidth;
+	return (width / frameWidth);
 }
 
 void SpriteEditor::update() {
@@ -138,6 +137,7 @@ void SpriteEditor::update() {
 void SpriteEditor::render() {
 	SDL_Texture* texture = ResourceManager::instance().getTextureFromImage(fileName.c_str(), gRenderer);
 
+	int numColumns = getNumColumns();
 	int frameRectWidth = (currentFrame % numColumns) * frameWidth;
 	int frameRectHeight = (currentFrame / numColumns) * frameHeight;
 
