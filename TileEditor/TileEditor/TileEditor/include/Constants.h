@@ -44,4 +44,8 @@ const int DEFAULT_TEXT_FONT_SIZE = 16;
 /** The font color used for writing text */
 const SDL_Color DEFAULT_TEXT_FONT_COLOR = { 255, 255, 255, 255 };
 
+const std::string TILES_SPRITE_SHEET = "resources/tiles.png";
+const std::string PROPS_SPRITE_SHEET = "resources/props.png";
+const std::string FLAGS_SPRITE_SHEET = "resources/flags.png";
+
 #endif

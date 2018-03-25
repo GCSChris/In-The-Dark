@@ -71,6 +71,13 @@ private:
 
 	/** A 2D array of ints representing flags. */
 	int flags[NUM_ROWS][NUM_COLUMNS];
+
+	/** The number of tiles in the tiles spritesheet. */
+	int numTiles = 3; //TODO
+	int numProps = 3; //TODO
+	int numFlags = 2; //TODO
+
+	void initNumTilesPropsFlags();
 };
 
 #endif
