@@ -52,6 +52,14 @@ const int ENEMY_HEIGHT = 32;
 /** The running speed of the enemy */
 const int ENEMY_RUNNING_SPEED = 2;
 
+/** The sprite resources */
+const std::string PLAYER_SPRITE = "./resources/PixelTiger_walk.png";
+const std::string ENEMY_SPRITE = "./resources/Angry_Wolf.png";
+const std::string BATTERY_SPRITE = "./resources/battery.png";
+const std::string ROCKET_SPRITE = "./resources/rocket.png";
+const std::string TILESET = "./resources/tileset.png";
+const std::string VISIBLE_CIRCLE_SPRITE = "./resources/limitedvision.png";
+
 // UI CONSTANTS
 
 /** The key to display for the number of lives (from localization file). */

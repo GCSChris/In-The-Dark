@@ -12,7 +12,7 @@ void VisibleCircle::update() {
 	float curScale = this->scale;
 	this->scale = GameStatus::instance().health;
 	int size = curScale * VISIBLE_CIRCLE_MIN_SIZE;
-	this->surface = ResourceManager::instance().getScaledSurface("./resources/limitedvision.png", size, size);
+	this->surface = ResourceManager::instance().getScaledSurface(VISIBLE_CIRCLE_SPRITE, size, size);
 }
 
 void VisibleCircle::render(SDL_Renderer* r) {
@@ -25,7 +25,7 @@ void VisibleCircle::render(SDL_Renderer* r) {
 	int y = centerY - (size / 2);
 
 	if (this->surface == nullptr) {
-		this->surface = ResourceManager::instance().getScaledSurface("./resources/limitedvision.png", size, size);
+		this->surface = ResourceManager::instance().getScaledSurface(VISIBLE_CIRCLE_SPRITE, size, size);
 	}
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(r, this->surface);
 
