@@ -95,6 +95,10 @@ void PlatformerGame::restartGame() {
 
 // Proper shutdown and destroy initialized objects
 PlatformerGame::~PlatformerGame() {
+	delete level;
+	delete uiManager;
+	ResourceManager::instance().reset();
+
 	// Destroy Renderer
 	SDL_DestroyRenderer(gRenderer);
 	// Destroy window

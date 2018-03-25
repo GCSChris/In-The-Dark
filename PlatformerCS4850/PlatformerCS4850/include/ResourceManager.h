@@ -165,22 +165,22 @@ private:
     ~ResourceManager() {
         for (auto it=textures_.begin(); it!=textures_.end(); ++it) {
             SDL_DestroyTexture(it->second);
-            SDL_Log("Freed Texture: %s", it->first);
+            //SDL_Log("Freed Texture: %s", it->first);
         } 
 		
 		for (auto it = music_.begin(); it != music_.end(); ++it) {
 			Mix_FreeMusic(it->second);
-			SDL_Log("Freed Music: %s", it->first);
+			//SDL_Log("Freed Music: %s", it->first);
 		}
 
 		for (auto it = sounds_.begin(); it != sounds_.end(); ++it) {
 			Mix_FreeChunk(it->second);
-			SDL_Log("Freed SFX: %s", it->first);
+			//SDL_Log("Freed SFX: %s", it->first);
 		}
 
 		for (auto it = fonts_.begin(); it != fonts_.end(); ++it) {
 			TTF_CloseFont(it->second);
-			SDL_Log("Freed Font: %s", it->first);
+			//SDL_Log("Freed Font: %s", it->first);
 		}
     }
     

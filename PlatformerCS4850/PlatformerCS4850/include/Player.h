@@ -15,6 +15,9 @@ public:
 		/** The upper left corner y coordinate */ int _y,
 		/** The name of the sprite sheet */std::string spriteSheetFileName, 
 		/** The facing direction. Default right */Direction dir = Direction::RIGHT);
+
+	/** Destructor for a Player */
+	~Player();
 	
 	/** Updates the player. Should be called once a frame */
 	void update();

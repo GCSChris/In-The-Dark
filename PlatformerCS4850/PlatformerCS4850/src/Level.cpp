@@ -9,8 +9,23 @@ void Level::init(Tile* tiles[MAX_ROWS][MAX_COLUMNS], std::vector<GameObject*> ga
 			levelMap[r][c] = tiles[r][c];
 		}
 	}
+
 	this->player = player;
 	this->objects = gameObjects;
+}
+
+Level::~Level() {
+	for (int r = 0; r < MAX_ROWS; r++) {
+		for (int c = 0; c < MAX_COLUMNS; c++) {
+			delete levelMap[r][c];
+		}
+	}
+
+	for (const auto& obj : this->objects) {
+		delete obj;
+	}
+
+	delete this->player;
 }
 
 void Level::renderBackground(SDL_Renderer* ren) {

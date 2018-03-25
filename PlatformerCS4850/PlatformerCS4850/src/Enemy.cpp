@@ -12,6 +12,10 @@ void Enemy::init(int x, int y, int w, int h, std::string spriteSheetFileName, Di
 	this->velocity = Vector3D(ENEMY_RUNNING_SPEED, 0, 0);
 }
 
+Enemy::~Enemy() {
+	delete spriteSheet;
+}
+
 void Enemy::update() {
 	this->velocity.y += GRAVITY;
 
@@ -69,6 +73,5 @@ void Enemy::handlePlayerCollision() {
 		// Player is vulnerable
 		gameStatus->playerInvulnCount = 0;
 		gameStatus->health -= 1;
-		// TODO maybe play a sound?
 	}
 }

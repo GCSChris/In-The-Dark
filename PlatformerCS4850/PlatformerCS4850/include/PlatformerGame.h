@@ -1,5 +1,5 @@
-#ifndef BREAKOUT_GAME_H
-#define BREAKOUT_GAME_H
+#ifndef PLATFORMER_GAME_H
+#define PLATFORMER_GAME_H
 
 #include <SDL.h>
 #undef main
@@ -21,17 +21,17 @@
 // smooth 60fps
 #define FRAMERATE 60
 
-/** Represent a game of breakout. */
+/** Represent a platformer game. */
 class PlatformerGame {
 public:
-    /** Constructor for a BreakoutGame. */
+    /** Constructor for a PlatformerGame. */
 	PlatformerGame(/** The width to use for the game window. */int w = SCREEN_WIDTH,
 		/** The height to use for the game window. */int h = SCREEN_HEIGHT);
 	
-	/** Default destructor for a BreakoutGame. */
+	/** Default destructor for a PlatformerGame. */
     ~PlatformerGame();
     
-	/** Function that starts a game of breakout! */
+	/** Function that starts a platformer game! */
     void play();
 
 private:
