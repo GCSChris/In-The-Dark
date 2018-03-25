@@ -67,7 +67,7 @@ public:
 
 		Tile* tiles[MAX_ROWS][MAX_COLUMNS];
 		std::vector<GameObject*> gameObjects;
-		Player* player;
+		Player* player = nullptr;
 
 		if (!levelFile) {
 			std::cout << "Unable to open file." << std::endl;
@@ -101,14 +101,14 @@ public:
 						tileProps[index / MAX_COLUMNS][index % MAX_COLUMNS] = value;
 					}
 					else if (!flagsInit) {
-						int x = index / MAX_COLUMNS;
-						int y = index / MAX_ROWS;
+						int x = (index % MAX_COLUMNS) * TILE_SIZE;
+						int y = (index / MAX_COLUMNS) * TILE_SIZE;
 						GameObject* go = this->createGameObject(value, x, y);
 						if (value == 1 && player == nullptr) {
-							Player* player = new Player();
+							player = new Player();
 							player->init(x, y, 4, "./resources/PixelTiger_walk.png");
 						}
-						else if (go == nullptr) {
+						else if (go != nullptr) {
 							gameObjects.push_back(go);
 						}
 					}

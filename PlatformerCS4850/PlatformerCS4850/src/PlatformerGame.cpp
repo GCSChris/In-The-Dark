@@ -124,9 +124,8 @@ void PlatformerGame::startGame() {
 	//ConfigParser::instance().parseLevel("lvlconfig.txt");
 	//levels = ConfigParser::instance().getLevels();
 	//curLevel = 0;
-	//level = ConfigParser::instance().getLevel(curLevel);
-	level = getTestingLevel();
-
+	level = ConfigParser::instance().parseLevel("./resources/level1.txt");
+	
 	visibilityCircle = new VisibleCircle();
 	visibilityCircle->init(this->level->getPlayer());
 }
