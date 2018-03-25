@@ -1,3 +1,6 @@
+#ifndef ENEMY_H
+#define ENEMY_H
+
 #include <string>
 
 #include "GameObject.h"
@@ -17,3 +20,5 @@ private:
 	SpriteSheet* spriteSheet;
 	Direction direction;
 };
+
+#endif

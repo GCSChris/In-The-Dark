@@ -64,7 +64,7 @@ PlatformerGame::PlatformerGame(int w, int h) :screenWidth(w), screenHeight(h) {
 	else {
 		std::cout << "No SDL or OpenGL errors Detected\n\n";
 	}
-	
+
 	startGame();
 }
 
@@ -80,7 +80,8 @@ Level* PlatformerGame::getTestingLevel() {
 				Tile* tile = new Tile();
 				tile->init(c * TILE_SIZE, r * TILE_SIZE, "./resources/tileset.png", 1, true);
 				tiles[r][c] = tile;
-			} else if (r > MAX_ROWS - 5 || r + c > MAX_COLUMNS || (r > MAX_ROWS * .5 && c > MAX_COLUMNS * .5)) {
+			}
+			else if (r > MAX_ROWS - 5 || r + c > MAX_COLUMNS || (r > MAX_ROWS * .5 && c > MAX_COLUMNS * .5)) {
 				Tile* tile = new Tile();
 				tile->init(c * TILE_SIZE, r * TILE_SIZE, "./resources/tileset.png", 2, true);
 				tiles[r][c] = tile;
@@ -89,20 +90,23 @@ Level* PlatformerGame::getTestingLevel() {
 	}
 
 	std::vector<GameObject*> objects;
-	
+
 	Enemy* testEnemy = new Enemy();
 	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, 4, "./resources/Angry_Wolf.png");
 	objects.push_back(testEnemy);
 
 	Rocket* rocket = new Rocket();
-	rocket->init(156, 612, TILE_SIZE, TILE_SIZE, "./resources/rocket.bmp");
+	rocket->init(156, 612, TILE_SIZE, TILE_SIZE, "./resources/rocket.png");
 	objects.push_back(rocket);
 
 	Battery* battery = new Battery();
-	battery->init(56, 612, TILE_SIZE, TILE_SIZE, "./resources/battery.bmp");
+	battery->init(56, 612, TILE_SIZE, TILE_SIZE, "./resources/battery.png");
 	objects.push_back(battery);
 
-	lvl->init(tiles, objects);
+	Player* player = new Player();
+	player->init(64, 32, 4, "./resources/PixelTiger_walk.png");
+
+	lvl->init(tiles, objects, player);
 
 	return lvl;
 }
@@ -115,19 +119,16 @@ void PlatformerGame::startGame() {
 	uiManager = new UIManager;
 
 	SFXManager::instance().playMusic("./resources/music.wav");
-	
+
 	// TODO make config parse parse out the level
 	//ConfigParser::instance().parseLevel("lvlconfig.txt");
 	//levels = ConfigParser::instance().getLevels();
 	//curLevel = 0;
 	//level = ConfigParser::instance().getLevel(curLevel);
-	player = new Player();
-	player->init(64, 32, 4, "./resources/PixelTiger_walk.bmp");
+	level = getTestingLevel();
 
 	visibilityCircle = new VisibleCircle();
-	visibilityCircle->init(player);
-
-	level = getTestingLevel();
+	visibilityCircle->init(this->level->getPlayer());
 }
 
 void PlatformerGame::restartGame() {
@@ -156,14 +157,12 @@ PlatformerGame::~PlatformerGame() {
 }
 
 void PlatformerGame::update() {
-	player->update();
 	level->update();
 	visibilityCircle->update();
-	this->handleCollisions();
 
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
 	SDL_RenderClear(gRenderer);
-	
+
 	this->checkGameLoss();
 	this->checkGameWon();
 	// TODO handle winning a level
@@ -198,10 +197,9 @@ void PlatformerGame::handleGameOver() {
 // The render function gets called once per loop
 void PlatformerGame::render() {
 	level->render(getSDLRenderer());
-	player->render(getSDLRenderer());
 	visibilityCircle->render(getSDLRenderer());
 	uiManager->render(getSDLRenderer());
-	
+
 	SDL_RenderPresent(gRenderer);
 }
 
@@ -228,7 +226,7 @@ void PlatformerGame::play() {
 				quit = true;
 			}
 		}
-		
+
 		GameState state = GameStatus::instance().state;
 		if (state == PLAYING) {
 			update();
@@ -238,7 +236,7 @@ void PlatformerGame::play() {
 		render();
 		// Update screen of our specified window
 		SDL_GL_SwapWindow(getSDLWindow());
-		
+
 		// Delay to force 60 FPS
 		int diff = SDL_GetTicks() - start;
 		float delay = 1000.0f / FRAMERATE - diff;
@@ -262,6 +260,7 @@ SDL_Renderer* PlatformerGame::getSDLRenderer() {
 }
 
 bool PlatformerGame::handleKeyboard(SDL_Event e) {
+	Player* player = this->level->getPlayer();
 	if (e.type == SDL_KEYUP) {
 		SDL_Keycode keyPressed = e.key.keysym.sym;
 
@@ -278,7 +277,7 @@ bool PlatformerGame::handleKeyboard(SDL_Event e) {
 			return true;
 		}
 	}
-	
+
 	if (e.type == SDL_KEYDOWN) {
 		SDL_Keycode keyPressed = e.key.keysym.sym;
 
@@ -286,13 +285,13 @@ bool PlatformerGame::handleKeyboard(SDL_Event e) {
 			if (GameStatus::instance().state == LOST) {
 				restartGame();
 			}
-			
+
 		}
 
 		if (keyPressed == SDLK_SPACE && !player->isAirborne()) {
 			player->jump();
 		}
-		
+
 		if (keyPressed == SDLK_a) {
 			Vector3D currentVel = player->getVelocity();
 			player->setVelocity(Vector3D(-PLAYER_RUNNING_SPEED, currentVel.y, 0));
@@ -323,21 +322,4 @@ void PlatformerGame::togglePause() {
 		state == PAUSED ? GameStatus::instance().state = PLAYING : GameStatus::instance().state = PAUSED;
 	}
 	SFXManager::instance().toggleMusic();
-}
-
-void PlatformerGame::handleCollisions() {
-	level->handlePlayerCollisions(player);
-}
-
-//TODO
-bool PlatformerGame::getNextLevel() {
-	++curLevel;
-
-	if (cp.hasNextLevel(curLevel)) {
-		level = cp.getLevel(curLevel);
-		return true;
-	}
-	else {
-		return false;
-	}
 }
