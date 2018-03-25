@@ -4,6 +4,8 @@
 #include "../include/Enemy.h"
 #include "../include/ConfigParser.h"
 #include "../include/GameStatus.h"
+#include "../include/Rocket.h"
+#include "../include/Battery.h"
 
 #include <SDL_ttf.h>
 #include <string>
@@ -87,9 +89,18 @@ Level* PlatformerGame::getTestingLevel() {
 	}
 
 	std::vector<GameObject*> objects;
+	
 	Enemy* testEnemy = new Enemy();
 	testEnemy->init(256, 512, ENEMY_WIDTH, ENEMY_HEIGHT, 4, "./resources/Angry_Wolf.png");
 	objects.push_back(testEnemy);
+
+	Rocket* rocket = new Rocket();
+	rocket->init(156, 612, TILE_SIZE, TILE_SIZE, "./resources/rocket.bmp");
+	objects.push_back(rocket);
+
+	Battery* battery = new Battery();
+	battery->init(56, 612, TILE_SIZE, TILE_SIZE, "./resources/battery.bmp");
+	objects.push_back(battery);
 
 	lvl->init(tiles, objects);
 
@@ -153,13 +164,34 @@ void PlatformerGame::update() {
 	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
 	SDL_RenderClear(gRenderer);
 	
+	this->checkGameLoss();
+	this->checkGameWon();
+	// TODO handle winning a level
 	handleGameOver();
 }
 
-void PlatformerGame::handleGameOver() {
+void PlatformerGame::checkGameWon() {
+	if (false) { //TODO DELETE ME
+		GameStatus::instance().state = WON;
+	}
+}
+
+void PlatformerGame::checkGameLoss() {
 	if (GameStatus::instance().health <= 0) {
 		GameStatus::instance().state = LOST;
 	}
+}
+
+void PlatformerGame::handleGameOver() {
+	GameState state = GameStatus::instance().state;
+	if (state == LOST) {
+
+	}
+	else if (state == WON) {
+
+	}
+
+	//do nothing
 }
 
 // Render
@@ -186,7 +218,7 @@ void PlatformerGame::play() {
 	// While application is running
 	while (!quit) {
 		Uint32 start = SDL_GetTicks();
-		//Handle events on queue
+		// Handle events on queue
 		while (SDL_PollEvent(&e) != 0) {
 			// User posts an event to quit
 			// An example is hitting the "x" in the corner of the window.
@@ -204,7 +236,7 @@ void PlatformerGame::play() {
 
 		// Render using OpenGL
 		render();
-		//Update screen of our specified window
+		// Update screen of our specified window
 		SDL_GL_SwapWindow(getSDLWindow());
 		
 		// Delay to force 60 FPS
@@ -297,6 +329,7 @@ void PlatformerGame::handleCollisions() {
 	level->handlePlayerCollisions(player);
 }
 
+//TODO
 bool PlatformerGame::getNextLevel() {
 	++curLevel;
 

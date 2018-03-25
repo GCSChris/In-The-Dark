@@ -38,6 +38,7 @@ void UIManager::renderPauseText(SDL_Renderer* gRenderer) {
 	int texW = 0;
 	int texH = 0;
 	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	
 	int x = (SCREEN_WIDTH - texW) / 2;
 	int y = (SCREEN_HEIGHT - texH) / 2;
 	SDL_Rect rect = { x, y, texW, texH };

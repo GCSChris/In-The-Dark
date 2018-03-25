@@ -65,6 +65,12 @@ private:
 
 	/** Handles ending the game if it is flagged to be over. */
 	void handleGameOver();
+	
+	//TODO
+	void checkGameWon();
+	
+	//TODO
+	void checkGameLoss();
 
 	/** Pause/Unpause the game. */
 	void togglePause();

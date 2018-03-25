@@ -66,6 +66,12 @@
     <ClInclude Include="include\SpriteSheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Rocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Battery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ConfigParser.cpp">
@@ -111,6 +117,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GameStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Battery.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
