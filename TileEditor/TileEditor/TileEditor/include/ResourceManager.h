@@ -10,7 +10,9 @@
 /** A ResourceManager singleton class */
 class ResourceManager {
 public:
-	/** Returns the instance of the ResourceManager */
+	/**
+	* Returns the instance of the ResourceManager.
+	*/
     static ResourceManager& instance() {
         if (inst_ == NULL) {
 			inst_ = new ResourceManager();
@@ -18,14 +20,16 @@ public:
         return *inst_;
     }
 
-	/** Returns a SDL_Texture */
-    SDL_Texture* getTexture(/** The string pointing to the resource */const char* resource,
+	/** 
+	* Returns a SDL_Texture. 
+	*/
+    SDL_Texture* getTexture(/** The string pointing to the resource */std::string resource,
 		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
         if (textures_.count(resource) > 0) {
             return textures_[resource];
         }
         
-        SDL_Surface* spriteSheet = SDL_LoadBMP(resource);
+        SDL_Surface* spriteSheet = IMG_Load(resource.c_str());
         
         if (spriteSheet == NULL){
             SDL_Log("Failed to allocate surface");
@@ -35,7 +39,7 @@ public:
             // Textures run faster and take advantage of hardware acceleration
 			SDL_SetColorKey(spriteSheet, SDL_TRUE, SDL_MapRGB(spriteSheet->format, 4, 255, 17));
             SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, spriteSheet);
-            textures_.insert(std::pair<const char*, SDL_Texture*>(resource, texture));
+            textures_.insert(std::pair<std::string, SDL_Texture*>(resource, texture));
             SDL_FreeSurface(spriteSheet);
             return texture;
         }
@@ -43,13 +47,16 @@ public:
         return NULL;
     }
 
-	SDL_Texture* getTextureFromImage(/** The string pointing to the resource */const char* resource,
+	/**
+	* Given a filepath to an image file, creates a SDL texture from the image.
+	*/
+	SDL_Texture* getTextureFromImage(/** The string pointing to the resource */std::string resource,
 		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
 		if (textures_.count(resource) > 0) {
 			return textures_[resource];
 		}
 
-		SDL_Surface* spriteSheet = IMG_Load(resource);
+		SDL_Surface* spriteSheet = IMG_Load(resource.c_str());
 
 		if (spriteSheet == NULL) {
 			SDL_Log("Failed to allocate surface");
@@ -61,7 +68,7 @@ public:
 			//SDL_SetColorKey(spriteSheet, SDL_TRUE, SDL_MapRGB(spriteSheet->format, 4, 255, 17));
 			
 			SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, spriteSheet);
-			textures_.insert(std::pair<const char*, SDL_Texture*>(resource, texture));
+			textures_.insert(std::pair<std::string, SDL_Texture*>(resource, texture));
 			SDL_FreeSurface(spriteSheet);
 			return texture;
 		}
@@ -69,28 +76,44 @@ public:
 		return NULL;
 	}
 
-	/** Returns the true-type font at the given path */
-	TTF_Font* getFont(/** The resource path */ const char* resource,
+	/** Get the dimensions (width, height) of a given resource's Surface. */
+	SDL_Point getIMGDimensions(/** The string pointing to the surface */ std::string resource) {
+		SDL_Surface* surface = IMG_Load(resource.c_str());
+
+		if (surface == NULL) {
+			SDL_Log("Failed to allocate surface");
+		}
+
+		SDL_Point dimensions = { surface->w, surface->h };
+		return dimensions;
+	}
+
+	/** 
+	* Returns the true-type font at the given path.
+	*/
+	TTF_Font* getFont(/** The resource path */ std::string resource,
 		/** The size of the font */ int size) {
 		if (fonts_.count(resource) > 0) {
 			return fonts_[resource];
 		}
 
-		TTF_Font* font = TTF_OpenFont(resource, size);
+		TTF_Font* font = TTF_OpenFont(resource.c_str(), size);
 
 		if (font == NULL) {
 			SDL_Log("Failed to allocate font");
 		}
 		else {
 			SDL_Log("Allocating font");
-			fonts_.insert(std::pair<const char*, TTF_Font*>(resource, font));
+			fonts_.insert(std::pair<std::string, TTF_Font*>(resource, font));
 			return font;
 		}
 
 		return NULL;
 	}
 	
-
+	/**
+	* Resets the instance to completely clear the resource manager.
+	*/
     static void reset() {
         delete inst_;
         inst_ = NULL;
@@ -117,9 +140,9 @@ private:
 	static ResourceManager* inst_;
 
 	/** Mapping of cached SDL_Textures */
-    std::map<const char*, SDL_Texture*> textures_;
+    std::map<std::string, SDL_Texture*> textures_;
 	/** Mapping of cached TTF_Font */
-	std::map<const char*, TTF_Font*> fonts_;
+	std::map<std::string, TTF_Font*> fonts_;
 };
 
 #endif

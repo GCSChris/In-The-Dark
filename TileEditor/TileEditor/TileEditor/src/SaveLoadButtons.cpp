@@ -1,10 +1,7 @@
 #include "../include/SaveLoadButtons.h"
-#include "../include/Constants.h"
-#include "../include/Parser.h"
 
 SaveLoadButtons::SaveLoadButtons(int x, int y, int w, int h, std::string message, bool isLoadButton) {
-	SDL_Rect* rect = new SDL_Rect{ x, y, w, h };
-	buttonRect_ = rect;
+	buttonRect_ = { x, y, w, h };
 	message_ = message;
 	isLoadButton_ = isLoadButton;
 }
@@ -13,7 +10,7 @@ void SaveLoadButtons::render(SDL_Renderer* gRenderer) {
 	SDL_Color rectColor = { 226, 50, 27, 255 };
 
 	SDL_SetRenderDrawColor(gRenderer, rectColor.r, rectColor.g, rectColor.b, rectColor.a);
-	SDL_RenderFillRect(gRenderer, buttonRect_);
+	SDL_RenderFillRect(gRenderer, &buttonRect_);
 
 	ResourceManager& resourceManager = ResourceManager::instance();
 	TTF_Font* font = resourceManager.getFont(DEFAULT_TEXT_FONT_STYLE.c_str(), DEFAULT_TEXT_FONT_SIZE);
@@ -37,8 +34,8 @@ void SaveLoadButtons::handleEvent(SDL_Event event, Level* l) {
 			y = event.button.y;
 
 			//If the mouse is over the button
-			if ((x > buttonRect_->x) && (x < buttonRect_->x + buttonRect_->w) &&
-				(y > buttonRect_->y) && (y < buttonRect_->y + buttonRect_->h)) {
+			if ((x > buttonRect_.x) && (x < buttonRect_.x + buttonRect_.w) &&
+				(y > buttonRect_.y) && (y < buttonRect_.y + buttonRect_.h)) {
 				if (isLoadButton_) {
 					std::cout << "load\n";
 					*l = Parser::instance().loadLevel();
@@ -63,8 +60,8 @@ void SaveLoadButtons::renderTextHelp(SDL_Renderer* gRenderer, std::string text, 
 	SDL_QueryTexture(texture, NULL, NULL, &textW, &textH);
 
 	// center text on the buttons
-	int textX = buttonRect_->x + ((buttonRect_->w - textW) / 2);
-	int textY = buttonRect_->y + ((buttonRect_->h - textH) / 2);
+	int textX = buttonRect_.x + ((buttonRect_.w - textW) / 2);
+	int textY = buttonRect_.y + ((buttonRect_.h - textH) / 2);
 
 	SDL_Rect rect = { textX, textY, textW, textH };
 

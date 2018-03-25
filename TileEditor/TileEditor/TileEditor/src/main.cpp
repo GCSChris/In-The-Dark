@@ -11,4 +11,6 @@ int main() {
 	te->init();
 
 	te->play();
+
+	delete te;
 }

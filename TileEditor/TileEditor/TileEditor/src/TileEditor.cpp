@@ -1,12 +1,16 @@
-#include <sstream>
-#include <iostream>
 #include "../include/TileEditor.h"
-#include "../include/Constants.h"
-#include "../include/ResourceManager.h"
 
 TileEditor::TileEditor() { }
 
-TileEditor::~TileEditor() { }
+TileEditor::~TileEditor() { 
+	delete buttonOne;
+	delete buttonTwo;
+	delete buttonThree;
+	delete buttonFour;
+	delete buttonFive;
+
+	delete level;
+}
 
 void TileEditor::init() {
 	// Initialization flag
@@ -77,15 +81,9 @@ void TileEditor::init() {
 
 	currentEditMode = EditMode::TILES;
 
-	bigTexture = SDL_CreateTexture(gRenderer,
-		SDL_PIXELFORMAT_ARGB8888,
-		SDL_TEXTUREACCESS_STREAMING,
-		screenWidth, screenHeight);
-
 	printf("STARTING AT MODE %i\n", currentEditMode);
 }
 
-//Loops forever!
 void TileEditor::play() {
 	// Main loop flag
 	// If this is quit = 'true' then the program terminates.
@@ -104,10 +102,10 @@ void TileEditor::play() {
 			// An example is hitting the "x" in the corner of the window.
 			quit = handleKeyboard(e);
 
-			// TODO
 			EditMode buttonOneMode = buttonOne->handleEvent(e, currentEditMode);
 			EditMode buttonTwoMode = buttonTwo->handleEvent(e, currentEditMode);
 			EditMode buttonThreeMode = buttonThree->handleEvent(e, currentEditMode);
+			
 			buttonFour->handleEvent(e, level);
 			buttonFive->handleEvent(e, level);
 
@@ -287,17 +285,17 @@ void TileEditor::renderTile(int r, int c) {
 	int x = SIDE_BUFFER + (c * TILE_SIZE);
 	int y = SIDE_BUFFER + (r * TILE_SIZE);
 
-	SDL_Rect* tileRect = new SDL_Rect{ x, y, TILE_SIZE, TILE_SIZE };
+	SDL_Rect tileRect = { x, y, TILE_SIZE, TILE_SIZE };
 
-	SDL_Texture* texture = ResourceManager::instance().getTextureFromImage("resources/tiles.png", gRenderer);
+	SDL_Texture* texture = ResourceManager::instance().getTextureFromImage(TILES_SPRITE_SHEET, gRenderer);
 	int tileX = level->getTileAt(r, c); // TODO
 	SDL_Rect src_rect_tile = { tileX * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE };
 
-	SDL_Texture* propTexture = ResourceManager::instance().getTextureFromImage("resources/props.png", gRenderer);
+	SDL_Texture* propTexture = ResourceManager::instance().getTextureFromImage(PROPS_SPRITE_SHEET, gRenderer);
 	int propX = level->getPropAt(r, c); //TODO
 	SDL_Rect src_rect_prop = { propX * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE };
 
-	SDL_Texture* flagTexture = ResourceManager::instance().getTextureFromImage("resources/flags.png", gRenderer);
+	SDL_Texture* flagTexture = ResourceManager::instance().getTextureFromImage(FLAGS_SPRITE_SHEET, gRenderer);
 	int flagX = level->getFlagAt(r, c); //TODO
 	SDL_Rect src_rect_flag = { flagX * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE };
 

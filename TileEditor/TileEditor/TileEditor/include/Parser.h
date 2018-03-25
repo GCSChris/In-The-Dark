@@ -7,13 +7,23 @@
 #include "Constants.h"
 #include "Level.h"
 
+/**
+* A singleton class that can read from and write to text files to load and save levels.
+*/
 class Parser {
 public:
+
+	/**
+	* Creates a new instance of Parser if there is not one yet.
+	*/
 	static Parser& instance() {
 		static Parser *instance = new Parser();
 		return *instance;
 	}
 
+	/**
+	* Loads a level from a text file.
+	*/
 	Level loadLevel() {
 		std::ifstream levelFile; // open a new ifstream
 		int tile; // temporary hold for date 
@@ -82,7 +92,10 @@ public:
 		return *loaded;
 	}
 
-	void writeLevel(Level* level) {
+	/**
+	* Saves a level to a text file.
+	*/
+	void writeLevel(/** The level to write to file */ Level* level) {
 		std::ofstream myFile;
 
 		myFile.open(fileLocation);
@@ -115,8 +128,10 @@ public:
 	}
 
 private:
+	/** Private constructor */
 	Parser() {};
 
+	/** The location of the text file */
 	std::string fileLocation = "resources/Level1.txt";
 };
 

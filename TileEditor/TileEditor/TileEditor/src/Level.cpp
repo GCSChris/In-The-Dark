@@ -1,11 +1,7 @@
 #include "../include/Level.h"
-#include <iostream>
+#include "../include/ResourceManager.h"
 
 Level::Level() {}
-
-const int NUM_TILES = 3;
-const int NUM_PROPS= 3;
-const int NUM_FLAGS = 2;
 
 void Level::init() {
 	for (int i = 0; i < NUM_ROWS; i++) {
@@ -15,6 +11,8 @@ void Level::init() {
 			flags[i][j] = 0;
 		}
 	}
+
+	initNumTilesPropsFlags();
 }
 
 int Level::getTileAt(int row, int col) {
@@ -48,11 +46,11 @@ int Level::getFlagAt(int row, int col) {
 
 void Level::setTileAt(int row, int col, int data) {
 	if (isValidCoords(row, col)) {
-		if (data > NUM_TILES - 1) {
+		if (data > numTiles - 1) {
 			data = 0;
 		}
 		else if (data < 0) {
-			data = NUM_TILES - 1;
+			data = numTiles - 1;
 		}
 
 		tiles[row][col] = data;
@@ -68,11 +66,11 @@ void Level::renderTile(int row, int col) {
 
 void Level::setPropAt(int row, int col, int data) {
 	if (isValidCoords(row, col)) {
-		if (data > NUM_PROPS - 1) {
+		if (data > numProps - 1) {
 			data = 0;
 		}
 		else if (data < 0) {
-			data = NUM_PROPS - 1;
+			data = numProps - 1;
 		}
 
 		props[row][col] = data;
@@ -84,11 +82,11 @@ void Level::setPropAt(int row, int col, int data) {
 
 void Level::setFlagAt(int row, int col, int data) {
 	if (isValidCoords(row, col)) {
-		if (data > NUM_FLAGS - 1) {
+		if (data > numFlags - 1) {
 			data = 0;
 		}
 		else if (data < 0) {
-			data = NUM_FLAGS - 1;
+			data = numFlags - 1;
 		}
 
 		flags[row][col] = data;
@@ -100,4 +98,14 @@ void Level::setFlagAt(int row, int col, int data) {
 
 bool Level::isValidCoords(int row, int col) {
 	return col >= 0 && col < NUM_COLUMNS && row >= 0 && row < NUM_ROWS;
+}
+
+void Level::initNumTilesPropsFlags() {
+	SDL_Point tilesDimensions = ResourceManager::instance().getIMGDimensions(TILES_SPRITE_SHEET);
+	SDL_Point propsDimensions = ResourceManager::instance().getIMGDimensions(PROPS_SPRITE_SHEET);
+	SDL_Point flagsDimensions = ResourceManager::instance().getIMGDimensions(FLAGS_SPRITE_SHEET);
+
+	numTiles = tilesDimensions.x / TILE_SIZE;
+	numProps = propsDimensions.x / TILE_SIZE;
+	numFlags = flagsDimensions.x / TILE_SIZE;
 }
