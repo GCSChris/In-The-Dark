@@ -4,22 +4,25 @@
 #include <chrono>
 
 #include "../include/SpriteEditor.h"
-
 #include "../include/ResourceManager.h"
 
-// Initialization function
-// Returns a true or false value based on successful completion of setup.
-// Takes in dimensions of window.
+SpriteEditor::SpriteEditor() { }
 
-SpriteEditor::SpriteEditor(std::string file, int w, int h, int frames, int columns, int fRate) : fileName(file), frameWidth(w), frameHeight(h), numFrames(frames), numColumns(columns), frameRate(fRate) {
+SpriteEditor::~SpriteEditor() { }
+
+/** Smooth 60fps. */
+const int FRAMERATE = 60;
+const std::string RESOURCES_DIR = "./resources/";
+
+void SpriteEditor::init() {
+	configureFromUserInput();
+	
 	// Initialization flag
 	bool success = true;
 	// String to hold any errors that occur.
 	std::stringstream errorStream;
 	// The window we'll be rendering to
 	gWindow = NULL;
-	// Render flag
-	//TTF_Init();
 
 	// Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -27,13 +30,13 @@ SpriteEditor::SpriteEditor(std::string file, int w, int h, int frames, int colum
 		success = false;
 	}
 	else {
-		//TODO
+		// Center window on user's screen.
 		SDL_DisplayMode DM;
 		SDL_GetCurrentDisplayMode(0, &DM);
 		int width = DM.w;
 		int height = DM.h;
 
-		//Create window
+		// Create window
 		gWindow = SDL_CreateWindow("Sprite Editor",
 			(width / 2)- (frameWidth / 2),
 			(height / 2) - (frameHeight / 2),
@@ -47,22 +50,18 @@ SpriteEditor::SpriteEditor(std::string file, int w, int h, int frames, int colum
 			success = false;
 		}
 		else {
-			//Initialize PNG loading
+			// Set up PNG loading
 			int imgFlags = IMG_INIT_PNG;
 			if (!(IMG_Init(imgFlags) & imgFlags))
 			{
 				printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 				success = false;
 			}
-			else
-			{
-				//Get window surface
-				//TODO gScreenSurface = SDL_GetWindowSurface(gWindow);
-			}
 		}
 
-		//Create a Renderer to draw on
+		// Create a Renderer to draw on
 		gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+		
 		// Check if Renderer did not create.
 		if (gRenderer == NULL) {
 			errorStream << "Renderer could not be created! SDL Error: " << SDL_GetError() << "\n";
@@ -76,93 +75,92 @@ SpriteEditor::SpriteEditor(std::string file, int w, int h, int frames, int colum
 		std::string errors = errorStream.str();
 		std::cout << errors << "\n";
 	}
-	else {
-		std::cout << "No SDL or OpenGL errors Detected\n\n";
-	}
-
-	start();
 }
 
-void SpriteEditor::start() {
-	// Initialize game elements
-	
-	//TODO
-}
-
-// Proper shutdown and destroy initialized objects
-SpriteEditor::~SpriteEditor() {
+void SpriteEditor::cleanUp() {
 	// Destroy Renderer
 	SDL_DestroyRenderer(gRenderer);
-	//Destroy window
+	// Destroy window
 	SDL_DestroyWindow(gWindow);
 	// Point gWindow to NULL to ensure it points to nothing.
 	gRenderer = NULL;
 	gWindow = NULL;
-	//Quit SDL subsystems
-	IMG_Quit(); //new TODO
+	// Quit SDL subsystems
+	IMG_Quit();
 	SDL_Quit();
-	//TTF_Quit();
-	//Mix_Quit();
 }
 
-// Update OpenGL
+void SpriteEditor::configureFromUserInput() {
+	std::cout << "What is the name of the sprite sheet (name of the PNG file) you wish to preview?" << std::endl;
+	std::cin >> fileName;
+	fileName = RESOURCES_DIR + fileName + ".png";
+
+	std::cout << "What is the width of one sprite in the sprite sheet (in pixels)?" << std::endl;
+	std::cin >> frameWidth;
+
+	std::cout << "What is the height of one sprite in the sprite sheet (in pixels)?" << std::endl;
+	std::cin >> frameHeight;
+
+	std::cout << "What is the total number of frames in your sprite's animation cycle?" << std::endl;
+	std::cin >> numFrames;
+
+	std::cout << "Note: Each frame in the spritesheet will be rendered once per second." << std::endl;
+	
+	std::cout << "Playing your spritesheet! Press the escape key on your keyboard to exit this application." << std::endl;
+}
+
+int SpriteEditor::getNumColumns() {
+	SDL_Point dimensions = ResourceManager::instance().getIMGDimensions(fileName);
+	int width = dimensions.x;
+	return (width / frameWidth);
+}
+
 void SpriteEditor::update() {
-	static int frame = 0;
-	frame++;
-	if (frame > (numFrames - 1)) {
+	if (frame >= FRAMERATE) {
 		frame = 0;
 	}
 
-	currentFrame = frame;
+	if ((frame % (FRAMERATE / numFrames)) == 0) {
+		currentFrame++;
+	}
 
-	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
+	if (currentFrame >= numFrames) {
+		currentFrame = 0;
+	}
+	
+	frame++;
+
+	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 	SDL_RenderClear(gRenderer);
 }
 
-// Render
-// The render function gets called once per loop
 void SpriteEditor::render() {
-	//level->render(getSDLRenderer());
+	SDL_Texture* texture = ResourceManager::instance().getTextureFromImage(fileName.c_str(), gRenderer);
 
-	std::string tempStr = fileName + ".png";
-	const char* fileCString = tempStr.c_str();
-	
-	//SDL_Surface* image = IMG_Load(fileCString);
-	//SDL_Texture* texture = SDL_CreateTextureFromSurface(gRenderer, image);
-
-	SDL_Texture* texture = ResourceManager::instance().getTextureFromImage(fileCString, gRenderer);
-
-
+	int numColumns = getNumColumns();
 	int frameRectWidth = (currentFrame % numColumns) * frameWidth;
 	int frameRectHeight = (currentFrame / numColumns) * frameHeight;
-	//printf("%i\n", frameRectHeight);
 
 	SDL_Rect src_rect = { frameRectWidth, frameRectHeight, frameWidth, frameHeight };
 	SDL_Rect dest_rect = { 0, 0, frameWidth, frameHeight };
 
-	//printf("w: %i, h: %i\n", image->w, image->h);
 	SDL_RenderCopy(gRenderer, texture, &src_rect, &dest_rect);
-
 	SDL_RenderPresent(gRenderer);
 }
 
-//Loops forever!
-void SpriteEditor::play() {
-	// Main loop flag
+void SpriteEditor::run() {
 	// If this is quit = 'true' then the program terminates.
 	bool quit = false;
-	// Event handler that handles various events in SDL
-	// that are related to input and output
+	
 	SDL_Event e;
 	// Enable text input
 	SDL_StartTextInput();
-	// While application is running
+	
+	// main loop
 	while (!quit) {
 		Uint32 start = SDL_GetTicks();
-		//Handle events on queue
+		
 		while (SDL_PollEvent(&e) != 0) {
-			// User posts an event to quit
-			// An example is hitting the "x" in the corner of the window.
 			quit = handleKeyboard(e);
 
 			if (e.type == SDL_QUIT) {
@@ -171,24 +169,18 @@ void SpriteEditor::play() {
 		}
 
 		update();
-
 		// Render using OpenGL
 		render();
+
 		//Update screen of our specified window
 		SDL_GL_SwapWindow(getSDLWindow());
-
-
-
-		//SDL_Delay(250); //TODO
 		
-		// Delay to force 60 FPS
+		// Delay to force the desired framerate
 		int diff = SDL_GetTicks() - start;
-		//float delay = 1000.0f / (FRAMERATE / numFrames) - diff;
-		float delay = 1000.0f / (frameRate - diff);
+		float delay = 1000.0f / (FRAMERATE - diff);
 		if (delay > 0) {
 			SDL_Delay(delay);
 		}
-		
 	}
 
 	//Disable text input
@@ -209,7 +201,7 @@ bool SpriteEditor::handleKeyboard(SDL_Event e) {
 	if (e.type == SDL_KEYDOWN) {
 		SDL_Keycode keyPressed = e.key.keysym.sym;
 
-		if (keyPressed == SDLK_ESCAPE || keyPressed == SDLK_RETURN) {
+		if (keyPressed == SDLK_ESCAPE) {
 			return true;
 		}
 	}
