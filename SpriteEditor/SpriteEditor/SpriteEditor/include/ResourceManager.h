@@ -17,60 +17,45 @@ public:
 		return *inst_;
 	}
 
-	/** Returns a SDL_Texture */
-	SDL_Texture* getTexture(/** The string pointing to the resource */const char* resource,
+	/** Get the dimensions (width, height) of a given resource's Surface. */
+	SDL_Point getIMGDimensions(/** The string pointing to the surface */ std::string resource) {
+		SDL_Surface* surface = IMG_Load(resource.c_str());
+
+		if (surface == NULL) {
+			SDL_Log("Failed to allocate surface");
+		}
+
+		SDL_Point dimensions = { surface->w, surface->h };
+		return dimensions;
+	}
+
+	/** Get a texture loaded from an image. */
+	SDL_Texture* getTextureFromImage(/** The string pointing to the resource */std::string resource,
 		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
 		if (textures_.count(resource) > 0) {
 			return textures_[resource];
 		}
 
-		SDL_Surface* spriteSheet = SDL_LoadBMP(resource);
+		SDL_Surface* spriteSheet = IMG_Load(resource.c_str());
 
 		if (spriteSheet == NULL) {
-			SDL_Log("Failed to allocate surface");
+			SDL_Log("Failed to allocate surface - image not found!");
+			return NULL;
 		}
 		else {
-			SDL_Log("Allocated a bunch of memory to create identical game character");
-			// Create a texture from our surface
-			// Textures run faster and take advantage of hardware acceleration
-			SDL_SetColorKey(spriteSheet, SDL_TRUE, SDL_MapRGB(spriteSheet->format, 4, 255, 17));
+			SDL_Log("Allocating memory for texture.");
 			SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, spriteSheet);
-			textures_.insert(std::pair<const char*, SDL_Texture*>(resource, texture));
+			textures_.insert(std::pair<std::string, SDL_Texture*>(resource, texture));
 			SDL_FreeSurface(spriteSheet);
 			return texture;
 		}
-
-		return NULL;
 	}
 
-	SDL_Texture* getTextureFromImage(/** The string pointing to the resource */const char* resource,
-		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
-		if (textures_.count(resource) > 0) {
-			return textures_[resource];
+	/** Destroy all textures in this ResourceManager's map of allocated SDL_Textures. */
+	void cleanUp() {
+		for (auto it = textures_.begin(); it != textures_.end(); ++it) {
+			SDL_DestroyTexture(it->second);
 		}
-
-		SDL_Surface* spriteSheet = IMG_Load(resource);
-
-		if (spriteSheet == NULL) {
-			SDL_Log("Failed to allocate surface");
-		}
-		else {
-			SDL_Log("Allocated a bunch of memory to create identical game character");
-			// Create a texture from our surface
-			// Textures run faster and take advantage of hardware acceleration
-			SDL_SetColorKey(spriteSheet, SDL_TRUE, SDL_MapRGB(spriteSheet->format, 4, 255, 17));
-			SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, spriteSheet);
-			textures_.insert(std::pair<const char*, SDL_Texture*>(resource, texture));
-			SDL_FreeSurface(spriteSheet);
-			return texture;
-		}
-
-		return NULL;
-	}
-
-	static void reset() {
-		delete inst_;
-		inst_ = NULL;
 	}
 
 private:
@@ -78,18 +63,13 @@ private:
 	ResourceManager() {}
 
 	/** Private destructor */
-	~ResourceManager() {
-		for (auto it = textures_.begin(); it != textures_.end(); ++it) {
-			SDL_DestroyTexture(it->second);
-			SDL_Log("Freed Texture: %s", it->first);
-		}
-	}
+	~ResourceManager() {}
 
 	/** The singleton instance */
 	static ResourceManager* inst_;
 
 	/** Mapping of cached SDL_Textures */
-	std::map<const char*, SDL_Texture*> textures_;
+	std::map<std::string, SDL_Texture*> textures_;
 };
 
 #endif
