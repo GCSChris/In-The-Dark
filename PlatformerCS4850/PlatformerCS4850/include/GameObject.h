@@ -30,8 +30,10 @@ public:
 	/** Renders a GameObject */ 
 	virtual void render(/** The renderer to use */ SDL_Renderer* gRenderer);
 
+	/** Prevents a collision with another game object. Must be over written to be used */
 	virtual void preventCollision(GameObject* other);
 
+	/** What to do when colliding with a player. Does nothing by default. */
 	virtual void handlePlayerCollision();
 
 	/** Returns if this GameObject is overlapping with the other GameObject */
