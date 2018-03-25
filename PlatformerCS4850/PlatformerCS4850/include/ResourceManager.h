@@ -19,12 +19,12 @@ public:
         return *inst_;
     }
 
-	SDL_Surface* getSurface(/** The string pointing to the surface */ const char* resource) {
+	SDL_Surface* getSurface(/** The string pointing to the surface */ std::string resource) {
 		if (surfaces_.count(resource) > 0) {
 			return surfaces_[resource];
 		}
 
-		SDL_Surface* sprite = IMG_Load(resource);
+		SDL_Surface* sprite = IMG_Load(resource.c_str());
 		
 
 		if (sprite == NULL) {
@@ -32,20 +32,20 @@ public:
 		}
 		else {
 			SDL_Log("Allocated surface successfully");
-			surfaces_.insert(std::pair<const char*, SDL_Surface*>(resource, sprite));
+			surfaces_.insert(std::pair<std::string, SDL_Surface*>(resource, sprite));
 			return sprite;
 		}
 		return NULL;
 	}
 
 	/** Returns a SDL_Surface that is scaled to the width and height from the given surface. */
-	SDL_Surface* getScaledSurface(const char* resource, Uint16 width, Uint16 height) {
-		const char* sized_resource = resource + width + height;
+	SDL_Surface* getScaledSurface(std::string resource, Uint16 width, Uint16 height) {
+		std::string sized_resource = resource + std::to_string(width) + std::to_string(height);
 		if (surfaces_.count(sized_resource) > 0) {
 			return surfaces_[sized_resource];
 		}
 
-		SDL_Surface* sprite = this->getSurface(resource);
+		SDL_Surface* sprite = this->getSurface(resource.c_str());
 
 		if (sprite == NULL) {
 			SDL_Log("Failed to allocate surface");
@@ -60,7 +60,7 @@ public:
 			SDL_Rect dst = { 0, 0, width, height };
 			SDL_BlitScaled(sprite, &src, scaled, &dst);
 
-			surfaces_.insert(std::pair<const char*, SDL_Surface*>(sized_resource, scaled));
+			surfaces_.insert(std::pair<std::string, SDL_Surface*>(sized_resource, scaled));
 			return scaled;
 		}
 		return NULL;
@@ -68,13 +68,13 @@ public:
 
 	/** Returns a SDL_Texture. 
 		Any source with pure green (0, 255, 0) will have those pixels rendered transparently as if on a green screen. */
-    SDL_Texture* getTexture(/** The string pointing to the resource */const char* resource,
+    SDL_Texture* getTexture(/** The string pointing to the resource */std::string resource,
 		/** The SDL_Renderer to render the Texture with */ SDL_Renderer* ren) {
         if (textures_.count(resource) > 0) {
             return textures_[resource];
         }
         
-        SDL_Surface* spriteSheet = IMG_Load(resource);
+        SDL_Surface* spriteSheet = IMG_Load(resource.c_str());
         
         if (spriteSheet==NULL){
             SDL_Log("Failed to allocate surface");
@@ -84,7 +84,7 @@ public:
             // Textures run faster and take advantage of hardware acceleration
 			SDL_SetColorKey(spriteSheet, SDL_TRUE, SDL_MapRGB(spriteSheet->format, 0, 255, 0));
             SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, spriteSheet);
-            textures_.insert(std::pair<const char*, SDL_Texture*>(resource, texture));
+            textures_.insert(std::pair<std::string, SDL_Texture*>(resource, texture));
             SDL_FreeSurface(spriteSheet);
             return texture;
         }
@@ -93,20 +93,20 @@ public:
     }
 
 	/** Returns the true-type font at the given path */
-	TTF_Font* getFont(/** The resource path */ const char* resource,
+	TTF_Font* getFont(/** The resource path */ std::string resource,
 		/** The size of the font */ int size) {
 		if (fonts_.count(resource) > 0) {
 			return fonts_[resource];
 		}
 
-		TTF_Font* font = TTF_OpenFont(resource, size);
+		TTF_Font* font = TTF_OpenFont(resource.c_str(), size);
 
 		if (font == NULL) {
 			SDL_Log("Failed to allocate font");
 		}
 		else {
 			SDL_Log("Allocating font");
-			fonts_.insert(std::pair<const char*, TTF_Font*>(resource, font));
+			fonts_.insert(std::pair<std::string, TTF_Font*>(resource, font));
 			return font;
 		}
 
@@ -114,19 +114,19 @@ public:
 	}
 	
 	/** Returns a Mix_Music loaded using the given path */
-	Mix_Music* getMusic(/** The path for the music */ const char* resource) {
+	Mix_Music* getMusic(/** The path for the music */ std::string resource) {
 		if (music_.count(resource) > 0) {
 			return music_[resource];
 		}
 
-		Mix_Music* music = Mix_LoadMUS(resource);
+		Mix_Music* music = Mix_LoadMUS(resource.c_str());
 
 		if (music == NULL) {
 			SDL_Log("Failed to allocate music");
 		}
 		else {
 			SDL_Log("Allocating music");
-			music_.insert(std::pair<const char*, Mix_Music*>(resource, music));
+			music_.insert(std::pair<std::string, Mix_Music*>(resource, music));
 			return music;
 		}
 
@@ -134,19 +134,19 @@ public:
 	}
 
 	/** Returns a playable sound chunk from the given resource path */
-	Mix_Chunk* getSFX(/** The resource path */const char* resource) {
+	Mix_Chunk* getSFX(/** The resource path */std::string resource) {
 		if (sounds_.count(resource) > 0) {
 			return sounds_[resource];
 		}
 
-		Mix_Chunk* sfx = Mix_LoadWAV(resource);
+		Mix_Chunk* sfx = Mix_LoadWAV(resource.c_str());
 
 		if (sfx == NULL) {
 			SDL_Log("Failed to allocate sfx");
 		}
 		else {
 			SDL_Log("Allocating sfx");
-			sounds_.insert(std::pair<const char*, Mix_Chunk*>(resource, sfx));
+			sounds_.insert(std::pair<std::string, Mix_Chunk*>(resource, sfx));
 			return sfx;
 		}
 
@@ -189,15 +189,15 @@ private:
 	static ResourceManager* inst_;
 
 	/** Mapping of cached SDL__Surfaces */
-	std::map<const char*, SDL_Surface*> surfaces_;
+	std::map<std::string, SDL_Surface*> surfaces_;
 	/** Mapping of cached SDL_Textures */
-    std::map<const char*, SDL_Texture*> textures_;
+    std::map<std::string, SDL_Texture*> textures_;
 	/** Mapping of cached Mix_Music */
-	std::map<const char*, Mix_Music*> music_;
+	std::map<std::string, Mix_Music*> music_;
 	/** Mapping of cached Mix_Chunk */
-	std::map<const char*, Mix_Chunk*> sounds_;
+	std::map<std::string, Mix_Chunk*> sounds_;
 	/** Mapping of cached TTF_Font */
-	std::map<const char*, TTF_Font*> fonts_;
+	std::map<std::string, TTF_Font*> fonts_;
 };
 
 #endif

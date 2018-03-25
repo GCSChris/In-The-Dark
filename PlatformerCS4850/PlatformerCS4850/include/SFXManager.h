@@ -23,7 +23,7 @@ public:
 	}
 
 	/** Plays music at the given path */
-	void playMusic(/** The path to the song */ const char* song) {
+	void playMusic(/** The path to the song */ std::string song) {
 		music = NULL;
 		ResourceManager& resourceManager = ResourceManager::instance();
 		music = resourceManager.getMusic(song);
@@ -32,7 +32,7 @@ public:
 	}
 
 	/** Play sound effects at the given path */
-	void playSFX(/** The path to the sound effect */const char* sound) {
+	void playSFX(/** The path to the sound effect */std::string sound) {
 		ResourceManager& resourceManager = ResourceManager::instance();
 		Mix_Chunk* sfx = resourceManager.getSFX(sound);
 		Mix_PlayChannel(-1, sfx, 0);
