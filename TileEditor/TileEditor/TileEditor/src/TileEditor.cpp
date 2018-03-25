@@ -62,11 +62,15 @@ void TileEditor::init() {
 
 	int buttonWidth = 100;
 	int buttonHeight = 20;
-	buttonOne = new Button(SIDE_BUFFER + (buttonWidth / 2), y, buttonWidth, buttonHeight, "Tiles", EditMode::TILES);
-	buttonTwo = new Button(SIDE_BUFFER + (buttonWidth / 2) + buttonWidth + 10, y, buttonWidth, buttonHeight, "Props", EditMode::PROPS);
-	buttonThree = new Button(SIDE_BUFFER + (buttonWidth / 2) + 2*buttonWidth + 20, y, buttonWidth, buttonHeight, "Flags", EditMode::FLAGS);
-	buttonFour = new SaveLoadButtons(SIDE_BUFFER + NUM_COLUMNS * TILE_SIZE - buttonWidth, y, buttonWidth, buttonHeight, "Load Level", true);
-	buttonFive = new SaveLoadButtons(SIDE_BUFFER + NUM_COLUMNS * TILE_SIZE - buttonWidth * 2 - 10, y, buttonWidth, buttonHeight, "Save Level", false);
+	buttonOne = new Button(SIDE_BUFFER, y, buttonWidth, buttonHeight, "Tiles", EditMode::TILES);
+	buttonTwo = new Button(SIDE_BUFFER + buttonWidth + 10, y, buttonWidth, buttonHeight, 
+		"Props", EditMode::PROPS);
+	buttonThree = new Button(SIDE_BUFFER + 2*buttonWidth + 20, y, buttonWidth, buttonHeight, 
+		"Flags", EditMode::FLAGS);
+	buttonFour = new SaveLoadButtons(SIDE_BUFFER + NUM_COLUMNS * TILE_SIZE - buttonWidth, y, 
+		buttonWidth, buttonHeight, "Load Level", true);
+	buttonFive = new SaveLoadButtons(SIDE_BUFFER + NUM_COLUMNS * TILE_SIZE - buttonWidth * 2 - 10, 
+		y, buttonWidth, buttonHeight, "Save Level", false);
 
 	level = new Level();
 	level->init();
@@ -136,8 +140,6 @@ void TileEditor::play() {
 					tileRow = (y - SIDE_BUFFER) / TILE_SIZE;
 					tileColumn = (x - SIDE_BUFFER) / TILE_SIZE;
 
-					//std::cout << tileRow << ", " << tileColumn << std::endl;
-
 					if (tileRow < NUM_ROWS && tileRow >= 0
 						&& tileColumn < NUM_COLUMNS && tileColumn >= 0) {
 						
@@ -176,6 +178,8 @@ void TileEditor::play() {
 }
 
 void TileEditor::render() {
+	renderBg();
+	
 	renderTiles();
 	
 	drawGrid();
@@ -190,7 +194,7 @@ void TileEditor::render() {
 }
 
 void TileEditor::update() {
-	SDL_SetRenderDrawColor(gRenderer, 0x22, 0x22, 0x22, 0xFF);
+	SDL_SetRenderDrawColor(gRenderer, 50, 50, 50, 0xFF);
 	SDL_RenderClear(gRenderer);
 }
 
@@ -230,14 +234,7 @@ void TileEditor::drawGrid() {
 void TileEditor::editTile(int tileRow, int tileColumn, bool leftClick) {
 	int i;
 
-	//int modeInt = EditMode::TILES;
-	//printf("modeInt %i", mode);
-	
-	//mode = EditMode::TILES;
-	
-	//TODO
 	int modeInt = (int) currentEditMode;
-	std::cout << "Edit MODEEEEE " << modeInt << std::endl;
 
 	switch (currentEditMode) {
 		case EditMode::TILES: //tiles
@@ -308,4 +305,13 @@ void TileEditor::renderTile(int r, int c) {
 	SDL_RenderCopy(gRenderer, texture, &src_rect_tile, &dest_rect);
 	SDL_RenderCopy(gRenderer, propTexture, &src_rect_prop, &dest_rect);
 	SDL_RenderCopy(gRenderer, flagTexture, &src_rect_flag, &dest_rect);
+}
+
+void TileEditor::renderBg() {
+	SDL_Texture* bg = ResourceManager::instance().getTextureFromImage("resources/background.bmp", gRenderer);
+
+	SDL_Rect srcRect = {0, 0, TILE_SIZE * NUM_COLUMNS, TILE_SIZE * NUM_ROWS };
+	SDL_Rect destRect = { SIDE_BUFFER, SIDE_BUFFER, TILE_SIZE * NUM_COLUMNS, TILE_SIZE * NUM_ROWS };
+
+	SDL_RenderCopy(gRenderer, bg, &srcRect, &destRect);
 }
