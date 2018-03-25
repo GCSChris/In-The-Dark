@@ -1,37 +1,18 @@
-# Assignment - Platformer
+# Assignment 2 - Platformer - "In the Dark"
 
-* Part 1 will be released first.
-* Part 2 will be released shortly after
-* Part 3 will be released after part 2
-
-The assignment (part 1, part 2, and part 3) are all due together when Assignment 3 is released.
-
-Think of each part as a project milestone. Stay on track!
-
-## Part 1
-
-Released February 21
-
-## Part 2
-
-Requirements will be pushed to your repository once you form teams. I'll make an announcement when you should 'git pull'.
-
-## Part 3
-
-Requirements will be pushed to your repository once you form teams. I'll make an announcement when you should 'git pull'.
-
-## Team
-
-Team Name:  Bjarne Stroustroup Appreciation Alliance
-
-*TODO*:
-Update your Team member Names here (Up to 4) You will work with this same team through parts 1, 2, and 3.
-
+## Team Name: Bjarne Stroustrup Appreciation Club
 - Christopher DiNome
 - Caroline Pasyanos
 - Tyler Gier
--
 
+## Links
+- [YouTube - Game Trailor - TODO](http://youtube.com)
+- [Sprite Editor Download](http://www.mediafire.com/file/z66yy41j831m3o6/SpriteEditor_Release_1.0.zip)
+- [Tile Editor Download](http://www.mediafire.com/file/c4cc6pn63phtk2e/TileEditor_Release_1.0.zip)
+- ["In the Dark" (Platformer) Download](http://www.mediafire.com/file/r73gikgrmdy37a3/InTheDark_Release_1.0.zip)
+
+## Instructions - Windows 10
+- TODO
 
 ## Universal Resources
 
