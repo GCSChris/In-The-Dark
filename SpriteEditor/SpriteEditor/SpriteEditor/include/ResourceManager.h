@@ -40,7 +40,7 @@ public:
 
 		if (spriteSheet == NULL) {
 			SDL_Log("Failed to allocate surface - image not found!");
-			exit(1); //exit the program
+			//exit(1); //exit the program
 			return NULL;
 		}
 		else {

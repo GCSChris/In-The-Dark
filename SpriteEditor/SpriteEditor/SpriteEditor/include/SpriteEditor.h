@@ -41,6 +41,10 @@ private:
 
 	/** Set up the SpriteEditor using the values specfied through the command line form the user. */
 	void configureFromUserInput();
+
+	bool checkIntInput();
+
+	bool checkStringInput();
 	
 	/** Get Pointer to SDL Window. */
 	SDL_Window* getSDLWindow();
@@ -50,7 +54,10 @@ private:
 
 	/** */
 	std::string fileName;
-	
+
+	/** */
+	SDL_Texture* texture;
+
 	/** The width of one frame of the spritesheet. */
 	int frameWidth;
 	
