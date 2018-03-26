@@ -176,8 +176,6 @@ void SpriteEditor::update() {
 }
 
 void SpriteEditor::render() {
-	//texture = ResourceManager::instance().getTextureFromImage(fileName, gRenderer);
-
 	if (texture == NULL) {
 		std::cout << "hello" << std::endl;
 	}
