@@ -41,7 +41,7 @@ public:
 		SDL_Surface* spriteSheet = IMG_Load(resource.c_str());
 
 		if (spriteSheet == NULL) {
-			SDL_Log("Failed to allocate surface - image not found!");
+			SDL_Log("Image not found!");
 			return NULL;
 		}
 		else {
