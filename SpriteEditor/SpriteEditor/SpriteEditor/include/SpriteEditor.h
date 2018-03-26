@@ -36,11 +36,23 @@ private:
 	/** Renders game elements to the screen every frame. */
 	void render();
 
-	/** Handle keyboard input from the user. */
+	/** Handle keyboard input from the user. 
+		@returns if the program should quit.*/
 	bool handleKeyboard(/** The keyboard event to handle. */ SDL_Event e);
 
-	/** Set up the SpriteEditor using the values specfied through the command line form the user. */
+	/** Set up the SpriteEditor using the values specfied through the command
+		line from the user. */
 	void configureFromUserInput();
+
+	/** Checks that the last input pulled from std::cin was valid (cin.fail() is false). 
+		If it did fail, print the message. 
+		@returns if the the last input pulled from std::cin was valid. */
+	bool checkInput(std::string message);
+	
+	/** Prints the given message to the user and attemps to set the value of the given
+		int field pointer to the last input to std::cin, if valid.
+		If invalid, prints an error mesage to the user and tries again. */
+	void validateIntField(int* field, std::string message);
 	
 	/** Get Pointer to SDL Window. */
 	SDL_Window* getSDLWindow();
@@ -48,9 +60,12 @@ private:
 	/** Get Pointer to SDL Renderer */
 	SDL_Renderer* getSDLRenderer();
 
-	/** */
+	/** The name of the png file to load. */
 	std::string fileName;
-	
+
+	/** The texture that this SpriteEditor will render.*/
+	SDL_Texture* texture;
+
 	/** The width of one frame of the spritesheet. */
 	int frameWidth;
 	

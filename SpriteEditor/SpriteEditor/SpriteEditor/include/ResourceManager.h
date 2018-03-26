@@ -21,9 +21,11 @@ public:
 	SDL_Point getIMGDimensions(/** The string pointing to the surface */ std::string resource) {
 		SDL_Surface* surface = IMG_Load(resource.c_str());
 
+		/* // Shouldnt show user.
 		if (surface == NULL) {
 			SDL_Log("Failed to allocate surface");
 		}
+		*/
 
 		SDL_Point dimensions = { surface->w, surface->h };
 		return dimensions;
@@ -39,12 +41,11 @@ public:
 		SDL_Surface* spriteSheet = IMG_Load(resource.c_str());
 
 		if (spriteSheet == NULL) {
-			SDL_Log("Failed to allocate surface - image not found!");
-			exit(1); //exit the program
+			SDL_Log("Image not found!");
 			return NULL;
 		}
 		else {
-			SDL_Log("Allocating memory for texture.");
+			//SDL_Log("Allocating memory for texture.");
 			SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, spriteSheet);
 			textures_.insert(std::pair<std::string, SDL_Texture*>(resource, texture));
 			SDL_FreeSurface(spriteSheet);

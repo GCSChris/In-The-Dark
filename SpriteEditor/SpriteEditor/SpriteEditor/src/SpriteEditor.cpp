@@ -14,9 +14,10 @@ SpriteEditor::~SpriteEditor() { }
 const int FRAMERATE = 60;
 const std::string RESOURCES_DIR = "./resources/";
 
+const int MINIMUM_WINDOW_WIDTH = 100;
+const int MINIMUM_WINDOW_HEIGHT = 100;
+
 void SpriteEditor::init() {
-	configureFromUserInput();
-	
 	// Initialization flag
 	bool success = true;
 	// String to hold any errors that occur.
@@ -38,11 +39,13 @@ void SpriteEditor::init() {
 
 		// Create window
 		gWindow = SDL_CreateWindow("Sprite Editor",
-			(width / 2)- (frameWidth / 2),
-			(height / 2) - (frameHeight / 2),
-			frameWidth,
-			frameHeight,
+			SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_UNDEFINED,
+			MINIMUM_WINDOW_WIDTH,
+			MINIMUM_WINDOW_HEIGHT,
 			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+
+		SDL_HideWindow(gWindow);
 
 		// Check if Window did not create.
 		if (gWindow == NULL) {
@@ -76,6 +79,14 @@ void SpriteEditor::init() {
 		std::cout << errors << "\n";
 		exit(1);
 	}
+
+	configureFromUserInput();
+
+	if (frameWidth > MINIMUM_WINDOW_WIDTH || frameHeight > MINIMUM_WINDOW_HEIGHT) {
+		SDL_SetWindowSize(gWindow, frameWidth, frameHeight);
+	}
+
+	SDL_ShowWindow(gWindow);
 }
 
 void SpriteEditor::cleanUp() {
@@ -92,22 +103,51 @@ void SpriteEditor::cleanUp() {
 }
 
 void SpriteEditor::configureFromUserInput() {
-	std::cout << "What is the name of the sprite sheet (name of the PNG file) you wish to preview?" << std::endl;
-	std::cin >> fileName;
-	fileName = RESOURCES_DIR + fileName + ".png";
-
-	std::cout << "What is the width of one sprite in the sprite sheet (in pixels)?" << std::endl;
-	std::cin >> frameWidth;
-
-	std::cout << "What is the height of one sprite in the sprite sheet (in pixels)?" << std::endl;
-	std::cin >> frameHeight;
-
-	std::cout << "What is the total number of frames in your sprite's animation cycle?" << std::endl;
-	std::cin >> numFrames;
-
-	std::cout << "Note: Each frame in the spritesheet will be rendered once per second." << std::endl;
+	bool validInput = false;
 	
-	std::cout << "Playing your spritesheet! Press the escape key on your keyboard to exit this application." << std::endl;
+	// Validate the texture - that it is a proper string input, and that it is the name of an existing file.
+	while (!validInput) {
+		std::cout << "What is the name of the sprite sheet (name of the PNG file) you wish to preview?" << std::endl;
+		std::cin >> fileName;
+		validInput = checkInput("Please enter a valid (String) name for of a .png file (i.e) \"tiger\".");
+		fileName = RESOURCES_DIR + fileName + ".png";
+
+		if (validInput) {
+			texture = ResourceManager::instance().getTextureFromImage(fileName, gRenderer);
+		}
+
+		validInput = validInput && (texture != NULL);
+	}
+
+	validateIntField(&frameWidth, "What is the width of one sprite in the sprite sheet (in pixels)?");
+	validateIntField(&frameHeight, "What is the height of one sprite in the sprite sheet (in pixels)?");
+	validateIntField(&numFrames, "What is the total number of frames in your sprite's animation cycle?");
+
+	std::cout << std::endl << "Note: Each frame in the spritesheet will be rendered once per second." << std::endl;
+
+	std::cout << std::endl << "Now rendering your spritesheet!" << std::endl;
+
+	std::cout << std::endl << "Press the escape key on your keyboard to exit this application." << std::endl;
+}
+
+bool SpriteEditor::checkInput(std::string message) {
+	if (std::cin.fail()) {
+		std::cin.clear();
+		std::cin.ignore(1000, '\n');
+		std::cout << message << std::endl;
+		return false;
+	}
+	return true;
+}
+
+void SpriteEditor::validateIntField(int* field, std::string message) {
+	bool validInput = false;
+	while (!validInput) {
+		validInput = true;
+		std::cout << message << std::endl;
+		std::cin >> *field;
+		validInput = checkInput("Please enter an Integer.");
+	}
 }
 
 int SpriteEditor::getNumColumns() {
@@ -136,7 +176,9 @@ void SpriteEditor::update() {
 }
 
 void SpriteEditor::render() {
-	SDL_Texture* texture = ResourceManager::instance().getTextureFromImage(fileName.c_str(), gRenderer);
+	if (texture == NULL) {
+		std::cout << "hello" << std::endl;
+	}
 
 	int numColumns = getNumColumns();
 	int frameRectWidth = (currentFrame % numColumns) * frameWidth;
