@@ -6,7 +6,7 @@
 - Tyler Gier
 
 ## Links
-- [YouTube - Game Trailor - TODO](http://youtube.com)
+- [YouTube - Game Trailor](https://youtu.be/MYTsRmsATKg)
 - [Sprite Editor Download](http://www.mediafire.com/file/z66yy41j831m3o6/SpriteEditor_Release_1.0.zip)
 - [Tile Editor Download](http://www.mediafire.com/file/c4cc6pn63phtk2e/TileEditor_Release_1.0.zip)
 - ["In the Dark" (Platformer) Download](http://www.mediafire.com/file/r73gikgrmdy37a3/InTheDark_Release_1.0.zip)
