@@ -18,8 +18,6 @@ const int DEFAULT_WINDOW_WIDTH = 100;
 const int DEFAULT_WINDOW_HEIGHT = 100;
 
 void SpriteEditor::init() {
-	//configureFromUserInput();
-	
 	// Initialization flag
 	bool success = true;
 	// String to hold any errors that occur.
@@ -106,72 +104,49 @@ void SpriteEditor::cleanUp() {
 
 void SpriteEditor::configureFromUserInput() {
 	bool validInput = false;
-	bool validTexture = false;
 	
+	// validate the texture - that it is a proper string input, and that it is the name of an existing file.
 	while (!validInput) {
 		std::cout << "What is the name of the sprite sheet (name of the PNG file) you wish to preview?" << std::endl;
 		std::cin >> fileName;
-		validInput = checkStringInput();
+		validInput = checkInput("Please enter a valid (String) name for of a .png file (i.e) \"tiger\".");
 		fileName = RESOURCES_DIR + fileName + ".png";
 
 		if (validInput) {
 			texture = ResourceManager::instance().getTextureFromImage(fileName, gRenderer);
 		}
-		
-		if (texture == NULL) {
-			std::cout << "Null" << std::endl;
-		}
 
 		validInput = validInput && (texture != NULL);
 	}
 
-	validInput = false;
-	while (!validInput) {
-		validInput = true;
-		std::cout << "What is the width of one sprite in the sprite sheet (in pixels)?" << std::endl;
-		std::cin >> frameWidth;
-		validInput = checkIntInput();
-	}
+	validateIntField(&frameWidth, "What is the width of one sprite in the sprite sheet (in pixels)?");
+	validateIntField(&frameHeight, "What is the height of one sprite in the sprite sheet (in pixels)?");
+	validateIntField(&numFrames, "What is the total number of frames in your sprite's animation cycle?");
 
-	validInput = false;
-	while (!validInput) {
-		validInput = true;
-		std::cout << "What is the height of one sprite in the sprite sheet (in pixels)?" << std::endl;
-		std::cin >> frameHeight;
-		validInput = checkIntInput();
-	}
-
-	validInput = false;
-	while (!validInput) {
-		validInput = true;
-		std::cout << "What is the total number of frames in your sprite's animation cycle?" << std::endl;
-		std::cin >> numFrames;
-		validInput = checkIntInput();
-	}
-
-	std::cout << "Note: Each frame in the spritesheet will be rendered once per second." << std::endl;
+	std::cout << std::endl << "Note: Each frame in the spritesheet will be rendered once per second." << std::endl;
 	
-	std::cout << std::endl << "Now rendering your spritesheet! Press the escape key on your keyboard to exit this application." << std::endl;
+	std::cout << std::endl << "Now rendering your spritesheet!" << std::endl;
+	std::cout << std::endl << "Press the escape key on your keyboard to exit this application." << std::endl;
 }
 
-bool SpriteEditor::checkIntInput() {
+bool SpriteEditor::checkInput(std::string message) {
 	if (std::cin.fail()) {
-		std::cin.clear(); //This corrects the stream.
-		std::cin.ignore(); //This skips the left over stream data.
-		std::cout << "Please enter an Integer." << std::endl;
+		std::cin.clear();
+		std::cin.ignore(1000, '\n');
+		std::cout << message << std::endl;
 		return false;
 	}
 	return true;
 }
 
-bool SpriteEditor::checkStringInput() {
-	if (std::cin.fail()) {
-		std::cin.clear(); //This corrects the stream.
-		std::cin.ignore(); //This skips the left over stream data.
-		std::cout << "Please enter a String." << std::endl;
-		return false;
+void SpriteEditor::validateIntField(int* field, std::string message) {
+	bool validInput = false;
+	while (!validInput) {
+		validInput = true;
+		std::cout << message << std::endl;
+		std::cin >> *field;
+		validInput = checkInput("Please enter an Integer.");
 	}
-	return true;
 }
 
 int SpriteEditor::getNumColumns() {

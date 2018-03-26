@@ -42,9 +42,9 @@ private:
 	/** Set up the SpriteEditor using the values specfied through the command line form the user. */
 	void configureFromUserInput();
 
-	bool checkIntInput();
+	bool checkInput(std::string message);
 
-	bool checkStringInput();
+	void validateIntField(int* field, std::string message);
 	
 	/** Get Pointer to SDL Window. */
 	SDL_Window* getSDLWindow();
