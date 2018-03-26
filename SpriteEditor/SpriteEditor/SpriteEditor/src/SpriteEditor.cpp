@@ -14,8 +14,8 @@ SpriteEditor::~SpriteEditor() { }
 const int FRAMERATE = 60;
 const std::string RESOURCES_DIR = "./resources/";
 
-const int DEFAULT_WINDOW_WIDTH = 100;
-const int DEFAULT_WINDOW_HEIGHT = 100;
+const int MINIMUM_WINDOW_WIDTH = 100;
+const int MINIMUM_WINDOW_HEIGHT = 100;
 
 void SpriteEditor::init() {
 	// Initialization flag
@@ -41,8 +41,8 @@ void SpriteEditor::init() {
 		gWindow = SDL_CreateWindow("Sprite Editor",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
-			DEFAULT_WINDOW_WIDTH,
-			DEFAULT_WINDOW_HEIGHT,
+			MINIMUM_WINDOW_WIDTH,
+			MINIMUM_WINDOW_HEIGHT,
 			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
 		SDL_HideWindow(gWindow);
@@ -82,7 +82,7 @@ void SpriteEditor::init() {
 
 	configureFromUserInput();
 
-	if (frameWidth > DEFAULT_WINDOW_WIDTH || frameHeight > DEFAULT_WINDOW_HEIGHT) {
+	if (frameWidth > MINIMUM_WINDOW_WIDTH || frameHeight > MINIMUM_WINDOW_HEIGHT) {
 		SDL_SetWindowSize(gWindow, frameWidth, frameHeight);
 	}
 
@@ -105,7 +105,7 @@ void SpriteEditor::cleanUp() {
 void SpriteEditor::configureFromUserInput() {
 	bool validInput = false;
 	
-	// validate the texture - that it is a proper string input, and that it is the name of an existing file.
+	// Validate the texture - that it is a proper string input, and that it is the name of an existing file.
 	while (!validInput) {
 		std::cout << "What is the name of the sprite sheet (name of the PNG file) you wish to preview?" << std::endl;
 		std::cin >> fileName;
@@ -124,8 +124,9 @@ void SpriteEditor::configureFromUserInput() {
 	validateIntField(&numFrames, "What is the total number of frames in your sprite's animation cycle?");
 
 	std::cout << std::endl << "Note: Each frame in the spritesheet will be rendered once per second." << std::endl;
-	
+
 	std::cout << std::endl << "Now rendering your spritesheet!" << std::endl;
+
 	std::cout << std::endl << "Press the escape key on your keyboard to exit this application." << std::endl;
 }
 
